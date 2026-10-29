@@ -19,7 +19,10 @@ def env_list(nome, padrao=""):
 SECRET_KEY = os.environ.get("SECRET_KEY", "apenas-para-desenvolvimento")
 DEBUG = os.environ.get("DEBUG", "0") == "1"
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS")
+CSRF_TRUSTED_ORIGINS = env_list(
+    "CSRF_TRUSTED_ORIGINS",
+    "https://portfolio-higor-carreira.vercel.app",
+)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
