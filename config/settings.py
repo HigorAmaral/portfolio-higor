@@ -6,6 +6,7 @@ import pymysql
 from dotenv import load_dotenv
 
 pymysql.install_as_MySQLdb()
+pymysql.version_info = (1, 4, 3, "final", 0)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
