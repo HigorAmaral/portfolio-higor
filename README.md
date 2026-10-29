@@ -66,6 +66,23 @@ Copie `.env.example` para `.env`, preencha `DB_NAME`, `DB_USER`, `DB_PASSWORD` e
 
 Serviços como Render, Railway ou PythonAnywhere também servem: o comando de start é o do Gunicorn acima e as variáveis do `.env` vão no painel deles.
 
+### Publicar no Render
+
+Este projeto já inclui `render.yaml`. Para publicar:
+
+1. Abra o repositório no GitHub e, no Render, escolha **New > Blueprint**.
+2. Selecione o repositório `HigorAmaral/portfolio-higor`.
+3. Confirme a criação do serviço web e do banco PostgreSQL.
+4. O Render instalará as dependências, executará as migrações e iniciará o Gunicorn automaticamente.
+5. Depois do primeiro deploy, crie o administrador no Shell do serviço:
+
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+O front-end e a API serão servidos pelo mesmo endereço do serviço. O painel ficará em `/admin/`.
+Para usar domínio próprio, atualize `ALLOWED_HOSTS` e `CSRF_TRUSTED_ORIGINS` nas variáveis do serviço.
+
 ## 4. Moderar os recados
 
 Entre em `/admin`, abra **Recados** e desmarque **Visível** (ou apague) o que for indevido.
