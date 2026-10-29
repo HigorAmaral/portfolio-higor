@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="api-base" content="">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Higor do Amaral Fritz · Portfólio</title>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#f7f8fb;--surface:#ffffff;--text:#151a2c;--muted:#5b6379;--line:#e2e6f0;
+  --accent:#4f46e5;--accent-soft:#eceafe;--accent-text:#ffffff;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1120;--surface:#171b30;--text:#eceefa;--muted:#a0a8c4;--line:#272c47;
+    --accent:#8b86ff;--accent-soft:#232550;--accent-text:#0e1120;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1120;--surface:#171b30;--text:#eceefa;--muted:#a0a8c4;--line:#272c47;
+  --accent:#8b86ff;--accent-soft:#232550;--accent-text:#0e1120;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
+.nav .wrap{display:flex;justify-content:space-between;align-items:center;height:56px;gap:12px}
+.logo{font-weight:700;letter-spacing:-.01em}
+.nav nav{display:flex;gap:18px;font-size:.92rem;overflow-x:auto}
+.nav a{color:var(--muted);text-decoration:none;white-space:nowrap}
+.nav a:hover{color:var(--accent)}
+.hero{padding:72px 0 56px}
+.tag{display:inline-block;background:var(--accent-soft);color:var(--accent);padding:4px 12px;border-radius:999px;font-size:.82rem;font-weight:600}
+h1{font-size:clamp(2rem,6vw,3.4rem);line-height:1.1;margin:16px 0;letter-spacing:-.03em}
+h1 span{color:var(--accent)}
+.lead{color:var(--muted);font-size:1.1rem;max-width:620px}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{padding:11px 20px;border-radius:10px;text-decoration:none;font-weight:600;border:1px solid var(--accent)}
+.btn.p{background:var(--accent);color:var(--accent-text)}
+.btn.s{color:var(--accent)}
+section{padding:48px 0;border-top:1px solid var(--line)}
+h2{font-size:1.5rem;margin:0 0 24px;letter-spacing:-.02em}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h3{margin:0 0 6px;font-size:1.05rem}
+.card p{margin:0;color:var(--muted);font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.card a{display:inline-block;margin-top:12px;color:var(--accent);font-weight:600;font-size:.9rem;text-decoration:none}
+.chip{background:var(--accent-soft);color:var(--accent);font-size:.8rem;font-weight:600;padding:3px 10px;border-radius:999px}
+.timeline{border-left:2px solid var(--line);padding-left:20px;display:grid;gap:22px}
+.timeline small{color:var(--accent);font-weight:600}
+.timeline h3{margin:2px 0;font-size:1.05rem}
+.timeline p{margin:0;color:var(--muted)}
+footer{padding:32px 0;color:var(--muted);font-size:.88rem;text-align:center;border-top:1px solid var(--line)}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--accent)}70%,100%{box-shadow:0 0 0 10px transparent}}
+.hero{position:relative;isolation:isolate}
+.hero::before{content:"";position:absolute;right:-40px;top:0;width:320px;height:320px;border-radius:50%;background:var(--accent-soft);filter:blur(60px);animation:float 7s ease-in-out infinite;z-index:-1}
+.hero>*{animation:up .7s ease both}
+.hero>*:nth-child(2){animation-delay:.12s}.hero>*:nth-child(3){animation-delay:.24s}.hero>*:nth-child(4){animation-delay:.36s}
+.tag::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;animation:pulse 2s infinite}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+.card{transition:opacity .6s ease,transform .35s ease,border-color .25s}
+.card:hover{transform:translateY(-4px);border-color:var(--accent)}
+.btn{transition:transform .2s}.btn:hover{transform:translateY(-2px)}
+button.btn{font:inherit;font-weight:600;cursor:pointer;background:var(--accent);color:var(--accent-text)}
+input,textarea{width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:10px}
+.msg{border-top:1px solid var(--line);padding:12px 0;animation:up .5s ease both}
+.msg b{display:block}.msg span{color:var(--muted)}
+.muted{color:var(--muted);margin:0 0 12px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+/* visual refinado, mesma paleta */
+::selection{background:var(--accent);color:var(--accent-text)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+body{overflow-x:hidden;background-image:radial-gradient(52rem 28rem at 88% -8%,color-mix(in srgb,var(--accent) 16%,transparent),transparent),radial-gradient(38rem 24rem at -8% 38%,color-mix(in srgb,var(--accent) 9%,transparent),transparent);background-attachment:fixed;-webkit-font-smoothing:antialiased}
+header.nav{background:color-mix(in srgb,var(--bg) 78%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.logo{background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#c084fc));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:1.05rem}
+.nav a{position:relative;padding:4px 0}
+.nav a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--accent);transition:width .25s}
+.nav a:hover::after{width:100%}
+.hero{padding:96px 0 72px}
+h1{font-size:clamp(2.2rem,6.4vw,3.9rem);line-height:1.08}
+h1 span{background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#c084fc));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);padding:6px 14px}
+.lead{line-height:1.75}
+.btn{border-radius:12px;padding:12px 22px}
+.btn.p,button.btn{background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 72%,#a78bfa));border-color:transparent;box-shadow:0 8px 22px color-mix(in srgb,var(--accent) 32%,transparent)}
+.btn.s{background:var(--surface)}
+.btn:hover{box-shadow:0 10px 26px color-mix(in srgb,var(--accent) 38%,transparent)}
+.stats{display:flex;flex-wrap:wrap;gap:12px 40px;margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}
+.stats b{display:block;font-size:2.1rem;line-height:1.1;color:var(--accent);letter-spacing:-.03em}
+.stats span{color:var(--muted);font-size:.9rem}
+section{padding:64px 0}
+h2{display:flex;align-items:center;gap:14px;font-size:1.7rem}
+h2::before{content:"";width:30px;height:5px;border-radius:5px;background:var(--accent)}
+.card{position:relative;overflow:hidden;border-radius:18px;padding:24px;box-shadow:0 1px 2px rgba(20,24,60,.05),0 10px 30px -12px rgba(20,24,60,.18)}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 45%,transparent))}
+.card:hover{box-shadow:0 14px 36px -12px color-mix(in srgb,var(--accent) 45%,transparent)}
+.card h3{font-size:1.12rem;margin-bottom:8px}
+.chip{padding:4px 12px;border:1px solid color-mix(in srgb,var(--accent) 22%,transparent)}
+.timeline{border-left-width:3px}
+.timeline>div{position:relative}
+.timeline>div::before{content:"";position:absolute;left:-29px;top:8px;width:13px;height:13px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px var(--accent-soft)}
+input:focus,textarea:focus{border-color:var(--accent)}
+footer{padding:40px 0}
+/* cards: link embaixo, status dos projetos */
+.card{display:flex;flex-direction:column}
+.card .topo{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+.card .topo h3{margin:0}
+.rodape{margin-top:auto;padding-top:18px}
+.rodape a{margin-top:0}
+.status{flex:none;font-size:.74rem;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.status.em_andamento{background:var(--accent-soft);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+.status.concluido{background:color-mix(in srgb,#22c55e 16%,transparent);color:#15803d;border:1px solid color-mix(in srgb,#22c55e 40%,transparent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .status.concluido{color:#4ade80}}
+:root[data-theme="dark"] .status.concluido{color:#4ade80}
+.novo{animation:up .5s ease both}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <span class="logo">&lt;higor.fritz/&gt;</span>
+  <nav><a href="#sobre">Sobre</a><a href="#skills">Skills</a><a href="#projetos">Projetos</a><a href="#formacao">Formação</a><a href="#recados">Recados</a><a href="#contato">Contato</a></nav>
+</div></header>
+
+<main class="wrap">
+  <div class="hero">
+    <span class="tag">Disponível para estágio e projetos</span>
+    <h1>Olá, eu sou <span>Higor do Amaral Fritz</span>.<br>Desenvolvedor e estudante de Sistemas de Informação.</h1>
+    <p class="lead">Crio sites e sistemas do começo ao fim: do desenho no Figma ao back-end com banco de dados. Gosto de transformar problemas reais em software simples de usar.</p>
+    <div class="btns"><a class="btn p" href="#projetos">Ver projetos</a><a class="btn s" href="#contato">Falar comigo</a></div>
+    <div class="stats"><div><b>7</b><span>tecnologias</span></div><div><b>2</b><span>cursos no Instituto Federal</span></div><div><b>4</b><span>anos de inglês</span></div></div>
+  </div>
+
+  <section id="sobre">
+    <h2>Sobre mim</h2>
+    <p class="lead">Fiz o curso técnico em Informática e hoje curso Sistemas de Informação, ambos no Instituto Federal. Trabalho com front-end e back-end, e também com design de interfaces. Gosto de projetos que ajudam pessoas de verdade, como a ferramenta com IA para professores que criei em um hackathon. Estou sempre estudando e construindo coisas novas.</p>
+  </section>
+
+  <section id="skills">
+    <h2>Habilidades</h2>
+    <div class="grid" id="skills-grid"></div>
+  </section>
+
+  <section id="projetos">
+    <h2>Projetos</h2>
+    <div class="grid" id="projetos-grid"></div>
+  </section>
+
+  <section id="formacao">
+    <h2>Formação</h2>
+    <div class="timeline">
+      <div><small>Em andamento</small><h3>Sistemas de Informação</h3><p>Instituto Federal</p></div>
+      <div><small>Concluído</small><h3>Técnico em Informática</h3><p>Instituto Federal</p></div>
+    </div>
+  </section>
+
+  <section id="recados">
+    <h2>Mural de recados</h2>
+    <p class="lead">Deixe uma mensagem para mim. Seu recado aparece aqui para todo mundo ler.</p>
+    <div class="card" id="mural" style="margin-top:20px">
+      <div id="form">
+        <input id="nome" maxlength="40" placeholder="Seu nome">
+        <input id="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px">
+        <textarea id="texto" maxlength="280" rows="3" placeholder="Escreva seu recado"></textarea>
+        <button class="btn" id="enviar" type="button">Enviar recado</button>
+      </div>
+      <p id="status" class="muted" style="margin-top:12px">Carregando recados…</p>
+      <div id="lista"></div>
+    </div>
+  </section>
+
+  <section id="contato">
+    <h2>Vamos conversar?</h2>
+    <p class="lead">Quer trabalhar comigo ou só trocar ideias? Me chame:</p>
+    <div class="btns">
+      <a class="btn p" href="mailto:amarahigor@gmail.com">amarahigor@gmail.com</a>
+      <a class="btn s" href="https://github.com/HigorAmaral">GitHub</a>
+      <a class="btn s" href="https://www.linkedin.com/in/higor-do-amaral-fritz-727869298/">LinkedIn</a>
+    </div>
+  </section>
+</main>
+
+<footer>© 2026 Higor do Amaral Fritz. Feito com carinho e café.</footer>
+<script>
+(function(){
+  var els=document.querySelectorAll('section h2,.card,.timeline>div');
+  if(!('IntersectionObserver' in window)){return}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  els.forEach(function(el){el.classList.add('reveal');io.observe(el)});
+})();
+(function(){
+  var base=(document.querySelector('meta[name="api-base"]')||{}).content||'';
+  var url=base.replace(/\/$/,'')+'/api/recados/';
+  var status=document.getElementById('status'),lista=document.getElementById('lista');
+  var btn=document.getElementById('enviar');
+  function render(itens){
+    lista.textContent='';
+    status.textContent=itens.length?'':'Ainda n\u00e3o h\u00e1 recados. Seja a primeira pessoa!';
+    itens.forEach(function(r){
+      var box=document.createElement('div'),n=document.createElement('b'),t=document.createElement('span');
+      box.className='msg';
+      n.textContent=String(r.nome||'An\u00f4nimo')+(r.criado_em?' \u00b7 '+new Date(r.criado_em).toLocaleDateString('pt-BR'):'');
+      t.textContent=String(r.texto||'');
+      box.appendChild(n);box.appendChild(t);lista.appendChild(box);
+    });
+  }
+  function carregar(){
+    return fetch(url).then(function(r){if(!r.ok)throw 0;return r.json()}).then(render)
+      .catch(function(){status.textContent='N\u00e3o foi poss\u00edvel carregar os recados agora.'});
+  }
+  btn.addEventListener('click',async function(){
+    var nome=document.getElementById('nome').value.trim(),texto=document.getElementById('texto').value.trim();
+    if(!texto){status.textContent='Escreva uma mensagem antes de enviar.';return}
+    btn.disabled=true;
+    try{
+      var r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({nome:nome,texto:texto,site:document.getElementById('site').value})});
+      var d=await r.json().catch(function(){return {}});
+      if(!r.ok){status.textContent=d.erro||'N\u00e3o foi poss\u00edvel enviar agora.'}
+      else{document.getElementById('texto').value='';await carregar();status.textContent=''}
+    }catch(e){status.textContent='Sem conex\u00e3o com o servidor.'}
+    btn.disabled=false;
+  });
+  carregar();
+})();
+</script>
+<script>
+(function(){
+  var DEFAULTS={"habilidades": [{"titulo": "Front-end", "descricao": "Interfaces rápidas e organizadas em componentes.", "tecnologias": ["JavaScript", "React", "Vue"]}, {"titulo": "Back-end", "descricao": "APIs, regras de negócio e painéis administrativos.", "tecnologias": ["Python", "Django"]}, {"titulo": "Dados", "descricao": "Modelagem e consultas em banco relacional.", "tecnologias": ["MySQL"]}, {"titulo": "Design", "descricao": "Protótipos e telas pensadas para quem usa.", "tecnologias": ["Figma"]}, {"titulo": "Idiomas", "descricao": "Inglês com 4 anos de curso na KNN, para ler documentação e trabalhar com times internacionais.", "tecnologias": ["Inglês"]}], "projetos": [{"nome": "Projeto BSI", "descricao": "Mapeamento dos microprocessos acadêmicos do IFC Câmpus Araquari, feito como trabalho do curso de Sistemas de Informação.", "tecnologias": ["Pesquisa", "Processos", "LaTeX"], "github": "", "status": "em_andamento", "status_label": "Em andamento"}, {"nome": "Hackathon Fábrica 2k26", "descricao": "Site com IA que ajuda professores a adaptar atividades e a perceber sinais em alunos de 6 a 9 anos, como autismo, TEA e TDAH. Feito no hackathon da Fábrica de Software do IFC Câmpus Araquari.", "tecnologias": ["IA", "Educação", "Hackathon 2026"], "github": "https://github.com/Hackathon-Fabrica-2k26", "status": "concluido", "status_label": "Concluído"}, {"nome": "Santory Pizzaria", "descricao": "Projeto desenvolvido durante o curso técnico em Informática, no Instituto Federal.", "tecnologias": ["Curso técnico"], "github": "https://github.com/Santory-Pizzaria", "status": "concluido", "status_label": "Concluído"}]};
+  var base=(document.querySelector('meta[name="api-base"]')||{}).content||'';
+  var api=base.replace(/\/$/,'')+'/api/conteudo/';
+  function el(tag,cls,txt){var x=document.createElement(tag);if(cls)x.className=cls;if(txt!==undefined)x.textContent=txt;return x}
+  function card(titulo,desc,techs){
+    var c=el('div','card novo'),top=el('div','topo');
+    top.appendChild(el('h3','',String(titulo)));c.appendChild(top);
+    c.appendChild(el('p','',String(desc||'')));
+    if(techs&&techs.length){var ch=el('div','chips');techs.forEach(function(t){ch.appendChild(el('span','chip',String(t)))});c.appendChild(ch)}
+    c._top=top;return c;
+  }
+  function render(d){
+    var sg=document.getElementById('skills-grid'),pg=document.getElementById('projetos-grid');
+    sg.textContent='';pg.textContent='';
+    (d.habilidades||[]).forEach(function(h){sg.appendChild(card(h.titulo,h.descricao,h.tecnologias))});
+    (d.projetos||[]).forEach(function(p){
+      var c=card(p.nome,p.descricao,p.tecnologias),st=p.status==='concluido'?'concluido':'em_andamento';
+      c._top.appendChild(el('span','status '+st,p.status_label||(st==='concluido'?'Conclu\u00eddo':'Em andamento')));
+      if(p.github&&/^https?:\/\//.test(p.github)){
+        var r=el('div','rodape'),a=el('a','','Ver no GitHub \u2192');
+        a.href=p.github;a.target='_blank';a.rel='noopener';r.appendChild(a);c.appendChild(r);
+      }
+      pg.appendChild(c);
+    });
+    if(!pg.children.length){pg.appendChild(el('p','muted','Projetos em breve.'))}
+  }
+  render(DEFAULTS);
+  fetch(api).then(function(r){if(!r.ok)throw 0;return r.json()}).then(render).catch(function(){});
+})();
+</script>
+</body>
+</html>
