@@ -17,7 +17,7 @@ def env_list(nome, padrao=""):
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "apenas-para-desenvolvimento")
 DEBUG = os.environ.get("DEBUG", "0") == "1"
-ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "localhost,127.0.0.1")
+ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS")
 
 INSTALLED_APPS = [
