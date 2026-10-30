@@ -1,4 +1,5 @@
 import os
+import secrets
 from pathlib import Path
 
 import dj_database_url
@@ -20,12 +21,27 @@ def env_list(nome, padrao=""):
     return [x.strip() for x in os.environ.get(nome, padrao).split(",") if x.strip()]
 
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "apenas-para-desenvolvimento")
 DEBUG = os.environ.get("DEBUG", "0") == "1"
-ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "*")
+
+# Chave secreta segura: se estiver em produção e não houver SECRET_KEY, gera uma chave criptográfica forte
+_secret_env = os.environ.get("SECRET_KEY")
+if _secret_env:
+    SECRET_KEY = _secret_env
+elif DEBUG:
+    SECRET_KEY = "apenas-para-desenvolvimento-local-inseguro-apenas-teste"
+else:
+    # Gera fallback seguro aleatório para evitar rodar chave padrão em produção
+    SECRET_KEY = secrets.token_urlsafe(64)
+
+# Proteção contra Host Header Poisoning
+if not DEBUG:
+    ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", ".onrender.com,localhost,127.0.0.1")
+else:
+    ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "*")
+
 CSRF_TRUSTED_ORIGINS = env_list(
     "CSRF_TRUSTED_ORIGINS",
-    "https://*.onrender.com,https://portfolio-higor-carreira.vercel.app",
+    "https://*.onrender.com,https://portfolio-higor.onrender.com",
 )
 
 INSTALLED_APPS = [
@@ -41,6 +57,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "config.middleware.SecurityHeadersMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -106,7 +123,6 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
-# Serve os arquivos estáticos (inclusive o CSS do /admin) mesmo sem rodar collectstatic
 WHITENOISE_USE_FINDERS = True
 WHITENOISE_AUTOREFRESH = DEBUG
 STORAGES = {
@@ -114,16 +130,35 @@ STORAGES = {
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
 }
 
-# CORS: so necessario se o front-end estiver em outro dominio
+# CORS: desabilitado por padrão para domínios arbitrários
 CORS_ALLOWED_ORIGINS = env_list("CORS_ORIGINS")
 CORS_URLS_REGEX = r"^/api/.*$"
 
-# Seguranca em producao
-BEHIND_PROXY = os.environ.get("BEHIND_PROXY", "0") == "1"
+# Configurações de Segurança e Cookies
+BEHIND_PROXY = os.environ.get("BEHIND_PROXY", "1") == "1"
 if BEHIND_PROXY:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-if os.environ.get("HTTPS", "0") == "1":
+
+if not DEBUG:
+    # Produção HTTPS e Headers Estritos
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-    SECURE_SSL_REDIRECT = True
-    SECURE_HSTS_SECONDS = 31536000
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = "Lax"
+    CSRF_COOKIE_SAMESITE = "Lax"
+
+    SECURE_SSL_REDIRECT = BEHIND_PROXY or os.environ.get("HTTPS", "1") == "1"
+    SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", 31536000))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = "DENY"
+    SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+else:
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_SSL_REDIRECT = False
+    SECURE_HSTS_SECONDS = 0
