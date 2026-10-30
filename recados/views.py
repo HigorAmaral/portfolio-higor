@@ -1,8 +1,10 @@
 import json
+import logging
 import re
 import time
 from pathlib import Path
 
+from config.seguranca import ip_cliente
 from django.conf import settings
 from django.core.cache import cache
 from django.db import connection
@@ -21,6 +23,10 @@ from .openapi import OPENAPI_SPEC
 FRONTEND = Path(settings.BASE_DIR) / "frontend" / "index.html"
 INTERVALO_SEGUNDOS = 30  # tempo mínimo entre dois recados do mesmo IP
 MAX_BODY_SIZE = 10 * 1024  # 10 KB limite para evitar DoS por payload excessivo
+JANELA_METRICA_SEGUNDOS = 30 * 60  # cada IP conta no máximo 1 visita/download a cada 30 min
+CAMINHOS_METRICA = {"/"}  # whitelist: impede criação ilimitada de linhas com caminhos arbitrários
+
+logger = logging.getLogger(__name__)
 
 # Remove caracteres de controle ASCII que não sejam quebras de linha normais
 REGEX_CONTROLE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")
@@ -34,14 +40,8 @@ def index(request):
 
 
 def _ip(request):
-    """Obtém o IP real do cliente com segurança através de proxy confiável."""
-    if settings.BEHIND_PROXY:
-        encaminhado = request.META.get("HTTP_X_FORWARDED_FOR", "")
-        if encaminhado:
-            # Pega apenas o primeiro IP da cadeia (cliente original)
-            return encaminhado.split(",")[0].strip()[:45]
-    ip = request.META.get("REMOTE_ADDR", "?")
-    return ip.strip()[:45]
+    """Obtém o IP real do cliente de forma resistente a spoofing (ver config/seguranca.py)."""
+    return ip_cliente(request)
 
 
 def _limpar_texto(texto):
@@ -62,16 +62,19 @@ def healthz(request):
         with connection.cursor() as cursor:
             cursor.execute("SELECT 1")
             cursor.fetchone()
-    except Exception as e:
-        db_status = f"unhealthy: {e}"
+    except Exception:
+        # Detalhes vão só para o log do servidor; nunca expor erros internos publicamente
+        logger.exception("Health check: falha no banco de dados")
+        db_status = "unhealthy"
 
     cache_status = "operational"
     try:
         cache.set("_healthz_ping", "ok", 10)
         if cache.get("_healthz_ping") != "ok":
             cache_status = "degraded"
-    except Exception as e:
-        cache_status = f"unhealthy: {e}"
+    except Exception:
+        logger.exception("Health check: falha no cache")
+        cache_status = "unhealthy"
 
     duracao_ms = round((time.monotonic() - inicio) * 1000, 2)
     saudavel = db_status == "connected"
@@ -112,12 +115,23 @@ def visitas(request):
         dados = json.loads(request.body.decode("utf-8", errors="replace") or "{}")
     except (ValueError, UnicodeDecodeError):
         return JsonResponse({"erro": "JSON inválido."}, status=400)
+    if not isinstance(dados, dict):
+        return JsonResponse({"erro": "Formato de dados inválido."}, status=400)
 
     tipo = str(dados.get("tipo") or "pagina").strip()
     caminho = str(dados.get("caminho") or "/").strip()[:100]
 
     if tipo not in ("pagina", "download_curriculo"):
         return JsonResponse({"erro": "Tipo de métrica inválido."}, status=400)
+
+    # Caminhos fora da whitelist são agrupados em "/" (evita inchaço do banco por spam)
+    if caminho not in CAMINHOS_METRICA:
+        caminho = "/"
+
+    # Anti-inflação: cada IP conta no máximo uma vez por janela (o IP NÃO é salvo, só usado em memória)
+    chave = f"metrica-{tipo}-{ip_cliente(request)}"
+    if not cache.add(chave, 1, JANELA_METRICA_SEGUNDOS):
+        return JsonResponse({"ok": True})
 
     hoje = timezone.now().date()
     metrica, _ = MetricaAcesso.objects.get_or_create(data=hoje, caminho=caminho)

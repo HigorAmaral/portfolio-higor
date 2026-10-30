@@ -97,7 +97,7 @@ class SecurityAndRecadosTestCase(TestCase):
         # Swagger UI HTML
         res_docs = self.client.get(reverse("api_docs"), secure=True)
         self.assertEqual(res_docs.status_code, 200)
-        self.assertIn("SwaggerUIBundle", res_docs.content.decode("utf-8"))
+        self.assertIn("vendor/swagger-ui/swagger-ui-bundle.js", res_docs.content.decode("utf-8"))
 
         # OpenAPI 3.0 JSON
         res_schema = self.client.get(reverse("api_schema"), secure=True)
@@ -177,3 +177,82 @@ class SecurityAndRecadosTestCase(TestCase):
             # Usuário recebe 201 com sucesso mesmo com webhook inacessível
             self.assertEqual(res.status_code, 201)
             self.assertEqual(Recado.objects.filter(nome="Visitante").count(), 1)
+
+
+class HardeningTestCase(TestCase):
+    """Testes das proteções adicionais (spoofing de IP, força bruta, vazamento de erros, spam de métricas)."""
+
+    def setUp(self):
+        self.client = Client()
+        cache.clear()
+
+    def _post_recado(self, **extra):
+        return self.client.post(
+            reverse("recados"),
+            data=json.dumps({"nome": "A", "texto": "Oi"}),
+            content_type="application/json",
+            secure=True,
+            **extra,
+        )
+
+    def test_rate_limit_nao_burlavel_com_x_forwarded_for(self):
+        """Trocar o X-Forwarded-For (falsificável) não pode burlar o limite de recados."""
+        r1 = self._post_recado(HTTP_X_FORWARDED_FOR="1.1.1.1")
+        r2 = self._post_recado(HTTP_X_FORWARDED_FOR="2.2.2.2")
+        self.assertEqual(r1.status_code, 201)
+        self.assertEqual(r2.status_code, 429)
+
+    def test_rate_limit_usa_true_client_ip(self):
+        """IPs reais diferentes (definidos pela borda Cloudflare/Render) têm limites independentes."""
+        r1 = self._post_recado(HTTP_TRUE_CLIENT_IP="1.1.1.1")
+        r2 = self._post_recado(HTTP_TRUE_CLIENT_IP="2.2.2.2")
+        self.assertEqual(r1.status_code, 201)
+        self.assertEqual(r2.status_code, 201)
+
+    def test_admin_login_bloqueia_forca_bruta(self):
+        """Após 5 logins falhos, o IP é bloqueado com 429."""
+        url = reverse("admin:login")
+        for _ in range(5):
+            r = self.client.post(url, {"username": "admin", "password": "errada"}, secure=True)
+            self.assertEqual(r.status_code, 200)
+        r = self.client.post(url, {"username": "admin", "password": "errada"}, secure=True)
+        self.assertEqual(r.status_code, 429)
+
+    def test_metricas_nao_inflaveis_e_caminho_whitelist(self):
+        """Mesmo IP não infla contadores e caminhos arbitrários não criam novas linhas no banco."""
+        for caminho in ["/", "/x1", "/x2", "/x3"]:
+            self.client.post(
+                reverse("visitas"),
+                data=json.dumps({"tipo": "pagina", "caminho": caminho}),
+                content_type="application/json",
+                secure=True,
+            )
+        self.assertEqual(MetricaAcesso.objects.count(), 1)
+        self.assertEqual(MetricaAcesso.objects.first().visualizacoes, 1)
+
+    def test_visitas_rejeita_json_nao_objeto(self):
+        r = self.client.post(reverse("visitas"), data="[1,2]", content_type="application/json", secure=True)
+        self.assertEqual(r.status_code, 400)
+
+    def test_healthz_nao_vaza_erro_interno(self):
+        """Falhas no banco não podem expor mensagens internas publicamente."""
+        with patch("recados.views.connection.cursor", side_effect=Exception("senha=segredo host=db")):
+            r = self.client.get(reverse("healthz"), secure=True)
+        self.assertEqual(r.status_code, 503)
+        self.assertNotIn("segredo", r.content.decode())
+
+    def test_docs_sem_cdn_externo(self):
+        """A documentação deve usar apenas assets locais (CSP 'self')."""
+        r = self.client.get(reverse("api_docs"), secure=True)
+        conteudo = r.content.decode()
+        self.assertNotIn("cdn.jsdelivr.net", conteudo)
+        self.assertNotIn("cdn.jsdelivr.net", r.headers["Content-Security-Policy"])
+
+    @patch("recados.notificacoes.urllib.request.urlopen")
+    def test_discord_bloqueia_mencoes(self, mock_urlopen):
+        """Visitantes não podem usar @everyone para spammar o Discord."""
+        mock_urlopen.return_value.__enter__.return_value.status = 204
+        with patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.com/api/webhooks/mock"}):
+            notificar_novo_recado("x", "@everyone spam")
+        corpo = json.loads(mock_urlopen.call_args[0][0].data)
+        self.assertEqual(corpo["allowed_mentions"], {"parse": []})
