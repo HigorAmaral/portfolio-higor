@@ -6,7 +6,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#4f46e5" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0e1120" media="(prefers-color-scheme: dark)">
-<title>Higor do Amaral Fritz · Portfólio</title>
+<title>Higor do Amaral Fritz · Desenvolvedor Full Stack & Backend</title>
+<meta name="description" content="Portfólio de Higor do Amaral Fritz — Desenvolvedor Full Stack & Backend. Projetos em Python, Django, PostgreSQL, APIs RESTful documentadas e Inteligência Artificial.">
+<meta name="author" content="Higor do Amaral Fritz">
+
+<!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://portfolio-higor.onrender.com/">
+<meta property="og:title" content="Higor do Amaral Fritz · Desenvolvedor Full Stack & Backend">
+<meta property="og:description" content="Portfólio com projetos reais em Python, Django, PostgreSQL, APIs RESTful documentadas (Swagger) e Inteligência Artificial.">
+<meta property="og:image" content="https://portfolio-higor.onrender.com/static/og-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Higor do Amaral Fritz · Desenvolvedor Full Stack & Backend">
+<meta name="twitter:description" content="Portfólio com projetos reais em Python, Django, PostgreSQL, APIs RESTful documentadas (Swagger) e Inteligência Artificial.">
+<meta name="twitter:image" content="https://portfolio-higor.onrender.com/static/og-preview.png">
 <style>
 :root{
   box-sizing:border-box;
@@ -844,6 +861,202 @@ footer a:hover{text-decoration:underline}
 }
 ::selection{background:var(--accent);color:var(--accent-text)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+
+/* Botão WhatsApp */
+.btn.btn-whatsapp{
+  background:#25D366;
+  color:#ffffff;
+  border-color:#25D366;
+  box-shadow:0 6px 20px -6px rgba(37, 211, 102, 0.45);
+}
+.btn.btn-whatsapp:hover{
+  background:#20ba5a;
+  border-color:#20ba5a;
+  box-shadow:0 10px 25px -5px rgba(37, 211, 102, 0.6);
+  transform:translateY(-2px);
+  color:#ffffff;
+}
+
+/* Mockup Visual do Projeto */
+.project-preview{
+  background:color-mix(in srgb,var(--surface) 60%,#000);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:9px 12px;
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.76rem;
+  color:var(--muted);
+}
+.project-preview .dots{display:flex;gap:5px;align-items:center}
+.project-preview .dots span{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.project-preview .dots span:nth-child(1){background:#f87171}
+.project-preview .dots span:nth-child(2){background:#fbbf24}
+.project-preview .dots span:nth-child(3){background:#4ade80}
+.project-preview .preview-url{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  direction:rtl;
+  text-align:left;
+  max-width:210px;
+}
+.project-badge-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.74rem;
+  font-weight:700;
+  padding:3px 10px;
+  border-radius:999px;
+  background:color-mix(in srgb,var(--accent) 15%,transparent);
+  color:var(--accent);
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+  margin-bottom:10px;
+  align-self:flex-start;
+}
+.project-badge-tag.hackathon{
+  background:color-mix(in srgb,#f59e0b 16%,transparent);
+  color:#f59e0b;
+  border-color:color-mix(in srgb,#f59e0b 35%,transparent);
+}
+.project-badge-tag.swagger{
+  background:color-mix(in srgb,#0ea5e9 16%,transparent);
+  color:#0ea5e9;
+  border-color:color-mix(in srgb,#0ea5e9 35%,transparent);
+}
+
+.rodape a.swagger-link{
+  background:color-mix(in srgb,#0ea5e9 16%,transparent);
+  color:#0ea5e9;
+  padding:6px 14px;
+  border-radius:10px;
+  border:1px solid color-mix(in srgb,#0ea5e9 35%,transparent);
+}
+.rodape a.swagger-link:hover{text-decoration:none;filter:brightness(1.15)}
+
+.btn-case{
+  background:transparent;
+  border:1px dashed color-mix(in srgb,var(--accent) 55%,transparent);
+  color:var(--accent);
+  font-size:.84rem;
+  font-weight:600;
+  padding:6px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all .2s ease;
+  font-family:inherit;
+  min-height:36px;
+}
+.btn-case:hover{
+  background:var(--accent-soft);
+  border-style:solid;
+  border-color:var(--accent);
+}
+
+/* Modal de Estudo de Caso */
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(10, 15, 29, 0.78);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .25s ease, visibility .25s ease;
+}
+.modal-backdrop.open{
+  opacity:1;
+  visibility:visible;
+}
+.modal-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:20px;
+  width:min(680px, 100%);
+  max-height:90vh;
+  overflow-y:auto;
+  padding:clamp(20px, 5vw, 36px);
+  box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);
+  transform:translateY(16px) scale(.98);
+  transition:transform .25s cubic-bezier(.2,.8,.2,1);
+}
+.modal-backdrop.open .modal-card{
+  transform:translateY(0) scale(1);
+}
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+  gap:12px;
+}
+.modal-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.76rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  padding:4px 10px;
+  border-radius:999px;
+  background:var(--accent-soft);
+  color:var(--accent);
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+}
+.modal-close{
+  background:none;
+  border:none;
+  font-size:1.8rem;
+  line-height:1;
+  color:var(--muted);
+  cursor:pointer;
+  padding:2px 8px;
+  border-radius:8px;
+  transition:color .2s;
+}
+.modal-close:hover{color:var(--text)}
+.modal-title{
+  margin:4px 0 16px;
+  font-size:clamp(1.25rem, 3.8vw, 1.55rem);
+  letter-spacing:-.02em;
+}
+.modal-section{margin-top:16px}
+.modal-section h4{
+  margin:0 0 6px;
+  font-size:.92rem;
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.modal-section p{margin:0;color:var(--muted);font-size:.94rem;line-height:1.65}
+.modal-footer{
+  margin-top:24px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
 </style>
 </head>
 <body>
@@ -920,6 +1133,10 @@ footer a:hover{text-decoration:underline}
       <a class="btn p" href="#projetos">
         <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         Ver projetos
+      </a>
+      <a class="btn p btn-whatsapp" href="https://wa.me/5547996565013?text=Ol%C3%A1%20Higor!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20uma%20oportunidade." target="_blank" rel="noopener" title="Conversar no WhatsApp">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        WhatsApp
       </a>
       <!-- Link direto para download do currículo enviado pelo usuário -->
       <a class="btn s" href="/static/curriculo-higor.pdf" download="Curriculo-Higor-do-Amaral-Fritz.pdf" target="_blank" rel="noopener" title="Baixar currículo completo em PDF">
@@ -1035,10 +1252,16 @@ footer a:hover{text-decoration:underline}
       <div class="award-card">
         <span class="award-badge">
           <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-          Hackathon 2026
+          Maratona 24 Horas · Destaque
         </span>
         <h3>Hackathon Fábrica de Software 2k26</h3>
-        <p>Desenvolvimento em equipe de uma plataforma com IA que auxilia professores na detecção precoce de sinais de autismo, TEA e TDAH em crianças de 6 a 9 anos no IFC Câmpus Araquari.</p>
+        <p>Desenvolvimento em equipe de uma plataforma com IA construída em uma maratona intensiva de 24 horas ininterruptas para auxiliar professores na adaptação personalizada de atividades e detecção precoce de sinais de autismo, TEA e TDAH em crianças de 6 a 9 anos no IFC Câmpus Araquari.</p>
+        <div style="margin-top:12px">
+          <a class="btn s" href="https://delta.fabricadesoftware.ifc.edu.br/login?redirect=/turmas" target="_blank" rel="noopener" style="display:inline-flex;font-size:.82rem;padding:6px 12px;border-radius:8px">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Acessar Sistema ao Vivo ↗
+          </a>
+        </div>
       </div>
       <div class="award-card">
         <span class="award-badge">
@@ -1126,6 +1349,10 @@ footer a:hover{text-decoration:underline}
     </h2>
     <p class="lead">Procurando um estagiário ou desenvolvedor dedicado para somar no seu time? Fale comigo:</p>
     <div class="btns">
+      <a class="btn p btn-whatsapp" href="https://wa.me/5547996565013?text=Ol%C3%A1%20Higor!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20uma%20oportunidade." target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        Conversar no WhatsApp
+      </a>
       <a class="btn p" href="mailto:amarahigor@gmail.com">
         <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         amarahigor@gmail.com
@@ -1157,6 +1384,33 @@ footer a:hover{text-decoration:underline}
 <div class="toast" id="toast">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
   <span id="toast-msg">Mensagem</span>
+</div>
+
+<!-- Modal de Estudo de Caso -->
+<div id="modal-case" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span class="modal-tag" id="modal-tag">Estudo de Caso</span>
+        <span class="chip" id="modal-badge">Hackathon 24H</span>
+      </div>
+      <button type="button" class="modal-close" id="modal-close" aria-label="Fechar modal">&times;</button>
+    </div>
+    <h3 class="modal-title" id="modal-title">Título do Projeto</h3>
+    <div class="modal-section">
+      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> O Desafio</h4>
+      <p id="modal-desafio"></p>
+    </div>
+    <div class="modal-section">
+      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> A Solução Técnica & Arquitetura</h4>
+      <p id="modal-solucao"></p>
+    </div>
+    <div class="modal-section">
+      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Resultados & Aprendizados</h4>
+      <p id="modal-aprendizados"></p>
+    </div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
 </div>
 
 <footer>
@@ -1478,28 +1732,49 @@ function initTilt(){
     "projetos": [
       {
         "nome": "Hackathon Fábrica 2k26",
-        "descricao": "Plataforma com IA para auxiliar professores na adaptação de atividades e percepção de sinais em alunos de 6 a 9 anos (Autismo, TEA e TDAH).",
-        "tecnologias": ["Python", "Django", "IA", "Educação", "Hackathon 2026"],
+        "badge": "🏆 Desenvolvido em 24h · Maratona Hackathon",
+        "dominio": "delta.fabricadesoftware.ifc.edu.br",
+        "descricao": "Plataforma com Inteligência Artificial desenvolvida em maratona intensiva de 24 horas para auxiliar professores na adaptação personalizada de atividades e percepção precoce de sinais em alunos neuroatípicos (TEA e TDAH).",
+        "tecnologias": ["Python", "Django", "IA", "Educação Inclusiva", "Hackathon 24h"],
         "github": "https://github.com/Hackathon-Fabrica-2k26",
-        "demo": "",
+        "demo": "https://delta.fabricadesoftware.ifc.edu.br/login?redirect=/turmas",
         "status": "concluido",
         "status_label": "Concluído",
-        "categoria": "ia"
+        "categoria": "ia",
+        "estudo_caso": {
+          "titulo": "Hackathon Fábrica 2k26 (Maratona 24H)",
+          "badge": "🏆 Hackathon 24H · IA Aplicada",
+          "desafio": "Criar uma solução tecnológica completa em apenas 24 horas contínuas para apoiar professores da rede pública a adaptar atividades e avaliações para crianças neuroatípicas de 6 a 9 anos (com TEA e TDAH), além de estruturar relatórios de observação em sala de aula.",
+          "solucao": "Desenvolvemos em equipe uma aplicação web em Python e Django integrada com modelos de Inteligência Artificial. A ferramenta analisa o plano de aula do professor e gera versões adaptadas com linguagem direta, suporte imagético, redução de sobrecarga sensorial e roteiros lúdicos diferenciados. Deploy efetuado no ambiente da Fábrica de Software do IFC.",
+          "aprendizados": "Trabalho ágil sob altíssima pressão de tempo, prototipagem relâmpago, integração de IA no backend Django e entrega de um produto funcional pronto para uso em sala de aula em 24 horas."
+        }
       },
       {
-        "nome": "Portfólio Pessoal",
-        "descricao": "Site moderno com mural interativo de recados, autenticação, tema dinâmico, CI/CD e banco de dados PostgreSQL no Render.",
-        "tecnologias": ["Python", "Django", "JavaScript", "PostgreSQL", "Render"],
+        "nome": "Portfólio Pessoal & API REST",
+        "badge": "⚡ API REST ao vivo (OpenAPI 3.0)",
+        "dominio": "portfolio-higor.onrender.com",
+        "descricao": "Arquitetura web completa com mural interativo de recados, documentação OpenAPI 3.0 (Swagger UI), endpoint de health check, segurança reforçada contra XSS/DoS, esteira de CI/CD e banco PostgreSQL no Render.",
+        "tecnologias": ["Python", "Django", "PostgreSQL", "Swagger UI", "CI/CD", "Render"],
         "github": "https://github.com/HigorAmaral/portfolio-higor",
         "demo": "https://portfolio-higor.onrender.com",
+        "swagger": "/api/docs/",
         "status": "concluido",
         "status_label": "Concluído",
-        "categoria": "backend"
+        "categoria": "backend",
+        "estudo_caso": {
+          "titulo": "Portfólio & Backend Production-Ready",
+          "badge": "⚡ Django 6 · PostgreSQL · Swagger",
+          "desafio": "Construir uma aplicação web rápida, moderna e de custo zero de infraestrutura (Render Free Tier), porém com arquitetura, testes e padrões de segurança de nível sênior.",
+          "solucao": "Estruturação de backend Django com PostgreSQL na nuvem, esteira de CI/CD no GitHub Actions com 21 testes unitários automatizados, documentação interativa Swagger (/api/docs/), rate limiting por IP confiável (True-Client-IP), proteção estrita de headers (CSP, HSTS, COOP), auditoria de CVEs com pip-audit e bot keep-alive para zero downtime.",
+          "aprendizados": "Implementação prática de esteira de integração contínua (CI/CD), arquitetura resiliente na nuvem, hardening contra ataques cibernéticos e documentação padronizada OpenAPI 3.0."
+        }
       },
       {
         "nome": "Santory Pizzaria",
-        "descricao": "Sistema desenvolvido durante o curso técnico em Informática no Instituto Federal Catarinense.",
-        "tecnologias": ["PHP", "MySQL", "JavaScript", "Curso técnico"],
+        "badge": "🎓 Curso Técnico Integrado IFC",
+        "dominio": "github.com/Santory-Pizzaria",
+        "descricao": "Sistema web completo de cardápio e gerenciamento de pedidos desenvolvido durante o curso técnico em Informática para Internet no Instituto Federal Catarinense.",
+        "tecnologias": ["PHP", "MySQL", "JavaScript", "HTML5/CSS3", "Curso Técnico"],
         "github": "https://github.com/Santory-Pizzaria",
         "demo": "",
         "status": "concluido",
@@ -1507,9 +1782,11 @@ function initTilt(){
         "categoria": "frontend"
       },
       {
-        "nome": "Projeto BSI",
-        "descricao": "Mapeamento dos microprocessos acadêmicos do IFC Câmpus Araquari, estruturado e padronizado em LaTeX.",
-        "tecnologias": ["Pesquisa", "Processos", "LaTeX", "BSI"],
+        "nome": "Microprocessos Acadêmicos BSI",
+        "badge": "🔬 Pesquisa Acadêmica IFC",
+        "dominio": "ifc-araquari.edu.br/bsi",
+        "descricao": "Mapeamento estruturado e documentação padronizada dos microprocessos acadêmicos do IFC Câmpus Araquari com modelagem técnica em LaTeX.",
+        "tecnologias": ["Engenharia de Processos", "BSI", "LaTeX", "Pesquisa"],
         "github": "",
         "demo": "",
         "status": "em_andamento",
@@ -1523,6 +1800,75 @@ function initTilt(){
   var api = base.replace(/\/$/, '') + '/api/conteudo/';
   var currentFilter = 'todos';
   var allProjects = DEFAULTS.projetos;
+
+  // Gerenciamento do Modal de Estudo de Caso
+  var modalBackdrop = document.getElementById('modal-case');
+  var modalClose = document.getElementById('modal-close');
+  var modalTitle = document.getElementById('modal-title');
+  var modalBadge = document.getElementById('modal-badge');
+  var modalDesafio = document.getElementById('modal-desafio');
+  var modalSolucao = document.getElementById('modal-solucao');
+  var modalAprendizados = document.getElementById('modal-aprendizados');
+  var modalFooter = document.getElementById('modal-footer');
+
+  function fecharModal(){
+    if(modalBackdrop){
+      modalBackdrop.classList.remove('open');
+      modalBackdrop.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  function abrirModalEstudo(p){
+    var ec = p.estudo_caso;
+    if(!ec || !modalBackdrop) return;
+
+    modalTitle.textContent = ec.titulo || p.nome;
+    modalBadge.textContent = ec.badge || p.badge || 'Estudo de Caso';
+    modalDesafio.textContent = ec.desafio || 'Desafio técnico em produção.';
+    modalSolucao.textContent = ec.solucao || 'Solução estruturada com boas práticas de engenharia de software.';
+    modalAprendizados.textContent = ec.aprendizados || 'Evolução técnica e trabalho colaborativo.';
+
+    modalFooter.innerHTML = '';
+    if(p.demo){
+      var aD = el('a', 'btn p', '');
+      aD.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Acessar Projeto';
+      aD.href = p.demo;
+      aD.target = '_blank';
+      aD.rel = 'noopener';
+      modalFooter.appendChild(aD);
+    }
+    if(p.swagger || p.nome.includes('Portfólio')){
+      var aS = el('a', 'btn s', '');
+      aS.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Ver Swagger';
+      aS.href = p.swagger || '/api/docs/';
+      aS.target = '_blank';
+      aS.rel = 'noopener';
+      modalFooter.appendChild(aS);
+    }
+    if(p.github){
+      var aG = el('a', 'btn s', '');
+      aG.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg> Repositório';
+      aG.href = p.github;
+      aG.target = '_blank';
+      aG.rel = 'noopener';
+      modalFooter.appendChild(aG);
+    }
+
+    modalBackdrop.classList.add('open');
+    modalBackdrop.setAttribute('aria-hidden', 'false');
+  }
+
+  if(modalClose){ modalClose.addEventListener('click', fecharModal); }
+  if(modalBackdrop){
+    modalBackdrop.addEventListener('click', function(e){
+      if(e.target === modalBackdrop) fecharModal();
+    });
+  }
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && modalBackdrop && modalBackdrop.classList.contains('open')){
+      fecharModal();
+    }
+  });
 
   function el(tag, cls, txt){
     var x = document.createElement(tag);
@@ -1540,11 +1886,30 @@ function initTilt(){
   }
 
   function cardProjeto(p){
-    var c = el('div', 'card novo'), top = el('div', 'topo');
+    var c = el('div', 'card novo');
+
+    // Mockup visual de navegador no topo do card
+    var prev = el('div', 'project-preview');
+    var dots = el('div', 'dots');
+    dots.innerHTML = '<span></span><span></span><span></span>';
+    prev.appendChild(dots);
+    var uStr = p.dominio || (p.demo ? p.demo.replace(/^https?:\/\//, '').split('/')[0] : (p.github ? p.github.replace(/^https?:\/\//, '') : 'higor.dev'));
+    prev.appendChild(el('span', 'preview-url', uStr));
+    c.appendChild(prev);
+
+    // Selo de destaque (Hackathon 24h, Swagger OpenAPI, etc)
+    var bText = p.badge || (p.nome.includes('Hackathon') ? '🏆 Hackathon 24h' : (p.nome.includes('Portfólio') ? '⚡ API REST ao vivo' : ''));
+    if(bText){
+      var bCls = 'project-badge-tag' + (bText.includes('24h') || bText.includes('Hackathon') ? ' hackathon' : (bText.includes('API') || bText.includes('Swagger') ? ' swagger' : ''));
+      c.appendChild(el('span', bCls, bText));
+    }
+
+    var top = el('div', 'topo');
     top.appendChild(el('h3', '', String(p.nome)));
     var st = p.status === 'concluido' ? 'concluido' : 'em_andamento';
     top.appendChild(el('span', 'status ' + st, p.status_label || (st === 'concluido' ? 'Concluído' : 'Em andamento')));
     c.appendChild(top);
+
     c.appendChild(el('p', '', String(p.descricao || '')));
 
     if(p.tecnologias && p.tecnologias.length){
@@ -1554,6 +1919,39 @@ function initTilt(){
     }
 
     var rodape = el('div', 'rodape');
+
+    // Botão de Estudo de Caso
+    if(p.estudo_caso || p.nome.includes('Hackathon') || p.nome.includes('Portfólio')){
+      var btnCase = el('button', 'btn-case', '');
+      btnCase.type = 'button';
+      btnCase.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Estudo de Caso';
+      btnCase.addEventListener('click', function(){
+        abrirModalEstudo(p);
+      });
+      rodape.appendChild(btnCase);
+    }
+
+    // Botão Acessar Projeto / Demo
+    if(p.demo && /^https?:\/\//.test(p.demo)){
+      var aDemo = el('a', 'demo-link', '');
+      aDemo.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Acessar Projeto ↗';
+      aDemo.href = p.demo;
+      aDemo.target = '_blank';
+      aDemo.rel = 'noopener';
+      rodape.appendChild(aDemo);
+    }
+
+    // Botão Swagger UI para o projeto Portfólio
+    if(p.swagger || p.nome.includes('Portfólio')){
+      var aSwagger = el('a', 'swagger-link', '');
+      aSwagger.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Testar API';
+      aSwagger.href = p.swagger || '/api/docs/';
+      aSwagger.target = '_blank';
+      aSwagger.rel = 'noopener';
+      rodape.appendChild(aSwagger);
+    }
+
+    // Botão GitHub
     if(p.github && /^https?:\/\//.test(p.github)){
       var aGit = el('a', '', '');
       aGit.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg> GitHub →';
@@ -1562,14 +1960,7 @@ function initTilt(){
       aGit.rel = 'noopener';
       rodape.appendChild(aGit);
     }
-    if(p.demo && /^https?:\/\//.test(p.demo)){
-      var aDemo = el('a', 'demo-link', '');
-      aDemo.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Acessar Demo';
-      aDemo.href = p.demo;
-      aDemo.target = '_blank';
-      aDemo.rel = 'noopener';
-      rodape.appendChild(aDemo);
-    }
+
     if(rodape.children.length){
       c.appendChild(rodape);
     }
@@ -1615,8 +2006,15 @@ function initTilt(){
       (d.habilidades || []).forEach(function(h){ sg.appendChild(cardSkill(h)); });
     }
     if(d.projetos && d.projetos.length){
-      allProjects = d.projetos;
+      // Mescla projetos da API com os estudos de caso locais e links completos
+      allProjects = d.projetos.map(function(proj){
+        var local = DEFAULTS.projetos.find(function(dp){ return dp.nome.toLowerCase().includes(proj.nome.toLowerCase().slice(0, 10)) || proj.nome.toLowerCase().includes(dp.nome.toLowerCase().slice(0, 10)); });
+        return Object.assign({}, local || {}, proj);
+      });
     }
+    renderProjetos();
+    initTilt();
+  }
     renderProjetos();
     initTilt();
   }
