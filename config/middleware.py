@@ -81,10 +81,11 @@ class AdminBruteForceMiddleware:
 
         chave = f"admin-login-falhas-{ip_cliente(request)}"
         if (cache.get(chave) or 0) >= self.MAX_TENTATIVAS:
-            return HttpResponse(
-                "Muitas tentativas de login. Tente novamente em 15 minutos.",
-                status=429,
-                content_type="text/plain; charset=utf-8",
+            from recados.erros import resposta_429
+
+            return resposta_429(
+                request,
+                "Foram feitas muitas tentativas de login. Por segurança, aguarde 15 minutos antes de tentar novamente.",
             )
 
         response = self.get_response(request)

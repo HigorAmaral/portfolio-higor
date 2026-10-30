@@ -70,6 +70,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "config.urls"
+CSRF_FAILURE_VIEW = "recados.erros.erro_csrf"
 WSGI_APPLICATION = "config.wsgi.application"
 
 TEMPLATES = [

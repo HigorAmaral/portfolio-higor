@@ -1,0 +1,22 @@
+{% extends "erro_base.html" %}
+{% block codigo %}500{% endblock %}
+{% block titulo %}Erro interno{% endblock %}
+{% block classe %}e-5xx{% endblock %}
+{% block selo %}Erro 500{% endblock %}
+{% block numero %}500{% endblock %}{% block numero2 %}500{% endblock %}
+{% block h1 %}Ops! Algo quebrou por aqui{% endblock %}
+{% block texto %}O servidor encontrou um erro inesperado. Já fui notificado nos logs e vou corrigir o quanto antes. Tente novamente em alguns instantes.{% endblock %}
+{% block terminal %}
+<div class="terminal" aria-label="Status do servidor">
+  <div class="barra" aria-hidden="true"><span></span><span></span><span></span></div>
+  <pre><span class="ok">$</span> python manage.py runserver
+<span class="err">500 Internal Server Error</span>
+<span class="ok">$</span> git commit -m "fix: corrigindo..." <span class="cursor"></span></pre>
+</div>
+{% endblock %}
+{% block botao_extra %}
+<button class="btn s" type="button" id="recarregar">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+  Tentar novamente
+</button>
+{% endblock %}

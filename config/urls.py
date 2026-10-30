@@ -17,3 +17,9 @@ urlpatterns = [
     path("api/conteudo/", views.conteudo, name="conteudo"),
     path("", views.index, name="index"),
 ]
+
+# Páginas de erro personalizadas (HTML no site, JSON na API)
+handler400 = "recados.erros.erro_400"
+handler403 = "recados.erros.erro_403"
+handler404 = "recados.erros.erro_404"
+handler500 = "recados.erros.erro_500"

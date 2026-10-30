@@ -1,0 +1,16 @@
+{% extends "erro_base.html" %}
+{% block codigo %}403{% endblock %}
+{% block titulo %}Acesso negado{% endblock %}
+{% block classe %}e-403{% endblock %}
+{% block selo %}Erro 403{% endblock %}
+{% block numero %}403{% endblock %}{% block numero2 %}403{% endblock %}
+{% block h1 %}Área restrita{% endblock %}
+{% block texto %}Você não tem permissão para acessar esta página. Se acha que isso é um engano, recarregue a página e tente novamente.{% endblock %}
+{% block terminal %}
+<div class="terminal" aria-label="Detalhes da requisição">
+  <div class="barra" aria-hidden="true"><span></span><span></span><span></span></div>
+  <pre><span class="ok">$</span> sudo acessar --area-restrita
+<span class="err">403 Forbidden</span> — permissão negada
+<span class="ok">$</span> <span class="cursor"></span></pre>
+</div>
+{% endblock %}

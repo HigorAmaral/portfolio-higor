@@ -256,3 +256,50 @@ class HardeningTestCase(TestCase):
             notificar_novo_recado("x", "@everyone spam")
         corpo = json.loads(mock_urlopen.call_args[0][0].data)
         self.assertEqual(corpo["allowed_mentions"], {"parse": []})
+
+
+    def test_custom_error_404_html_and_json(self):
+        """Verifica se páginas 404 retornam HTML personalizado para o site e JSON para a API."""
+        # 404 no site
+        r_site = self.client.get("/rota-inexistente-12345", secure=True)
+        self.assertEqual(r_site.status_code, 404)
+        self.assertIn("Essa página se perdeu no código", r_site.content.decode("utf-8"))
+        self.assertIn("404", r_site.content.decode("utf-8"))
+
+        # 404 na API
+        r_api = self.client.get("/api/rota-inexistente-xyz", secure=True)
+        self.assertEqual(r_api.status_code, 404)
+        dados = r_api.json()
+        self.assertEqual(dados.get("status"), 404)
+        self.assertIn("erro", dados)
+
+    def test_custom_error_handlers_render(self):
+        """Testa a renderização direta dos handlers 500, 403, 400 e 429."""
+        from recados.erros import erro_400, erro_403, erro_500, resposta_429
+        from django.test import RequestFactory
+
+        rf = RequestFactory()
+
+        # 500
+        req500 = rf.get("/erro500")
+        res500 = erro_500(req500)
+        self.assertEqual(res500.status_code, 500)
+        self.assertIn("Ops! Algo quebrou por aqui", res500.content.decode("utf-8"))
+
+        # 403
+        req403 = rf.get("/erro403")
+        res403 = erro_403(req403)
+        self.assertEqual(res403.status_code, 403)
+        self.assertIn("Área restrita", res403.content.decode("utf-8"))
+
+        # 400
+        req400 = rf.get("/erro400")
+        res400 = erro_400(req400)
+        self.assertEqual(res400.status_code, 400)
+        self.assertIn("Não consegui entender o pedido", res400.content.decode("utf-8"))
+
+        # 429
+        req429 = rf.get("/erro429")
+        res429 = resposta_429(req429)
+        self.assertEqual(res429.status_code, 429)
+        self.assertIn("Calma, respira um pouco", res429.content.decode("utf-8"))

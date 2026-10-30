@@ -1,0 +1,16 @@
+{% extends "erro_base.html" %}
+{% block codigo %}404{% endblock %}
+{% block titulo %}Página não encontrada{% endblock %}
+{% block classe %}e-4xx{% endblock %}
+{% block selo %}Erro 404{% endblock %}
+{% block numero %}404{% endblock %}{% block numero2 %}404{% endblock %}
+{% block h1 %}Essa página se perdeu no código{% endblock %}
+{% block texto %}O endereço que você tentou acessar não existe ou foi movido. Que tal voltar e conhecer meus projetos?{% endblock %}
+{% block terminal %}
+<div class="terminal" aria-label="Detalhes da requisição">
+  <div class="barra" aria-hidden="true"><span></span><span></span><span></span></div>
+  <pre><span class="ok">$</span> curl {{ caminho|default:"/"|truncatechars:60 }}
+<span class="err">404 Not Found</span> — rota inexistente
+<span class="ok">$</span> <span class="cursor"></span></pre>
+</div>
+{% endblock %}

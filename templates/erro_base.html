@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0e1120" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#dbe3ed" media="(prefers-color-scheme: light)">
+<title>{% block codigo %}Erro{% endblock %} · {% block titulo %}Algo deu errado{% endblock %} | Higor Amaral</title>
+<script>
+  // Aplica o tema salvo no portfólio ANTES de pintar a tela (evita "piscar" de cor)
+  (function(){
+    try {
+      var t = localStorage.getItem('theme');
+      if(!t){ t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+      document.documentElement.setAttribute('data-theme', t);
+    } catch(e){}
+  })();
+</script>
+<style>
+/* ===== Paleta idêntica ao portfólio ===== */
+:root{
+  --bg:#dbe3ed;--surface:#edf3f9;--text:#1e293b;--muted:#4b586e;--line:#c8d3e2;
+  --accent:#4f46e5;--accent-soft:#d5e0fc;--accent-text:#ffffff;
+  --tom:var(--accent);
+  --card-shadow:0 1px 3px rgba(15,23,42,.05),0 18px 40px -12px rgba(15,23,42,.18);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1120;--surface:#171b30;--text:#eceefa;--muted:#a0a8c4;--line:#272c47;
+    --accent:#8b86ff;--accent-soft:#232550;--accent-text:#0e1120;
+    --card-shadow:0 1px 2px rgba(0,0,0,.15),0 24px 50px -16px rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1120;--surface:#171b30;--text:#eceefa;--muted:#a0a8c4;--line:#272c47;
+  --accent:#8b86ff;--accent-soft:#232550;--accent-text:#0e1120;
+  --card-shadow:0 1px 2px rgba(0,0,0,.15),0 24px 50px -16px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+
+/* Cor de destaque por tipo de erro */
+body.e-4xx{--tom:var(--accent)}
+body.e-5xx{--tom:#f43f5e}
+body.e-403{--tom:#f59e0b}
+body.e-429{--tom:#0ea5e9}
+
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  min-height:100dvh;
+  display:grid;
+  place-items:center;
+  padding:clamp(16px,4vw,32px);
+  padding-bottom:calc(clamp(16px,4vw,32px) + env(safe-area-inset-bottom,0px));
+  background:var(--bg);
+  color:var(--text);
+  font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* ===== Fundo: orbes desfocados + grade sutil ===== */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(color-mix(in srgb,var(--text) 5%,transparent) 1px,transparent 1px),
+    linear-gradient(90deg,color-mix(in srgb,var(--text) 5%,transparent) 1px,transparent 1px);
+  background-size:44px 44px;
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 20%,transparent 70%);
+          mask-image:radial-gradient(ellipse at center,#000 20%,transparent 70%);
+}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.45;animation:flutuar 14s ease-in-out infinite}
+.orb.a{width:38vmax;height:38vmax;top:-12vmax;right:-10vmax;background:color-mix(in srgb,var(--tom) 55%,transparent)}
+.orb.b{width:30vmax;height:30vmax;bottom:-12vmax;left:-8vmax;background:color-mix(in srgb,var(--accent) 35%,transparent);animation-delay:-7s}
+
+/* ===== Cartão central ===== */
+.card{
+  position:relative;z-index:1;
+  width:min(560px,100%);
+  text-align:center;
+  padding:clamp(28px,6vw,48px) clamp(20px,5vw,44px);
+  background:color-mix(in srgb,var(--surface) 82%,transparent);
+  -webkit-backdrop-filter:blur(14px);
+          backdrop-filter:blur(14px);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--card-shadow);
+  animation:entrar .6s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.selo{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 12px;border-radius:999px;
+  font-size:.78rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--tom);
+  background:color-mix(in srgb,var(--tom) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--tom) 30%,transparent);
+}
+.selo i{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulsar 1.8s infinite}
+
+/* Número gigante com gradiente e efeito glitch */
+.codigo{
+  position:relative;
+  margin:18px 0 6px;
+  font-size:clamp(5.5rem,22vw,9.5rem);
+  font-weight:800;
+  line-height:1;
+  letter-spacing:-.05em;
+  background:linear-gradient(135deg,var(--tom),color-mix(in srgb,var(--tom) 40%,var(--text)));
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;
+  animation:flutuar-leve 5s ease-in-out infinite;
+  user-select:none;
+}
+.codigo::before,.codigo::after{
+  content:attr(data-texto);
+  position:absolute;inset:0;
+  background:inherit;-webkit-background-clip:text;background-clip:text;
+  opacity:0;
+}
+.codigo::before{animation:glitch-a 6s infinite steps(1)}
+.codigo::after{animation:glitch-b 6s infinite steps(1)}
+
+h1{margin:4px 0 10px;font-size:clamp(1.35rem,4.5vw,1.75rem);line-height:1.25;letter-spacing:-.01em}
+.texto{margin:0 auto;max-width:42ch;color:var(--muted)}
+
+/* Mini terminal com a requisição */
+.terminal{
+  margin:22px auto 0;
+  max-width:100%;
+  text-align:left;
+  font:500 .82rem/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  background:color-mix(in srgb,var(--bg) 70%,transparent);
+  border:1px solid var(--line);
+  border-radius:12px;
+  overflow:hidden;
+}
+.terminal .barra{display:flex;gap:6px;padding:8px 12px;border-bottom:1px solid var(--line)}
+.terminal .barra span{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.terminal .barra span:nth-child(1){background:#f87171}
+.terminal .barra span:nth-child(2){background:#fbbf24}
+.terminal .barra span:nth-child(3){background:#4ade80}
+.terminal pre{margin:0;padding:12px 14px;white-space:pre-wrap;word-break:break-all;color:var(--muted)}
+.terminal .ok{color:var(--accent)}
+.terminal .err{color:var(--tom);font-weight:700}
+.cursor{display:inline-block;width:.55em;height:1em;vertical-align:-2px;background:var(--tom);animation:piscar 1s steps(1) infinite}
+
+/* Botões no mesmo estilo do portfólio */
+.acoes{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:44px;padding:10px 20px;border-radius:12px;
+  font:600 .95rem/1 inherit;font-family:inherit;
+  text-decoration:none;cursor:pointer;
+  border:1px solid transparent;
+  transition:transform .15s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease;
+}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.p{background:var(--tom);color:#fff;box-shadow:0 8px 20px -8px color-mix(in srgb,var(--tom) 70%,transparent)}
+.btn.p:hover{transform:translateY(-2px);box-shadow:0 12px 26px -8px color-mix(in srgb,var(--tom) 80%,transparent)}
+.btn.s{background:transparent;color:var(--text);border-color:var(--line)}
+.btn.s:hover{border-color:var(--tom);color:var(--tom);transform:translateY(-2px)}
+.btn:focus-visible{outline:3px solid color-mix(in srgb,var(--tom) 45%,transparent);outline-offset:2px}
+
+.rodape{margin-top:24px;font-size:.8rem;color:var(--muted)}
+.rodape a{color:var(--tom);text-decoration:none}
+.rodape a:hover{text-decoration:underline}
+
+/* ===== Animações ===== */
+@keyframes entrar{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes flutuar{0%,100%{transform:translate(0,0)}50%{transform:translate(-3vmax,2vmax)}}
+@keyframes flutuar-leve{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes pulsar{0%{box-shadow:0 0 0 0 currentColor}70%,100%{box-shadow:0 0 0 8px transparent}}
+@keyframes piscar{50%{opacity:0}}
+@keyframes glitch-a{
+  0%,92%,100%{opacity:0;transform:none}
+  93%{opacity:.8;transform:translate(-4px,2px);clip-path:inset(10% 0 55% 0)}
+  95%{opacity:.8;transform:translate(3px,-2px);clip-path:inset(60% 0 8% 0)}
+  97%{opacity:0}
+}
+@keyframes glitch-b{
+  0%,93%,100%{opacity:0;transform:none}
+  94%{opacity:.6;transform:translate(4px,-1px);clip-path:inset(40% 0 30% 0)}
+  96%{opacity:.6;transform:translate(-3px,1px);clip-path:inset(5% 0 75% 0)}
+  98%{opacity:0}
+}
+
+/* Acessibilidade: sem animações para quem prefere movimento reduzido */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+@media (max-width:420px){
+  .acoes .btn{flex:1 1 100%}
+}
+</style>
+</head>
+<body class="{% block classe %}e-4xx{% endblock %}">
+  <div class="bg" aria-hidden="true"><div class="orb a"></div><div class="orb b"></div></div>
+
+  <main class="card" role="main">
+    <span class="selo"><i></i>{% block selo %}Erro{% endblock %}</span>
+
+    <div class="codigo" data-texto="{% block numero %}?{% endblock %}" aria-hidden="true">{% block numero2 %}?{% endblock %}</div>
+
+    <h1>{% block h1 %}Algo deu errado{% endblock %}</h1>
+    <p class="texto">{% block texto %}Ocorreu um problema inesperado.{% endblock %}</p>
+
+    {% block terminal %}{% endblock %}
+
+    <div class="acoes">
+      <a class="btn p" href="/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg>
+        Voltar ao início
+      </a>
+      {% block botao_extra %}
+      <button class="btn s" type="button" id="voltar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        Página anterior
+      </button>
+      {% endblock %}
+    </div>
+
+    <p class="rodape">{% block rodape %}Se o problema continuar, <a href="mailto:higoramaralfritz@gmail.com">me avise por e-mail</a>.{% endblock %}</p>
+  </main>
+
+<script>
+  (function(){
+    var b = document.getElementById('voltar');
+    if(!b) return;
+    // Só mostra "Página anterior" se houver histórico dentro do próprio site
+    var temHistorico = history.length > 1 && document.referrer && document.referrer.indexOf(location.host) !== -1;
+    if(!temHistorico){ b.style.display = 'none'; return; }
+    b.addEventListener('click', function(){ history.back(); });
+  })();
+  (function(){
+    var r = document.getElementById('recarregar');
+    if(r) r.addEventListener('click', function(){ location.reload(); });
+  })();
+</script>
+</body>
+</html>
