@@ -26,6 +26,11 @@
   --accent:#8b86ff;--accent-soft:#232550;--accent-text:#0e1120;
   color-scheme:dark;
 }
+:root[data-theme="light"]{
+  --bg:#f7f8fb;--surface:#ffffff;--text:#151a2c;--muted:#5b6379;--line:#e2e6f0;
+  --accent:#4f46e5;--accent-soft:#eceafe;--accent-text:#ffffff;
+  color-scheme:light;
+}
 html{
   scroll-padding-top:calc(74px + env(safe-area-inset-top, 0px));
   scroll-behavior:smooth;
@@ -42,6 +47,7 @@ body{
   background-attachment:fixed;
   -webkit-font-smoothing:antialiased;
   padding-bottom:env(safe-area-inset-bottom, 0px);
+  transition:background-color .3s ease, color .3s ease;
 }
 .wrap{
   max-width:960px;
@@ -60,6 +66,7 @@ header.nav{
   border-bottom:1px solid var(--line);
   z-index:60;
   padding-top:env(safe-area-inset-top, 0px);
+  transition:background-color .3s ease, border-color .3s ease;
 }
 .nav .wrap{
   display:flex;
@@ -82,10 +89,41 @@ header.nav{
   min-height:44px;
 }
 
+/* Ações do Header (Nav + Botão Tema) */
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* Botão de Alternar Tema (Dark / Light) */
+.theme-toggle{
+  background:var(--surface);
+  border:1.5px solid var(--line);
+  color:var(--text);
+  border-radius:999px;
+  width:40px;
+  height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  font-size:1.15rem;
+  transition:border-color .2s ease, transform .2s ease, background-color .2s ease;
+  touch-action:manipulation;
+}
+.theme-toggle:hover{
+  border-color:var(--accent);
+  transform:scale(1.05);
+}
+.theme-toggle:active{
+  transform:scale(0.95);
+}
+
 /* Links Desktop */
 .nav-links{
   display:flex;
-  gap:22px;
+  gap:20px;
   align-items:center;
 }
 .nav-links a{
@@ -115,7 +153,7 @@ header.nav{
 .nav-links a:hover::after{width:100%}
 .nav-icon{display:none}
 
-/* Botão do Menu Mobile (Pílula Moderna e Destacada) */
+/* Botão do Menu Mobile (Pílula) */
 .nav-toggle{
   display:none;
   align-items:center;
@@ -134,9 +172,7 @@ header.nav{
   z-index:70;
   touch-action:manipulation;
 }
-.nav-toggle:active{
-  transform:scale(0.97);
-}
+.nav-toggle:active{transform:scale(0.97)}
 .nav-toggle.active{
   border-color:var(--accent);
   background:var(--accent-soft);
@@ -158,23 +194,14 @@ header.nav{
   border-radius:2px;
   transition:transform .25s ease, opacity .2s ease;
 }
-.nav-toggle.active .nav-toggle-bar:nth-child(1){
-  transform:translateY(5px) rotate(45deg);
-}
-.nav-toggle.active .nav-toggle-bar:nth-child(2){
-  transform:translateY(-5px) rotate(-45deg);
-}
+.nav-toggle.active .nav-toggle-bar:nth-child(1){transform:translateY(5px) rotate(45deg)}
+.nav-toggle.active .nav-toggle-bar:nth-child(2){transform:translateY(-5px) rotate(-45deg)}
 
-/* Overlay de fundo no Mobile */
-.nav-overlay{
-  display:none;
-}
+/* Overlay mobile */
+.nav-overlay{display:none}
 
-/* Layout Mobile (< 768px) */
 @media (max-width: 768px){
-  .nav-toggle{
-    display:inline-flex;
-  }
+  .nav-toggle{display:inline-flex}
   .nav-overlay{
     display:block;
     position:fixed;
@@ -187,12 +214,8 @@ header.nav{
     visibility:hidden;
     transition:opacity .25s ease, visibility .25s;
   }
-  .nav-overlay.open{
-    opacity:1;
-    visibility:visible;
-  }
+  .nav-overlay.open{opacity:1;visibility:visible}
 
-  /* Menu Flutuante Estilo Card/Modal */
   .nav-links{
     position:fixed;
     top:calc(66px + env(safe-area-inset-top, 0px));
@@ -231,7 +254,6 @@ header.nav{
     color:var(--text);
     border-radius:14px;
     text-decoration:none;
-    border-bottom:none;
     min-height:48px;
     transition:background-color .18s ease, color .18s ease, transform .15s ease;
   }
@@ -240,9 +262,7 @@ header.nav{
     color:var(--accent);
     transform:translateX(4px);
   }
-  .nav-links a::after{
-    display:none;
-  }
+  .nav-links a::after{display:none}
   .nav-icon{
     display:inline-block;
     font-size:1.2rem;
@@ -302,12 +322,32 @@ h1{
   letter-spacing:-.03em;
   word-break:break-word;
 }
-h1 span{
+h1 span.name{
   background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 55%,#c084fc));
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
 }
+
+/* Digitação no Hero */
+.typing-wrap{
+  color:var(--text);
+  display:inline;
+}
+.typing-text{
+  color:var(--accent);
+  font-weight:700;
+  border-bottom:2px solid color-mix(in srgb,var(--accent) 40%,transparent);
+}
+.typing-cursor{
+  display:inline-block;
+  color:var(--accent);
+  animation:blink .7s infinite;
+  font-weight:300;
+  margin-left:2px;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
 .lead{
   color:var(--muted);
   font-size:clamp(1rem, 2.6vw, 1.15rem);
@@ -334,7 +374,8 @@ h1 span{
   align-items:center;
   justify-content:center;
   min-height:46px;
-  transition:transform .2s ease, box-shadow .2s ease;
+  gap:8px;
+  transition:transform .2s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
   cursor:pointer;
   text-align:center;
   touch-action:manipulation;
@@ -355,17 +396,10 @@ h1 span{
     box-shadow:0 10px 26px color-mix(in srgb,var(--accent) 38%,transparent);
   }
 }
-.btn:active{
-  transform:translateY(1px);
-}
+.btn:active{transform:translateY(1px)}
 @media (max-width: 480px){
-  .btns{
-    flex-direction:column;
-    width:100%;
-  }
-  .btns .btn{
-    width:100%;
-  }
+  .btns{flex-direction:column;width:100%}
+  .btns .btn{width:100%}
 }
 
 /* Stats */
@@ -377,22 +411,14 @@ h1 span{
   padding-top:24px;
   border-top:1px solid var(--line);
 }
-.stats>div{
-  display:flex;
-  flex-direction:column;
-  gap:2px;
-}
+.stats>div{display:flex;flex-direction:column;gap:2px}
 .stats b{
   font-size:clamp(1.8rem, 4.8vw, 2.2rem);
   line-height:1.1;
   color:var(--accent);
   letter-spacing:-.03em;
 }
-.stats span{
-  color:var(--muted);
-  font-size:.88rem;
-  line-height:1.35;
-}
+.stats span{color:var(--muted);font-size:.88rem;line-height:1.35}
 
 /* Seções */
 section{
@@ -417,7 +443,7 @@ h2::before{
   flex-shrink:0;
 }
 
-/* Grid & Cards */
+/* Grid & Cards com suporte a Tilt 3D */
 .grid{
   display:grid;
   gap:18px;
@@ -433,7 +459,9 @@ h2::before{
   box-shadow:0 1px 2px rgba(20,24,60,.05),0 10px 30px -12px rgba(20,24,60,.18);
   display:flex;
   flex-direction:column;
-  transition:transform .3s ease, border-color .25s, box-shadow .3s ease;
+  transition:transform .2s ease-out, border-color .25s, box-shadow .25s ease-out, background-color .3s;
+  transform-style:preserve-3d;
+  will-change:transform;
 }
 .card::before{
   content:"";
@@ -446,7 +474,6 @@ h2::before{
 }
 @media (hover: hover){
   .card:hover{
-    transform:translateY(-4px);
     border-color:var(--accent);
     box-shadow:0 14px 36px -12px color-mix(in srgb,var(--accent) 45%,transparent);
   }
@@ -508,9 +535,14 @@ h2::before{
   :root:not([data-theme="light"]) .status.concluido{color:#4ade80}
 }
 :root[data-theme="dark"] .status.concluido{color:#4ade80}
+
 .rodape{
   margin-top:auto;
   padding-top:16px;
+  display:flex;
+  gap:14px;
+  align-items:center;
+  flex-wrap:wrap;
 }
 .rodape a{
   color:var(--accent);
@@ -519,9 +551,114 @@ h2::before{
   text-decoration:none;
   display:inline-flex;
   align-items:center;
-  min-height:44px;
+  gap:4px;
+  min-height:38px;
 }
 .rodape a:hover{text-decoration:underline}
+.rodape a.demo-link{
+  background:var(--accent-soft);
+  padding:4px 12px;
+  border-radius:8px;
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+}
+.rodape a.demo-link:hover{text-decoration:none;filter:brightness(1.05)}
+
+/* Filtros de Projetos */
+.filter-tabs{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+}
+.filter-btn{
+  background:var(--surface);
+  color:var(--muted);
+  border:1.5px solid var(--line);
+  padding:8px 16px;
+  border-radius:999px;
+  font-family:inherit;
+  font-size:.88rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.filter-btn:hover{
+  border-color:var(--accent);
+  color:var(--text);
+}
+.filter-btn.active{
+  background:var(--accent);
+  color:var(--accent-text);
+  border-color:var(--accent);
+  box-shadow:0 4px 14px color-mix(in srgb,var(--accent) 30%,transparent);
+}
+
+/* Seção Foco Atual (Now) */
+.focus-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap:16px;
+}
+.focus-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  transition:transform .2s ease, border-color .2s ease;
+}
+.focus-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--accent);
+}
+.focus-icon{
+  font-size:1.6rem;
+  line-height:1;
+  background:var(--accent-soft);
+  padding:10px;
+  border-radius:12px;
+  flex-shrink:0;
+}
+.focus-card h3{margin:0 0 4px;font-size:1.05rem}
+.focus-card p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.55}
+
+/* Seção Conquistas & Certificados */
+.awards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap:16px;
+}
+.award-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  position:relative;
+  transition:transform .2s ease, border-color .2s ease;
+}
+.award-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--accent);
+}
+.award-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.78rem;
+  font-weight:700;
+  color:var(--accent);
+  background:var(--accent-soft);
+  padding:4px 10px;
+  border-radius:999px;
+  align-self:flex-start;
+}
+.award-card h3{margin:4px 0 2px;font-size:1.08rem}
+.award-card p{margin:0;color:var(--muted);font-size:.92rem;line-height:1.55}
 
 /* Timeline */
 .timeline{
@@ -531,9 +668,7 @@ h2::before{
   display:grid;
   gap:24px;
 }
-.timeline>div{
-  position:relative;
-}
+.timeline>div{position:relative}
 .timeline>div::before{
   content:"";
   position:absolute;
@@ -550,15 +685,8 @@ h2::before{
   font-weight:600;
   font-size:.85rem;
 }
-.timeline h3{
-  margin:4px 0 2px;
-  font-size:1.1rem;
-}
-.timeline p{
-  margin:0;
-  color:var(--muted);
-  font-size:.95rem;
-}
+.timeline h3{margin:4px 0 2px;font-size:1.1rem}
+.timeline p{margin:0;color:var(--muted);font-size:.95rem}
 
 /* Mural de Recados & Formulário */
 #form{
@@ -569,7 +697,7 @@ h2::before{
 input, textarea{
   width:100%;
   font-family:inherit;
-  font-size:16px; /* Evita zoom forçado automático no iOS */
+  font-size:16px;
   color:var(--text);
   background:var(--bg);
   border:1px solid var(--line);
@@ -582,17 +710,10 @@ input:focus, textarea:focus{
   border-color:var(--accent);
   box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent);
 }
-textarea{
-  resize:vertical;
-  min-height:90px;
-}
-#form button.btn{
-  align-self:flex-start;
-}
+textarea{resize:vertical;min-height:90px}
+#form button.btn{align-self:flex-start}
 @media (max-width: 540px){
-  #form button.btn{
-    width:100%;
-  }
+  #form button.btn{width:100%}
 }
 .msg{
   border-top:1px solid var(--line);
@@ -601,20 +722,45 @@ textarea{
   word-break:break-word;
   overflow-wrap:break-word;
 }
-.msg b{
-  display:block;
+.msg b{display:block;font-size:.95rem;margin-bottom:2px}
+.msg span{color:var(--muted);font-size:.92rem;line-height:1.5}
+.muted{color:var(--muted);margin:0 0 12px;font-size:.92rem}
+
+/* Toast de Notificação (ex: E-mail copiado) */
+.toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%) translateY(100px);
+  background:var(--surface);
+  color:var(--text);
+  border:1.5px solid var(--accent);
+  padding:12px 24px;
+  border-radius:999px;
+  box-shadow:0 12px 32px rgba(0,0,0,0.22);
+  font-weight:600;
   font-size:.95rem;
-  margin-bottom:2px;
+  z-index:9999;
+  opacity:0;
+  pointer-events:none;
+  transition:transform .3s cubic-bezier(0.16, 1, 0.3, 1), opacity .3s ease;
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
-.msg span{
-  color:var(--muted);
-  font-size:.92rem;
-  line-height:1.5;
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
 }
-.muted{
-  color:var(--muted);
-  margin:0 0 12px;
-  font-size:.92rem;
+
+/* Canvas de Confetes */
+#confetti-canvas{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  pointer-events:none;
+  z-index:9998;
 }
 
 /* Rodapé */
@@ -652,28 +798,40 @@ footer{
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .reveal{opacity:1;transform:none}
+  .card{transform:none!important}
 }
 ::selection{background:var(--accent);color:var(--accent-text)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
 </style>
 </head>
 <body>
+<canvas id="confetti-canvas"></canvas>
+
 <header class="nav">
   <div class="wrap">
     <a href="#" class="logo">&lt;higor.fritz/&gt;</a>
     
-    <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false" type="button">
-      <span class="nav-toggle-box">
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-      </span>
-      <span>Menu</span>
-    </button>
+    <div class="nav-actions">
+      <!-- Botão de Alternar Tema (Dark/Light) -->
+      <button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema" type="button" title="Alternar tema claro/escuro">
+        <span id="theme-icon">🌙</span>
+      </button>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false" type="button">
+        <span class="nav-toggle-box">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </span>
+        <span>Menu</span>
+      </button>
+    </div>
 
     <nav class="nav-links" id="nav-links">
       <a href="#sobre"><span class="nav-icon">👤</span> Sobre</a>
+      <a href="#foco"><span class="nav-icon">🎯</span> Foco</a>
       <a href="#skills"><span class="nav-icon">⚡</span> Skills</a>
       <a href="#projetos"><span class="nav-icon">🚀</span> Projetos</a>
+      <a href="#conquistas"><span class="nav-icon">🏆</span> Conquistas</a>
       <a href="#formacao"><span class="nav-icon">🎓</span> Formação</a>
       <a href="#recados"><span class="nav-icon">💬</span> Recados</a>
       <a href="#contato"><span class="nav-icon">✉️</span> Contato</a>
@@ -685,11 +843,12 @@ footer{
 <main class="wrap">
   <div class="hero">
     <span class="tag">Disponível para estágio e projetos</span>
-    <h1>Olá, eu sou <span>Higor do Amaral Fritz</span>.<br>Desenvolvedor e estudante de Sistemas de Informação.</h1>
-    <p class="lead">Crio sites e sistemas do começo ao fim: do desenho no Figma ao back-end com banco de dados. Gosto de transformar problemas reais em software simples de usar.</p>
+    <h1>Olá, eu sou <span class="name">Higor do Amaral Fritz</span>.<br>Desenvolvedor focado em <span class="typing-wrap"><span class="typing-text" id="typewriter"></span><span class="typing-cursor">|</span></span></h1>
+    <p class="lead">Crio sistemas de ponta a ponta: da concepção de interface no Figma ao back-end robusto com banco de dados. Gosto de resolver desafios reais com código limpo e arquitetura segura.</p>
     <div class="btns">
-      <a class="btn p" href="#projetos">Ver projetos</a>
-      <a class="btn s" href="#contato">Falar comigo</a>
+      <a class="btn p" href="#projetos">🚀 Ver projetos</a>
+      <a class="btn s" href="javascript:window.print()" title="Imprimir ou salvar currículo em PDF">📄 Baixar Currículo</a>
+      <a class="btn s" href="#contato">✉️ Falar comigo</a>
     </div>
     <div class="stats">
       <div><b>7</b><span>tecnologias</span></div>
@@ -700,7 +859,42 @@ footer{
 
   <section id="sobre">
     <h2>Sobre mim</h2>
-    <p class="lead">Fiz o curso técnico em Informática e hoje curso Sistemas de Informação, ambos no Instituto Federal. Trabalho com front-end e back-end, e também com design de interfaces. Gosto de projetos que ajudam pessoas de verdade, como a ferramenta com IA para professores que criei em um hackathon. Estou sempre estudando e construindo coisas novas.</p>
+    <p class="lead">Formado como Técnico em Informática e atualmente graduando em Sistemas de Informação, ambos no Instituto Federal Catarinense (Câmpus Araquari). Atuo no desenvolvimento full-stack com ênfase em back-end (Python & Django), integração de Inteligência Artificial para impacto social e design de interfaces centradas na experiência do usuário.</p>
+  </section>
+
+  <!-- Nova Seção: Em foco agora (Now / Stack Atual) -->
+  <section id="foco">
+    <h2>Em foco agora 🎯</h2>
+    <div class="focus-grid">
+      <div class="focus-card">
+        <div class="focus-icon">⚡</div>
+        <div>
+          <h3>Back-end & Arquitetura Web</h3>
+          <p>Criação de APIs RESTful estruturadas com Django, autenticação JWT, cookies seguros e modelagem em PostgreSQL.</p>
+        </div>
+      </div>
+      <div class="focus-card">
+        <div class="focus-icon">🤖</div>
+        <div>
+          <h3>Inteligência Artificial Aplicada</h3>
+          <p>Integração de LLMs em soluções de impacto social e educação inclusiva, como ferramentas para adaptação pedagógica.</p>
+        </div>
+      </div>
+      <div class="focus-card">
+        <div class="focus-icon">🎨</div>
+        <div>
+          <h3>UI/UX & Design Systems</h3>
+          <p>Prototipação avançada no Figma, componentização e interfaces com foco em usabilidade, fluidez e acessibilidade.</p>
+        </div>
+      </div>
+      <div class="focus-card">
+        <div class="focus-icon">🎓</div>
+        <div>
+          <h3>Formação Superior no IFC</h3>
+          <p>Bacharelado em Sistemas de Informação, aprofundando engenharia de software, processos e governança de TI.</p>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="skills">
@@ -709,27 +903,61 @@ footer{
   </section>
 
   <section id="projetos">
-    <h2>Projetos</h2>
+    <h2>Projetos em Destaque 🚀</h2>
+    <!-- Abas de Filtro por Categoria -->
+    <div class="filter-tabs" id="filter-tabs">
+      <button class="filter-btn active" data-filter="todos" type="button">Todos</button>
+      <button class="filter-btn" data-filter="backend" type="button">Back-end</button>
+      <button class="filter-btn" data-filter="frontend" type="button">Front-end</button>
+      <button class="filter-btn" data-filter="ia" type="button">IA & Inovação</button>
+    </div>
     <div class="grid" id="projetos-grid"></div>
   </section>
 
+  <!-- Nova Seção: Conquistas & Certificados -->
+  <section id="conquistas">
+    <h2>Conquistas & Reconhecimentos 🏆</h2>
+    <div class="awards-grid">
+      <div class="award-card">
+        <span class="award-badge">🏆 Hackathon 2026</span>
+        <h3>Hackathon Fábrica de Software 2k26</h3>
+        <p>Desenvolvimento em equipe de uma plataforma com IA que auxilia professores na detecção precoce de sinais de autismo, TEA e TDAH em crianças de 6 a 9 anos.</p>
+      </div>
+      <div class="award-card">
+        <span class="award-badge">🇺🇸 4 Anos de Formação</span>
+        <h3>Inglês Avançado · KNN Idiomas</h3>
+        <p>Formação completa de 4 anos de curso com domínio para leitura fluente de documentações técnicas, redação de código em inglês e comunicação internacional.</p>
+      </div>
+      <div class="award-card">
+        <span class="award-badge">📜 Curso Técnico</span>
+        <h3>Técnico em Informática · IFC</h3>
+        <p>Formação presencial com base sólida em algoritmos, lógica de programação, estruturas de dados, redes e banco de dados relacional.</p>
+      </div>
+      <div class="award-card">
+        <span class="award-badge">🔬 Pesquisa & Processos</span>
+        <h3>Microprocessos Acadêmicos BSI</h3>
+        <p>Pesquisa aplicada de mapeamento dos microprocessos acadêmicos do IFC Câmpus Araquari com documentação técnica padronizada em LaTeX.</p>
+      </div>
+    </div>
+  </section>
+
   <section id="formacao">
-    <h2>Formação</h2>
+    <h2>Formação Acadêmica</h2>
     <div class="timeline">
-      <div><small>Em andamento</small><h3>Sistemas de Informação</h3><p>Instituto Federal</p></div>
-      <div><small>Concluído</small><h3>Técnico em Informática</h3><p>Instituto Federal</p></div>
+      <div><small>Em andamento</small><h3>Sistemas de Informação (Bacharelado)</h3><p>Instituto Federal Catarinense — Câmpus Araquari</p></div>
+      <div><small>Concluído</small><h3>Técnico em Informática</h3><p>Instituto Federal Catarinense — Câmpus Araquari</p></div>
     </div>
   </section>
 
   <section id="recados">
-    <h2>Mural de recados</h2>
-    <p class="lead">Deixe uma mensagem para mim. Seu recado aparece aqui para todo mundo ler.</p>
+    <h2>Mural de recados 💬</h2>
+    <p class="lead">Deixe uma mensagem para mim! Seu recado fica gravado no banco de dados e aparece aqui no mural.</p>
     <div class="card" id="mural" style="margin-top:20px">
       <div id="form">
         <input id="nome" maxlength="40" placeholder="Seu nome" autocomplete="name">
         <input id="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px">
         <textarea id="texto" maxlength="280" rows="3" placeholder="Escreva seu recado"></textarea>
-        <button class="btn" id="enviar" type="button">Enviar recado</button>
+        <button class="btn" id="enviar" type="button">✨ Enviar recado</button>
       </div>
       <p id="status" class="muted" style="margin-top:14px">Carregando recados…</p>
       <div id="lista"></div>
@@ -737,20 +965,205 @@ footer{
   </section>
 
   <section id="contato">
-    <h2>Vamos conversar?</h2>
-    <p class="lead">Quer trabalhar comigo ou só trocar ideias? Me chame:</p>
+    <h2>Vamos conversar? ✉️</h2>
+    <p class="lead">Procurando um estagiário ou desenvolvedor dedicado para somar no seu time? Fale comigo:</p>
     <div class="btns">
       <a class="btn p" href="mailto:amarahigor@gmail.com">amarahigor@gmail.com</a>
+      <button class="btn s" id="btn-copy-email" type="button" title="Copiar e-mail">📋 Copiar e-mail</button>
       <a class="btn s" href="https://github.com/HigorAmaral" target="_blank" rel="noopener">GitHub</a>
       <a class="btn s" href="https://www.linkedin.com/in/higor-do-amaral-fritz-727869298/" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </section>
 </main>
 
-<footer>© 2026 Higor do Amaral Fritz. Feito com carinho e café.</footer>
+<div class="toast" id="toast">
+  <span>✓</span> <span id="toast-msg">Mensagem</span>
+</div>
+
+<footer>© 2026 Higor do Amaral Fritz. Desenvolvido com Django, HTML, CSS & JavaScript.</footer>
 
 <script>
-// Menu Mobile com Pílula Destacada e Overlay
+// Gerenciador de Tema (Dark / Light Mode)
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  var icon = document.getElementById('theme-icon');
+  var html = document.documentElement;
+
+  function getPreferredTheme(){
+    var saved = localStorage.getItem('theme');
+    if(saved) return saved;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme){
+    if(theme === 'dark'){
+      html.setAttribute('data-theme', 'dark');
+      icon.textContent = '☀️';
+      btn.setAttribute('aria-label', 'Ativar modo claro');
+    } else {
+      html.setAttribute('data-theme', 'light');
+      icon.textContent = '🌙';
+      btn.setAttribute('aria-label', 'Ativar modo escuro');
+    }
+    localStorage.setItem('theme', theme);
+  }
+
+  applyTheme(getPreferredTheme());
+
+  btn.addEventListener('click', function(){
+    var current = html.getAttribute('data-theme') || 'light';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+})();
+
+// Efeito de Digitação no Hero (Typewriter)
+(function(){
+  var el = document.getElementById('typewriter');
+  if(!el) return;
+  var words = [
+    "Back-end & APIs com Django",
+    "Front-end & Interfaces Modernas",
+    "Soluções com IA Aplicada",
+    "Protótipos e UI no Figma",
+    "Sistemas de Informação no IFC"
+  ];
+  var wordIdx = 0, charIdx = 0, isDeleting = false;
+
+  function tick(){
+    var current = words[wordIdx];
+    if(isDeleting){
+      el.textContent = current.substring(0, charIdx - 1);
+      charIdx--;
+    } else {
+      el.textContent = current.substring(0, charIdx + 1);
+      charIdx++;
+    }
+
+    var speed = isDeleting ? 40 : 80;
+    if(!isDeleting && charIdx === current.length){
+      speed = 1800; // Pausa após completar a palavra
+      isDeleting = true;
+    } else if(isDeleting && charIdx === 0){
+      isDeleting = false;
+      wordIdx = (wordIdx + 1) % words.length;
+      speed = 400; // Pausa antes de digitar a próxima
+    }
+
+    setTimeout(tick, speed);
+  }
+  tick();
+})();
+
+// Toast Notification
+function showToast(msg){
+  var toast = document.getElementById('toast');
+  var text = document.getElementById('toast-msg');
+  if(!toast || !text) return;
+  text.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(function(){
+    toast.classList.remove('show');
+  }, 3200);
+}
+
+// Copiar E-mail para Área de Transferência
+(function(){
+  var btn = document.getElementById('btn-copy-email');
+  if(!btn) return;
+  btn.addEventListener('click', function(){
+    var email = 'amarahigor@gmail.com';
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(email).then(function(){
+        showToast('E-mail ' + email + ' copiado!');
+      }).catch(function(){
+        fallbackCopy(email);
+      });
+    } else {
+      fallbackCopy(email);
+    }
+  });
+
+  function fallbackCopy(text){
+    var input = document.createElement('input');
+    input.value = text;
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    showToast('E-mail copiado: ' + text);
+  }
+})();
+
+// Efeito Confete com Canvas Puro (Zero Dependências)
+function dispararConfetes(){
+  var canvas = document.getElementById('confetti-canvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  var pieces = [];
+  var colors = ['#4f46e5', '#8b86ff', '#ec4899', '#f59e0b', '#10b981', '#06b6d4'];
+  for(var i = 0; i < 90; i++){
+    pieces.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      vx: (Math.random() - 0.5) * 16,
+      vy: (Math.random() - 0.7) * 18,
+      size: Math.random() * 8 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rotation: Math.random() * 360,
+      vRot: (Math.random() - 0.5) * 10
+    });
+  }
+
+  var start = Date.now();
+  function animate(){
+    var elapsed = Date.now() - start;
+    if(elapsed > 2500){
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      return;
+    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(function(p){
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.35; // gravidade
+      p.rotation += p.vRot;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate((p.rotation * Math.PI) / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      ctx.restore();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// Tilt 3D sutil nos Cards (Desktop)
+function initTilt(){
+  if(!window.matchMedia('(hover: hover)').matches) return;
+  var cards = document.querySelectorAll('.card, .focus-card, .award-card');
+  cards.forEach(function(card){
+    card.addEventListener('mousemove', function(e){
+      var rect = card.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var cx = rect.width / 2;
+      var cy = rect.height / 2;
+      var dx = (x - cx) / cx;
+      var dy = (y - cy) / cy;
+      card.style.transform = 'perspective(900px) rotateX(' + (-dy * 5) + 'deg) rotateY(' + (dx * 5) + 'deg) translateY(-4px)';
+    });
+    card.addEventListener('mouseleave', function(){
+      card.style.transform = '';
+    });
+  });
+}
+
+// Menu Mobile
 (function(){
   var toggle = document.getElementById('nav-toggle');
   var menu = document.getElementById('nav-links');
@@ -794,7 +1207,7 @@ footer{
 
 // Efeito reveal ao scrollar
 (function(){
-  var els = document.querySelectorAll('section h2, .card, .timeline > div');
+  var els = document.querySelectorAll('section h2, .card, .timeline > div, .focus-card, .award-card');
   if(!('IntersectionObserver' in window)){ return; }
   var io = new IntersectionObserver(function(es){
     es.forEach(function(e){
@@ -853,6 +1266,8 @@ footer{
         document.getElementById('texto').value = '';
         await carregar();
         status.textContent = '';
+        showToast('Recado enviado com sucesso! 🎉');
+        dispararConfetes();
       }
     }catch(e){
       status.textContent = 'Sem conexão com o servidor.';
@@ -863,24 +1278,64 @@ footer{
   carregar();
 })();
 
-// Conteúdo Dinâmico: Habilidades e Projetos (API)
+// Conteúdo Dinâmico: Habilidades e Projetos com Filtro (API)
 (function(){
   var DEFAULTS = {
     "habilidades": [
-      {"titulo": "Front-end", "descricao": "Interfaces rápidas e organizadas em componentes.", "tecnologias": ["JavaScript", "React", "Vue"]},
-      {"titulo": "Back-end", "descricao": "APIs, regras de negócio e painéis administrativos.", "tecnologias": ["Python", "Django"]},
-      {"titulo": "Dados", "descricao": "Modelagem e consultas em banco relacional.", "tecnologias": ["MySQL"]},
-      {"titulo": "Design", "descricao": "Protótipos e telas pensadas para quem usa.", "tecnologias": ["Figma"]},
-      {"titulo": "Idiomas", "descricao": "Inglês com 4 anos de curso na KNN, para ler documentação e trabalhar com times internacionais.", "tecnologias": ["Inglês"]}
+      {"titulo": "Front-end", "descricao": "Interfaces rápidas e organizadas em componentes.", "tecnologias": ["JavaScript", "React", "Vue", "HTML5/CSS3"]},
+      {"titulo": "Back-end", "descricao": "APIs RESTful, regras de negócio e painéis administrativos.", "tecnologias": ["Python", "Django", "Gunicorn", "PostgreSQL"]},
+      {"titulo": "Dados & Nuvem", "descricao": "Modelagem relacional e deploy automatizado.", "tecnologias": ["PostgreSQL", "MySQL", "Render", "CI/CD"]},
+      {"titulo": "Design & UI/UX", "descricao": "Protótipos navegáveis e design systems pensados no usuário.", "tecnologias": ["Figma", "Design System"]},
+      {"titulo": "Idiomas", "descricao": "Inglês com 4 anos de formação na KNN, para leitura técnica e comunicação internacional.", "tecnologias": ["Inglês Avançado"]}
     ],
     "projetos": [
-      {"nome": "Projeto BSI", "descricao": "Mapeamento dos microprocessos acadêmicos do IFC Câmpus Araquari, feito como trabalho do curso de Sistemas de Informação.", "tecnologias": ["Pesquisa", "Processos", "LaTeX"], "github": "", "status": "em_andamento", "status_label": "Em andamento"},
-      {"nome": "Hackathon Fábrica 2k26", "descricao": "Site com IA que ajuda professores a adaptar atividades e a perceber sinais em alunos de 6 a 9 anos, como autismo, TEA e TDAH. Feito no hackathon da Fábrica de Software do IFC Câmpus Araquari.", "tecnologias": ["IA", "Educação", "Hackathon 2026"], "github": "https://github.com/Hackathon-Fabrica-2k26", "status": "concluido", "status_label": "Concluído"},
-      {"nome": "Santory Pizzaria", "descricao": "Projeto desenvolvido durante o curso técnico em Informática, no Instituto Federal.", "tecnologias": ["Curso técnico"], "github": "https://github.com/Santory-Pizzaria", "status": "concluido", "status_label": "Concluído"}
+      {
+        "nome": "Hackathon Fábrica 2k26",
+        "descricao": "Plataforma com IA para auxiliar professores na adaptação de atividades e percepção de sinais em alunos de 6 a 9 anos (Autismo, TEA e TDAH).",
+        "tecnologias": ["Python", "Django", "IA", "Educação", "Hackathon 2026"],
+        "github": "https://github.com/Hackathon-Fabrica-2k26",
+        "demo": "",
+        "status": "concluido",
+        "status_label": "Concluído",
+        "categoria": "ia"
+      },
+      {
+        "nome": "Portfólio Pessoal",
+        "descricao": "Site moderno com mural interativo de recados, autenticação, tema dinâmico, CI/CD e banco de dados PostgreSQL.",
+        "tecnologias": ["Python", "Django", "JavaScript", "PostgreSQL", "Render"],
+        "github": "https://github.com/HigorAmaral/portfolio-higor",
+        "demo": "https://portfolio-higor.onrender.com",
+        "status": "concluido",
+        "status_label": "Concluído",
+        "categoria": "backend"
+      },
+      {
+        "nome": "Santory Pizzaria",
+        "descricao": "Sistema desenvolvido durante o curso técnico em Informática no Instituto Federal Catarinense.",
+        "tecnologias": ["PHP", "MySQL", "JavaScript", "Curso técnico"],
+        "github": "https://github.com/Santory-Pizzaria",
+        "demo": "",
+        "status": "concluido",
+        "status_label": "Concluído",
+        "categoria": "frontend"
+      },
+      {
+        "nome": "Projeto BSI",
+        "descricao": "Mapeamento dos microprocessos acadêmicos do IFC Câmpus Araquari, estruturado e padronizado em LaTeX.",
+        "tecnologias": ["Pesquisa", "Processos", "LaTeX", "BSI"],
+        "github": "",
+        "demo": "",
+        "status": "em_andamento",
+        "status_label": "Em andamento",
+        "categoria": "backend"
+      }
     ]
   };
+
   var base = (document.querySelector('meta[name="api-base"]') || {}).content || '';
   var api = base.replace(/\/$/, '') + '/api/conteudo/';
+  var currentFilter = 'todos';
+  var allProjects = DEFAULTS.projetos;
 
   function el(tag, cls, txt){
     var x = document.createElement(tag);
@@ -889,45 +1344,104 @@ footer{
     return x;
   }
 
-  function card(titulo, desc, techs){
+  function detectCategoria(p){
+    if(p.categoria) return p.categoria;
+    var techs = (p.tecnologias || []).join(' ').toLowerCase();
+    if(techs.includes('ia') || techs.includes('inteligência') || techs.includes('educação')) return 'ia';
+    if(techs.includes('django') || techs.includes('python') || techs.includes('banco') || techs.includes('processos')) return 'backend';
+    return 'frontend';
+  }
+
+  function cardProjeto(p){
     var c = el('div', 'card novo'), top = el('div', 'topo');
-    top.appendChild(el('h3', '', String(titulo)));
+    top.appendChild(el('h3', '', String(p.nome)));
+    var st = p.status === 'concluido' ? 'concluido' : 'em_andamento';
+    top.appendChild(el('span', 'status ' + st, p.status_label || (st === 'concluido' ? 'Concluído' : 'Em andamento')));
     c.appendChild(top);
-    c.appendChild(el('p', '', String(desc || '')));
-    if(techs && techs.length){
+    c.appendChild(el('p', '', String(p.descricao || '')));
+
+    if(p.tecnologias && p.tecnologias.length){
       var ch = el('div', 'chips');
-      techs.forEach(function(t){ ch.appendChild(el('span', 'chip', String(t))); });
+      p.tecnologias.forEach(function(t){ ch.appendChild(el('span', 'chip', String(t))); });
       c.appendChild(ch);
     }
-    c._top = top;
+
+    var rodape = el('div', 'rodape');
+    if(p.github && /^https?:\/\//.test(p.github)){
+      var aGit = el('a', '', 'Ver no GitHub →');
+      aGit.href = p.github;
+      aGit.target = '_blank';
+      aGit.rel = 'noopener';
+      rodape.appendChild(aGit);
+    }
+    if(p.demo && /^https?:\/\//.test(p.demo)){
+      var aDemo = el('a', 'demo-link', 'Acessar Demo 🚀');
+      aDemo.href = p.demo;
+      aDemo.target = '_blank';
+      aDemo.rel = 'noopener';
+      rodape.appendChild(aDemo);
+    }
+    if(rodape.children.length){
+      c.appendChild(rodape);
+    }
     return c;
   }
 
-  function render(d){
-    var sg = document.getElementById('skills-grid'), pg = document.getElementById('projetos-grid');
-    sg.textContent = '';
-    pg.textContent = '';
-    (d.habilidades || []).forEach(function(h){
-      sg.appendChild(card(h.titulo, h.descricao, h.tecnologias));
-    });
-    (d.projetos || []).forEach(function(p){
-      var c = card(p.nome, p.descricao, p.tecnologias);
-      var st = p.status === 'concluido' ? 'concluido' : 'em_andamento';
-      c._top.appendChild(el('span', 'status ' + st, p.status_label || (st === 'concluido' ? 'Concluído' : 'Em andamento')));
-      if(p.github && /^https?:\/\//.test(p.github)){
-        var r = el('div', 'rodape'), a = el('a', '', 'Ver no GitHub →');
-        a.href = p.github;
-        a.target = '_blank';
-        a.rel = 'noopener';
-        r.appendChild(a);
-        c.appendChild(r);
-      }
-      pg.appendChild(c);
-    });
-    if(!pg.children.length){
-      pg.appendChild(el('p', 'muted', 'Projetos em breve.'));
+  function cardSkill(h){
+    var c = el('div', 'card novo'), top = el('div', 'topo');
+    top.appendChild(el('h3', '', String(h.titulo)));
+    c.appendChild(top);
+    c.appendChild(el('p', '', String(h.descricao || '')));
+    if(h.tecnologias && h.tecnologias.length){
+      var ch = el('div', 'chips');
+      h.tecnologias.forEach(function(t){ ch.appendChild(el('span', 'chip', String(t))); });
+      c.appendChild(ch);
     }
+    return c;
   }
+
+  function renderProjetos(){
+    var pg = document.getElementById('projetos-grid');
+    if(!pg) return;
+    pg.textContent = '';
+    var filtrados = allProjects.filter(function(p){
+      if(currentFilter === 'todos') return true;
+      return detectCategoria(p) === currentFilter;
+    });
+
+    filtrados.forEach(function(p){
+      pg.appendChild(cardProjeto(p));
+    });
+
+    if(!filtrados.length){
+      pg.appendChild(el('p', 'muted', 'Nenhum projeto encontrado nesta categoria.'));
+    }
+    initTilt();
+  }
+
+  function render(d){
+    var sg = document.getElementById('skills-grid');
+    if(sg){
+      sg.textContent = '';
+      (d.habilidades || []).forEach(function(h){ sg.appendChild(cardSkill(h)); });
+    }
+    if(d.projetos && d.projetos.length){
+      allProjects = d.projetos;
+    }
+    renderProjetos();
+    initTilt();
+  }
+
+  // Eventos de clique nas abas de filtro
+  var filterButtons = document.querySelectorAll('.filter-btn');
+  filterButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterButtons.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      currentFilter = btn.getAttribute('data-filter') || 'todos';
+      renderProjetos();
+    });
+  });
 
   render(DEFAULTS);
   fetch(api).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(render).catch(function(){});

@@ -79,6 +79,7 @@ def conteudo(request):
             "descricao": p.descricao,
             "tecnologias": p.lista_tecnologias(),
             "github": p.github,
+            "demo": getattr(p, "demo", ""),
             "status": p.status,
             "status_label": p.get_status_display(),
         }

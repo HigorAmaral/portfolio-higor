@@ -42,6 +42,7 @@ class Projeto(models.Model):
     descricao = models.TextField(blank=True)
     tecnologias = models.CharField(max_length=200, blank=True, help_text="Separe por vírgula. Ex.: React, Django")
     github = models.URLField(max_length=300, blank=True)
+    demo = models.URLField(max_length=300, blank=True, help_text="Link para o projeto rodando ao vivo (opcional).")
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.EM_ANDAMENTO)
     ordem = models.PositiveSmallIntegerField(default=0, help_text="Menor número aparece primeiro.")
     visivel = models.BooleanField(default=True)

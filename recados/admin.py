@@ -22,7 +22,7 @@ class HabilidadeAdmin(admin.ModelAdmin):
 
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
-    list_display = ("nome", "status", "github", "ordem", "visivel")
+    list_display = ("nome", "status", "github", "demo", "ordem", "visivel")
     list_editable = ("status", "ordem", "visivel")
     list_filter = ("status", "visivel")
     search_fields = ("nome", "descricao")
