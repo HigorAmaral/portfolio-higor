@@ -2,6 +2,7 @@ services:
   - type: web
     name: portfolio-higor
     runtime: python
+    plan: free
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
     preDeployCommand: python manage.py migrate --noinput
     startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
@@ -12,6 +13,8 @@ services:
         value: "0"
       - key: ALLOWED_HOSTS
         value: ".onrender.com"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://*.onrender.com"
       - key: HTTPS
         value: "1"
       - key: BEHIND_PROXY
@@ -25,3 +28,4 @@ databases:
   - name: portfolio-db
     databaseName: portfolio
     user: portfolio
+    plan: free

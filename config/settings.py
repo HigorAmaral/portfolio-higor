@@ -2,11 +2,15 @@ import os
 from pathlib import Path
 
 import dj_database_url
-import pymysql
 from dotenv import load_dotenv
 
-pymysql.install_as_MySQLdb()
-pymysql.version_info = (1, 4, 3, "final", 0)
+try:
+    import pymysql
+
+    pymysql.install_as_MySQLdb()
+    pymysql.version_info = (1, 4, 3, "final", 0)
+except ImportError:
+    pass
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
@@ -18,10 +22,10 @@ def env_list(nome, padrao=""):
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "apenas-para-desenvolvimento")
 DEBUG = os.environ.get("DEBUG", "0") == "1"
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "*")
 CSRF_TRUSTED_ORIGINS = env_list(
     "CSRF_TRUSTED_ORIGINS",
-    "https://portfolio-higor-carreira.vercel.app",
+    "https://*.onrender.com,https://portfolio-higor-carreira.vercel.app",
 )
 
 INSTALLED_APPS = [
