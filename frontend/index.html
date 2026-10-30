@@ -1818,15 +1818,22 @@ function initTilt(){
       },
       {
         "nome": "Santory Pizzaria",
-        "badge": "🎓 Curso Técnico Integrado IFC",
-        "dominio": "github.com/Santory-Pizzaria",
-        "descricao": "Sistema web completo de cardápio e gerenciamento de pedidos desenvolvido durante o curso técnico em Informática para Internet no Instituto Federal Catarinense.",
-        "tecnologias": ["PHP", "MySQL", "JavaScript", "HTML5/CSS3", "Curso Técnico"],
+        "badge": "🍕 Projeto Integrador · IFC",
+        "dominio": "santoryfrontend-1.vercel.app",
+        "descricao": "Sistema integrado de gestão, PDV e delivery para pizzaria desenvolvido no IFC: SPA reativo em Vue 3 (Vite) hospedado na Vercel e backend REST com Django no Render, com baixa automática de estoque de insumos e múltiplos níveis de acesso.",
+        "tecnologias": ["Vue 3", "Vite", "Python", "Django REST", "Vercel", "Render"],
         "github": "https://github.com/Santory-Pizzaria",
-        "demo": "",
+        "demo": "https://santoryfrontend-1.vercel.app/login",
         "status": "concluido",
         "status_label": "Concluído",
-        "categoria": "frontend"
+        "categoria": "frontend",
+        "estudo_caso": {
+          "titulo": "Sistema Integrado de Gestão & PDV (Pizzaria Santory)",
+          "badge": "🍕 Vue 3 · Django REST · Vercel · Render · Projeto Integrador",
+          "desafio": "A Pizzaria Santory operava com fluxos semi-manuais e anotações em papel para pedidos de balcão e telefone, causando lentidão no atendimento, erros na transmissão dos pedidos à cozinha, falta de controle de estoque de ingredientes e ausência de rastreamento de entregas ou pagamentos online.",
+          "solucao": "Desenvolvimento de um ecossistema web integrado com arquitetura desacoplada: interface SPA reativa em Vue 3 (Vite) na Vercel e backend RESTful com Django no Render. Modelagem relacional completa (DER), controle automático de estoque com baixa por insumo, PDV em tempo real para salão/cozinha, perfis de acesso (Administrador, Atendente, Pizzaiolo, Entregador e Cliente) e catálogo interativo com personalização de pedidos.",
+          "aprendizados": "Arquitetura cliente-servidor desacoplada (Vue 3 + Django API), engenharia de requisitos com 37 RFs e 20 regras de negócio, modelagem de banco de dados relacional (DER), trabalho em equipe com Git/GitHub e deploy em múltiplos provedores em nuvem (Vercel e Render)."
+        }
       },
       {
         "nome": "Projeto BSI: Microprocessos Acadêmicos",
@@ -1984,7 +1991,7 @@ function initTilt(){
     var rodape = el('div', 'rodape');
 
     // Botão de Estudo de Caso
-    if(p.estudo_caso || p.nome.includes('Hackathon') || p.nome.includes('Portfólio') || p.nome.includes('BSI')){
+    if(p.estudo_caso || p.nome.includes('Hackathon') || p.nome.includes('Portfólio') || p.nome.includes('BSI') || p.nome.includes('Santory')){
       var btnCase = el('button', 'btn-case', '');
       btnCase.type = 'button';
       btnCase.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Estudo de Caso';
