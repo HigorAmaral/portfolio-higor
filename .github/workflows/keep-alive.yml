@@ -1,0 +1,22 @@
+name: Keep Render Alive
+
+on:
+  schedule:
+    # Roda a cada 14 minutos para evitar que o Render hiberne (limite de 15 min de inatividade)
+    - cron: '*/14 * * * *'
+  workflow_dispatch: # Permite disparar o teste manualmente pela aba Actions do GitHub
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Portfolio on Render
+        run: |
+          echo "Enviando requisição de keep-alive para https://portfolio-higor.onrender.com..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" -m 30 https://portfolio-higor.onrender.com)
+          echo "Status retornado: $STATUS"
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
+            echo "Portfólio online e ativo!"
+          else
+            echo "Aviso: código de resposta HTTP $STATUS retornado pelo servidor."
+          fi
