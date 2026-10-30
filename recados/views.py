@@ -1,15 +1,22 @@
 import json
 import re
+import time
 from pathlib import Path
 
 from django.conf import settings
 from django.core.cache import cache
+from django.db import connection
+from django.db.models import F
 from django.http import FileResponse, Http404, JsonResponse
+from django.shortcuts import render
+from django.utils import timezone
 from django.utils.html import escape, strip_tags
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_http_methods
 
-from .models import Habilidade, Projeto, Recado
+from .models import Habilidade, MetricaAcesso, Projeto, Recado
+from .notificacoes import notificar_novo_recado
+from .openapi import OPENAPI_SPEC
 
 FRONTEND = Path(settings.BASE_DIR) / "frontend" / "index.html"
 INTERVALO_SEGUNDOS = 30  # tempo mínimo entre dois recados do mesmo IP
@@ -41,10 +48,86 @@ def _limpar_texto(texto):
     """Sanitiza string contra XSS e injeções."""
     if not texto:
         return ""
-    # Remove tags HTML e caracteres de controle perigosos
     limpo = strip_tags(str(texto))
     limpo = REGEX_CONTROLE.sub("", limpo)
     return escape(limpo.strip())
+
+
+@require_GET
+def healthz(request):
+    """Endpoint de Health Check para monitoramento e keep-alive."""
+    inicio = time.monotonic()
+    db_status = "connected"
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+            cursor.fetchone()
+    except Exception as e:
+        db_status = f"unhealthy: {e}"
+
+    cache_status = "operational"
+    try:
+        cache.set("_healthz_ping", "ok", 10)
+        if cache.get("_healthz_ping") != "ok":
+            cache_status = "degraded"
+    except Exception as e:
+        cache_status = f"unhealthy: {e}"
+
+    duracao_ms = round((time.monotonic() - inicio) * 1000, 2)
+    saudavel = db_status == "connected"
+
+    return JsonResponse(
+        {
+            "status": "healthy" if saudavel else "unhealthy",
+            "database": db_status,
+            "cache": cache_status,
+            "tempo_resposta_ms": duracao_ms,
+            "timestamp": timezone.now().isoformat(),
+            "versao": "1.0.0",
+        },
+        status=200 if saudavel else 503,
+    )
+
+
+@require_GET
+def api_docs(request):
+    """Página de documentação interativa Swagger UI."""
+    return render(request, "docs.html")
+
+
+@require_GET
+def api_schema(request):
+    """Especificação OpenAPI 3.0 em formato JSON."""
+    return JsonResponse(OPENAPI_SPEC)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def visitas(request):
+    """Registra métricas anônimas e agregadas de visitas e downloads de currículo."""
+    if len(request.body) > 2048:
+        return JsonResponse({"erro": "Payload muito grande."}, status=413)
+
+    try:
+        dados = json.loads(request.body.decode("utf-8", errors="replace") or "{}")
+    except (ValueError, UnicodeDecodeError):
+        return JsonResponse({"erro": "JSON inválido."}, status=400)
+
+    tipo = str(dados.get("tipo") or "pagina").strip()
+    caminho = str(dados.get("caminho") or "/").strip()[:100]
+
+    if tipo not in ("pagina", "download_curriculo"):
+        return JsonResponse({"erro": "Tipo de métrica inválido."}, status=400)
+
+    hoje = timezone.now().date()
+    metrica, _ = MetricaAcesso.objects.get_or_create(data=hoje, caminho=caminho)
+
+    if tipo == "download_curriculo":
+        MetricaAcesso.objects.filter(id=metrica.id).update(downloads_curriculo=F("downloads_curriculo") + 1)
+    else:
+        MetricaAcesso.objects.filter(id=metrica.id).update(visualizacoes=F("visualizacoes") + 1)
+
+    return JsonResponse({"ok": True})
 
 
 @csrf_exempt
@@ -90,6 +173,8 @@ def recados(request):
         return JsonResponse({"erro": "Espere um pouco antes de enviar outro recado."}, status=429)
 
     Recado.objects.create(nome=nome, texto=texto)
+    notificar_novo_recado(nome, texto)
+
     return JsonResponse({"ok": True}, status=201)
 
 

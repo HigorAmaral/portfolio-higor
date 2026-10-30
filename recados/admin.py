@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Habilidade, Projeto, Recado
+from .models import Habilidade, MetricaAcesso, Projeto, Recado
 
 admin.site.site_header = "Painel do portfólio"
 admin.site.site_title = "Painel do portfólio"
@@ -26,3 +26,13 @@ class ProjetoAdmin(admin.ModelAdmin):
     list_editable = ("status", "ordem", "visivel")
     list_filter = ("status", "visivel")
     search_fields = ("nome", "descricao")
+
+
+@admin.register(MetricaAcesso)
+class MetricaAcessoAdmin(admin.ModelAdmin):
+    list_display = ("data", "caminho", "visualizacoes", "downloads_curriculo")
+    list_filter = ("caminho", "data")
+    date_hierarchy = "data"
+    search_fields = ("caminho",)
+    readonly_fields = ("data", "caminho", "visualizacoes", "downloads_curriculo")
+

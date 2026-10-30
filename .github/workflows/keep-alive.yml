@@ -11,13 +11,18 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Portfolio on Render
+      - name: Ping Portfolio Health Check on Render
         run: |
-          echo "Enviando requisição de keep-alive para https://portfolio-higor.onrender.com..."
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" -m 30 https://portfolio-higor.onrender.com)
+          echo "Enviando requisição de health check para https://portfolio-higor.onrender.com/healthz/..."
+          HTTP_RESPONSE=$(curl -s -w "\n%{http_code}" -m 30 https://portfolio-higor.onrender.com/healthz/)
+          BODY=$(echo "$HTTP_RESPONSE" | sed '$d')
+          STATUS=$(echo "$HTTP_RESPONSE" | tail -n1)
+          
           echo "Status retornado: $STATUS"
+          echo "Resposta do backend: $BODY"
+          
           if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
-            echo "Portfólio online e ativo!"
+            echo "Portfólio online, banco de dados conectado e ativo!"
           else
             echo "Aviso: código de resposta HTTP $STATUS retornado pelo servidor."
           fi

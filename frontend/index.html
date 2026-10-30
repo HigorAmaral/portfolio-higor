@@ -1161,7 +1161,7 @@ footer a:hover{text-decoration:underline}
 
 <footer>
   <p>© 2026 Higor do Amaral Fritz · Araquari, SC · Telefone: (47) 99656-5013</p>
-  <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript.</p>
+  <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
 <script>
@@ -1633,6 +1633,29 @@ function initTilt(){
 
   render(DEFAULTS);
   fetch(api).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(render).catch(function(){});
+})();
+
+// Métricas Anônimas de Acesso (LGPD / Privacy-first)
+(function(){
+  function track(tipo){
+    try {
+      var payload = JSON.stringify({ tipo: tipo, caminho: window.location.pathname || '/' });
+      if(navigator.sendBeacon){
+        navigator.sendBeacon('/api/visitas/', new Blob([payload], {type: 'application/json'}));
+      } else {
+        fetch('/api/visitas/', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: payload, keepalive: true }).catch(function(){});
+      }
+    } catch(e){}
+  }
+  // Registra visualização da página uma vez
+  track('pagina');
+
+  // Registra download do currículo ao clicar no link
+  document.querySelectorAll('a[href*="curriculo-higor.pdf"]').forEach(function(a){
+    a.addEventListener('click', function(){
+      track('download_curriculo');
+    });
+  });
 })();
 </script>
 </body>

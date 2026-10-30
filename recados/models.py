@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Recado(models.Model):
@@ -57,3 +58,22 @@ class Projeto(models.Model):
 
     def lista_tecnologias(self):
         return [t.strip() for t in self.tecnologias.split(",") if t.strip()]
+
+
+class MetricaAcesso(models.Model):
+    """Métricas anônimas e agregadas por dia e rota para respeitar a LGPD."""
+
+    data = models.DateField(default=timezone.now, db_index=True)
+    caminho = models.CharField(max_length=100, default="/", db_index=True)
+    visualizacoes = models.PositiveIntegerField(default=0)
+    downloads_curriculo = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name = "métrica de acesso"
+        verbose_name_plural = "métricas de acesso"
+        ordering = ["-data", "caminho"]
+        unique_together = ("data", "caminho")
+
+    def __str__(self):
+        return f"{self.data} ({self.caminho}): {self.visualizacoes} views, {self.downloads_curriculo} cv downloads"
+

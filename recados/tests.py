@@ -1,9 +1,13 @@
 import json
+import os
+from unittest.mock import patch
+
 from django.core.cache import cache
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from .models import Recado
+from .models import MetricaAcesso, Recado
+from .notificacoes import notificar_novo_recado
 
 
 class SecurityAndRecadosTestCase(TestCase):
@@ -76,3 +80,100 @@ class SecurityAndRecadosTestCase(TestCase):
         data = response.json()
         self.assertIn("habilidades", data)
         self.assertIn("projetos", data)
+
+    def test_healthz_endpoint_healthy(self):
+        """Verifica se o health check reporta status saudável com banco e cache operacionais."""
+        response = self.client.get(reverse("healthz"), secure=True)
+        self.assertEqual(response.status_code, 200)
+        dados = response.json()
+        self.assertEqual(dados.get("status"), "healthy")
+        self.assertEqual(dados.get("database"), "connected")
+        self.assertEqual(dados.get("cache"), "operational")
+        self.assertIn("tempo_resposta_ms", dados)
+        self.assertIn("timestamp", dados)
+
+    def test_api_docs_and_schema_endpoints(self):
+        """Verifica se a documentação Swagger UI e o schema OpenAPI 3.0 estão operacionais."""
+        # Swagger UI HTML
+        res_docs = self.client.get(reverse("api_docs"), secure=True)
+        self.assertEqual(res_docs.status_code, 200)
+        self.assertIn("SwaggerUIBundle", res_docs.content.decode("utf-8"))
+
+        # OpenAPI 3.0 JSON
+        res_schema = self.client.get(reverse("api_schema"), secure=True)
+        self.assertEqual(res_schema.status_code, 200)
+        schema = res_schema.json()
+        self.assertEqual(schema.get("openapi"), "3.0.3")
+        self.assertIn("/healthz/", schema.get("paths", {}))
+        self.assertIn("/api/recados/", schema.get("paths", {}))
+        self.assertIn("/api/visitas/", schema.get("paths", {}))
+
+    def test_metrica_visitas_e_download_curriculo(self):
+        """Verifica se métricas agregadas sem cookies (LGPD) são computadas corretamente."""
+        # Visualização de página
+        res1 = self.client.post(
+            reverse("visitas"),
+            data=json.dumps({"tipo": "pagina", "caminho": "/"}),
+            content_type="application/json",
+            secure=True,
+        )
+        self.assertEqual(res1.status_code, 200)
+
+        # Download do currículo
+        res2 = self.client.post(
+            reverse("visitas"),
+            data=json.dumps({"tipo": "download_curriculo", "caminho": "/"}),
+            content_type="application/json",
+            secure=True,
+        )
+        self.assertEqual(res2.status_code, 200)
+
+        # Checa no banco de dados
+        metrica = MetricaAcesso.objects.first()
+        self.assertIsNotNone(metrica)
+        self.assertEqual(metrica.caminho, "/")
+        self.assertEqual(metrica.visualizacoes, 1)
+        self.assertEqual(metrica.downloads_curriculo, 1)
+
+    def test_visitas_validation_errors(self):
+        """Verifica validações do endpoint de métricas contra tipos inválidos e payload gigante."""
+        # Tipo inválido
+        res = self.client.post(
+            reverse("visitas"),
+            data=json.dumps({"tipo": "tipo_inexistente"}),
+            content_type="application/json",
+            secure=True,
+        )
+        self.assertEqual(res.status_code, 400)
+
+        # Payload gigante (> 2KB)
+        res_grande = self.client.post(
+            reverse("visitas"),
+            data=json.dumps({"tipo": "pagina", "caminho": "x" * 3000}),
+            content_type="application/json",
+            secure=True,
+        )
+        self.assertEqual(res_grande.status_code, 413)
+
+    @patch("recados.notificacoes.urllib.request.urlopen")
+    def test_webhook_notifier_execution(self, mock_urlopen):
+        """Testa o disparo de webhook para Discord e Telegram sem travar execução."""
+        mock_resp = mock_urlopen.return_value.__enter__.return_value
+        mock_resp.status = 204
+        with patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "https://discord.com/api/webhooks/mock"}):
+            notificar_novo_recado("Testador", "Mensagem de teste")
+            self.assertTrue(mock_urlopen.called)
+
+    def test_webhook_silent_failure_on_network_error(self):
+        """Testa que falhas de rede em webhooks não causam erro na requisição do usuário."""
+        with patch.dict(os.environ, {"DISCORD_WEBHOOK_URL": "http://127.0.0.1:1/invalid"}):
+            payload = {"nome": "Visitante", "texto": "Recado com webhook falhando"}
+            res = self.client.post(
+                reverse("recados"),
+                data=json.dumps(payload),
+                content_type="application/json",
+                secure=True,
+            )
+            # Usuário recebe 201 com sucesso mesmo com webhook inacessível
+            self.assertEqual(res.status_code, 201)
+            self.assertEqual(Recado.objects.filter(nome="Visitante").count(), 1)
