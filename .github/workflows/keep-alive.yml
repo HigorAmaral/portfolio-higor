@@ -2,10 +2,10 @@ name: Keep Render Alive
 
 on:
   schedule:
-    # Roda a cada 14 minutos entre 07:00 e 00:00 (Horário de Brasília / UTC-3: 10h às 02h UTC).
-    # De madrugada (00h às 07h BRT), a aplicação descansa para economizar horas da cota gratuita do Render.
-    - cron: '*/14 10-23,0-2 * * *'
-  workflow_dispatch: # Permite disparar o teste manualmente pela aba Actions do GitHub
+    # Dois agendamentos intercalados a cada 10 e 5 minutos para compensar atrasos da fila do GitHub Actions
+    - cron: '*/10 * * * *'
+    - cron: '5,15,25,35,45,55 * * * *'
+  workflow_dispatch: # Permite disparar manualmente pela aba Actions do GitHub
 
 permissions: {}
 
@@ -16,7 +16,8 @@ jobs:
       - name: Ping Portfolio Health Check on Render
         run: |
           echo "Enviando requisição de health check para https://portfolio-higor.onrender.com/healthz/..."
-          HTTP_RESPONSE=$(curl -s -w "\n%{http_code}" -m 30 https://portfolio-higor.onrender.com/healthz/)
+          # Timeout de 60s com até 2 retentativas para dar tempo do Render responder mesmo em inicialização fria
+          HTTP_RESPONSE=$(curl -s -w "\n%{http_code}" -m 60 --retry 2 --retry-delay 5 https://portfolio-higor.onrender.com/healthz/)
           BODY=$(echo "$HTTP_RESPONSE" | sed '$d')
           STATUS=$(echo "$HTTP_RESPONSE" | tail -n1)
           
@@ -27,4 +28,5 @@ jobs:
             echo "Portfólio online, banco de dados conectado e ativo!"
           else
             echo "Aviso: código de resposta HTTP $STATUS retornado pelo servidor."
+            exit 1
           fi
