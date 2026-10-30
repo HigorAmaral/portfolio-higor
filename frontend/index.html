@@ -10,25 +10,29 @@
 <style>
 :root{
   box-sizing:border-box;
-  --bg:#f7f8fb;--surface:#ffffff;--text:#151a2c;--muted:#5b6379;--line:#e2e6f0;
-  --accent:#4f46e5;--accent-soft:#eceafe;--accent-text:#ffffff;
+  --bg:#edf2f9;--surface:#ffffff;--text:#0f172a;--muted:#475569;--line:#d8e2ef;
+  --accent:#4f46e5;--accent-soft:#e0e7ff;--accent-text:#ffffff;
+  --card-shadow:0 1px 3px rgba(15, 23, 42, 0.05), 0 10px 25px -8px rgba(15, 23, 42, 0.08);
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --bg:#0e1120;--surface:#171b30;--text:#eceefa;--muted:#a0a8c4;--line:#272c47;
     --accent:#8b86ff;--accent-soft:#232550;--accent-text:#0e1120;
+    --card-shadow:0 1px 2px rgba(0,0,0,.15), 0 12px 30px -10px rgba(0,0,0,.45);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0e1120;--surface:#171b30;--text:#eceefa;--muted:#a0a8c4;--line:#272c47;
   --accent:#8b86ff;--accent-soft:#232550;--accent-text:#0e1120;
+  --card-shadow:0 1px 2px rgba(0,0,0,.15), 0 12px 30px -10px rgba(0,0,0,.45);
   color-scheme:dark;
 }
 :root[data-theme="light"]{
-  --bg:#f7f8fb;--surface:#ffffff;--text:#151a2c;--muted:#5b6379;--line:#e2e6f0;
-  --accent:#4f46e5;--accent-soft:#eceafe;--accent-text:#ffffff;
+  --bg:#edf2f9;--surface:#ffffff;--text:#0f172a;--muted:#475569;--line:#d8e2ef;
+  --accent:#4f46e5;--accent-soft:#e0e7ff;--accent-text:#ffffff;
+  --card-shadow:0 1px 3px rgba(15, 23, 42, 0.05), 0 10px 25px -8px rgba(15, 23, 42, 0.08);
   color-scheme:light;
 }
 html{
@@ -43,7 +47,7 @@ body{
   font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   overflow-x:hidden;
   max-width:100vw;
-  background-image:radial-gradient(52rem 28rem at 88% -8%,color-mix(in srgb,var(--accent) 16%,transparent),transparent),radial-gradient(38rem 24rem at -8% 38%,color-mix(in srgb,var(--accent) 9%,transparent),transparent);
+  background-image:radial-gradient(52rem 28rem at 88% -8%,color-mix(in srgb,var(--accent) 14%,transparent),transparent),radial-gradient(38rem 24rem at -8% 38%,color-mix(in srgb,var(--accent) 8%,transparent),transparent);
   background-attachment:fixed;
   -webkit-font-smoothing:antialiased;
   padding-bottom:env(safe-area-inset-bottom, 0px);
@@ -56,13 +60,29 @@ body{
   width:100%;
 }
 
+/* Ícones SVG Auxiliares */
+.icon{
+  width:18px;
+  height:18px;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  fill:none;
+  flex-shrink:0;
+  display:inline-block;
+  vertical-align:middle;
+}
+.icon-sm{width:15px;height:15px}
+.icon-lg{width:22px;height:22px}
+
 /* Header & Navegação */
 header.nav{
   position:sticky;
   top:0;
-  background:color-mix(in srgb,var(--bg) 86%,transparent);
-  -webkit-backdrop-filter:blur(16px);
-  backdrop-filter:blur(16px);
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
   border-bottom:1px solid var(--line);
   z-index:60;
   padding-top:env(safe-area-inset-top, 0px);
@@ -108,17 +128,15 @@ header.nav{
   align-items:center;
   justify-content:center;
   cursor:pointer;
-  font-size:1.15rem;
-  transition:border-color .2s ease, transform .2s ease, background-color .2s ease;
+  transition:border-color .2s ease, transform .2s ease, background-color .2s ease, color .2s ease;
   touch-action:manipulation;
 }
 .theme-toggle:hover{
   border-color:var(--accent);
+  color:var(--accent);
   transform:scale(1.05);
 }
-.theme-toggle:active{
-  transform:scale(0.95);
-}
+.theme-toggle:active{transform:scale(0.95)}
 
 /* Links Desktop */
 .nav-links{
@@ -138,6 +156,7 @@ header.nav{
   min-height:44px;
   display:inline-flex;
   align-items:center;
+  gap:6px;
 }
 .nav-links a::after{
   content:"";
@@ -151,7 +170,6 @@ header.nav{
 }
 .nav-links a:hover{color:var(--accent)}
 .nav-links a:hover::after{width:100%}
-.nav-icon{display:none}
 
 /* Botão do Menu Mobile (Pílula) */
 .nav-toggle{
@@ -247,7 +265,7 @@ header.nav{
   .nav-links a{
     display:flex;
     align-items:center;
-    gap:14px;
+    gap:12px;
     padding:12px 16px;
     font-size:1.02rem;
     font-weight:600;
@@ -263,13 +281,6 @@ header.nav{
     transform:translateX(4px);
   }
   .nav-links a::after{display:none}
-  .nav-icon{
-    display:inline-block;
-    font-size:1.2rem;
-    width:24px;
-    text-align:center;
-    flex-shrink:0;
-  }
 }
 
 /* Hero */
@@ -389,6 +400,11 @@ h1 span.name{
 .btn.s{
   background:var(--surface);
   color:var(--accent);
+  border-color:color-mix(in srgb,var(--accent) 40%,var(--line));
+}
+.btn.s:hover{
+  border-color:var(--accent);
+  background:var(--accent-soft);
 }
 @media (hover: hover){
   .btn:hover{
@@ -428,18 +444,21 @@ section{
 h2{
   display:flex;
   align-items:center;
-  gap:14px;
+  gap:12px;
   font-size:clamp(1.4rem, 4.2vw, 1.75rem);
   margin:0 0 24px;
   letter-spacing:-.02em;
   word-break:break-word;
 }
-h2::before{
-  content:"";
-  width:28px;
-  height:5px;
-  border-radius:5px;
-  background:var(--accent);
+h2 .heading-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--accent);
+  background:var(--accent-soft);
+  width:36px;
+  height:36px;
+  border-radius:10px;
   flex-shrink:0;
 }
 
@@ -456,7 +475,7 @@ h2::before{
   padding:clamp(18px, 4vw, 24px);
   position:relative;
   overflow:hidden;
-  box-shadow:0 1px 2px rgba(20,24,60,.05),0 10px 30px -12px rgba(20,24,60,.18);
+  box-shadow:var(--card-shadow);
   display:flex;
   flex-direction:column;
   transition:transform .2s ease-out, border-color .25s, box-shadow .25s ease-out, background-color .3s;
@@ -540,7 +559,7 @@ h2::before{
   margin-top:auto;
   padding-top:16px;
   display:flex;
-  gap:14px;
+  gap:12px;
   align-items:center;
   flex-wrap:wrap;
 }
@@ -551,14 +570,14 @@ h2::before{
   text-decoration:none;
   display:inline-flex;
   align-items:center;
-  gap:4px;
+  gap:6px;
   min-height:38px;
 }
 .rodape a:hover{text-decoration:underline}
 .rodape a.demo-link{
   background:var(--accent-soft);
-  padding:4px 12px;
-  border-radius:8px;
+  padding:6px 14px;
+  border-radius:10px;
   border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
 }
 .rodape a.demo-link:hover{text-decoration:none;filter:brightness(1.05)}
@@ -607,6 +626,7 @@ h2::before{
   display:flex;
   gap:14px;
   align-items:flex-start;
+  box-shadow:var(--card-shadow);
   transition:transform .2s ease, border-color .2s ease;
 }
 .focus-card:hover{
@@ -614,11 +634,13 @@ h2::before{
   border-color:var(--accent);
 }
 .focus-icon{
-  font-size:1.6rem;
-  line-height:1;
+  color:var(--accent);
   background:var(--accent-soft);
   padding:10px;
   border-radius:12px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   flex-shrink:0;
 }
 .focus-card h3{margin:0 0 4px;font-size:1.05rem}
@@ -638,7 +660,7 @@ h2::before{
   display:flex;
   flex-direction:column;
   gap:8px;
-  position:relative;
+  box-shadow:var(--card-shadow);
   transition:transform .2s ease, border-color .2s ease;
 }
 .award-card:hover{
@@ -703,7 +725,7 @@ input, textarea{
   border:1px solid var(--line);
   border-radius:12px;
   padding:12px 14px;
-  transition:border-color .2s ease, box-shadow .2s ease;
+  transition:border-color .2s ease, box-shadow .2s ease, background-color .3s;
 }
 input:focus, textarea:focus{
   outline:none;
@@ -726,7 +748,7 @@ textarea{resize:vertical;min-height:90px}
 .msg span{color:var(--muted);font-size:.92rem;line-height:1.5}
 .muted{color:var(--muted);margin:0 0 12px;font-size:.92rem}
 
-/* Toast de Notificação (ex: E-mail copiado) */
+/* Toast de Notificação */
 .toast{
   position:fixed;
   bottom:24px;
@@ -773,6 +795,8 @@ footer{
   padding-left:clamp(16px, 4vw, 24px);
   padding-right:clamp(16px, 4vw, 24px);
 }
+footer a{color:var(--accent);text-decoration:none}
+footer a:hover{text-decoration:underline}
 
 /* Animações */
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
@@ -812,9 +836,10 @@ footer{
     <a href="#" class="logo">&lt;higor.fritz/&gt;</a>
     
     <div class="nav-actions">
-      <!-- Botão de Alternar Tema (Dark/Light) -->
+      <!-- Botão de Alternar Tema (Dark/Light com ícone SVG) -->
       <button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema" type="button" title="Alternar tema claro/escuro">
-        <span id="theme-icon">🌙</span>
+        <svg class="icon" id="theme-icon-sun" style="display:none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon" id="theme-icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
 
       <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false" type="button">
@@ -827,14 +852,38 @@ footer{
     </div>
 
     <nav class="nav-links" id="nav-links">
-      <a href="#sobre"><span class="nav-icon">👤</span> Sobre</a>
-      <a href="#foco"><span class="nav-icon">🎯</span> Foco</a>
-      <a href="#skills"><span class="nav-icon">⚡</span> Skills</a>
-      <a href="#projetos"><span class="nav-icon">🚀</span> Projetos</a>
-      <a href="#conquistas"><span class="nav-icon">🏆</span> Conquistas</a>
-      <a href="#formacao"><span class="nav-icon">🎓</span> Formação</a>
-      <a href="#recados"><span class="nav-icon">💬</span> Recados</a>
-      <a href="#contato"><span class="nav-icon">✉️</span> Contato</a>
+      <a href="#sobre">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Sobre
+      </a>
+      <a href="#foco">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        Foco
+      </a>
+      <a href="#skills">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Skills
+      </a>
+      <a href="#projetos">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg>
+        Projetos
+      </a>
+      <a href="#conquistas">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+        Conquistas
+      </a>
+      <a href="#formacao">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        Formação
+      </a>
+      <a href="#recados">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Recados
+      </a>
+      <a href="#contato">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contato
+      </a>
     </nav>
   </div>
 </header>
@@ -842,53 +891,81 @@ footer{
 
 <main class="wrap">
   <div class="hero">
-    <span class="tag">Disponível para estágio e projetos</span>
+    <span class="tag">Disponível para estágio e novos projetos</span>
     <h1>Olá, eu sou <span class="name">Higor do Amaral Fritz</span>.<br>Desenvolvedor focado em <span class="typing-wrap"><span class="typing-text" id="typewriter"></span><span class="typing-cursor">|</span></span></h1>
-    <p class="lead">Crio sistemas de ponta a ponta: da concepção de interface no Figma ao back-end robusto com banco de dados. Gosto de resolver desafios reais com código limpo e arquitetura segura.</p>
+    <p class="lead">Graduando em Sistemas de Informação pelo Instituto Federal Catarinense com formação técnica integrada em Informática. Experiência no desenvolvimento web de ponta a ponta, APIs seguras com Django, prototipagem no Figma e soluções com IA.</p>
     <div class="btns">
-      <a class="btn p" href="#projetos">🚀 Ver projetos</a>
-      <a class="btn s" href="javascript:window.print()" title="Imprimir ou salvar currículo em PDF">📄 Baixar Currículo</a>
-      <a class="btn s" href="#contato">✉️ Falar comigo</a>
+      <a class="btn p" href="#projetos">
+        <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Ver projetos
+      </a>
+      <!-- Link direto para download do currículo enviado pelo usuário -->
+      <a class="btn s" href="/static/curriculo-higor.pdf" download="Curriculo-Higor-do-Amaral-Fritz.pdf" target="_blank" rel="noopener" title="Baixar currículo completo em PDF">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Baixar Currículo (PDF)
+      </a>
+      <a class="btn s" href="#contato">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Falar comigo
+      </a>
     </div>
     <div class="stats">
-      <div><b>7</b><span>tecnologias</span></div>
+      <div><b>7+</b><span>tecnologias</span></div>
       <div><b>2</b><span>cursos no Instituto Federal</span></div>
-      <div><b>4</b><span>anos de inglês</span></div>
+      <div><b>4</b><span>anos de inglês (KNN)</span></div>
     </div>
   </div>
 
   <section id="sobre">
-    <h2>Sobre mim</h2>
-    <p class="lead">Formado como Técnico em Informática e atualmente graduando em Sistemas de Informação, ambos no Instituto Federal Catarinense (Câmpus Araquari). Atuo no desenvolvimento full-stack com ênfase em back-end (Python & Django), integração de Inteligência Artificial para impacto social e design de interfaces centradas na experiência do usuário.</p>
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </span>
+      Sobre mim
+    </h2>
+    <p class="lead">Graduando em Sistemas de Informação pelo IFC (Câmpus Araquari) com formação técnica integrada em Informática para Internet. Possuo vivência prática em rotinas industriais, controle e organização de processos, combinando conhecimentos técnicos em programação, lógica e ferramentas digitais com dedicação, facilidade de aprendizagem e trabalho em equipe.</p>
   </section>
 
-  <!-- Nova Seção: Em foco agora (Now / Stack Atual) -->
+  <!-- Seção Foco Atual -->
   <section id="foco">
-    <h2>Em foco agora 🎯</h2>
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      </span>
+      Em foco agora
+    </h2>
     <div class="focus-grid">
       <div class="focus-card">
-        <div class="focus-icon">⚡</div>
+        <div class="focus-icon">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
         <div>
           <h3>Back-end & Arquitetura Web</h3>
-          <p>Criação de APIs RESTful estruturadas com Django, autenticação JWT, cookies seguros e modelagem em PostgreSQL.</p>
+          <p>Construção de APIs RESTful estruturadas com Python e Django, autenticação JWT, cookies seguros e modelagem em PostgreSQL.</p>
         </div>
       </div>
       <div class="focus-card">
-        <div class="focus-icon">🤖</div>
+        <div class="focus-icon">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
         <div>
           <h3>Inteligência Artificial Aplicada</h3>
           <p>Integração de LLMs em soluções de impacto social e educação inclusiva, como ferramentas para adaptação pedagógica.</p>
         </div>
       </div>
       <div class="focus-card">
-        <div class="focus-icon">🎨</div>
+        <div class="focus-icon">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+        </div>
         <div>
           <h3>UI/UX & Design Systems</h3>
-          <p>Prototipação avançada no Figma, componentização e interfaces com foco em usabilidade, fluidez e acessibilidade.</p>
+          <p>Prototipação no Figma, componentização e interfaces com foco em usabilidade, fluidez, contraste e acessibilidade.</p>
         </div>
       </div>
       <div class="focus-card">
-        <div class="focus-icon">🎓</div>
+        <div class="focus-icon">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
         <div>
           <h3>Formação Superior no IFC</h3>
           <p>Bacharelado em Sistemas de Informação, aprofundando engenharia de software, processos e governança de TI.</p>
@@ -898,12 +975,22 @@ footer{
   </section>
 
   <section id="skills">
-    <h2>Habilidades</h2>
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </span>
+      Habilidades
+    </h2>
     <div class="grid" id="skills-grid"></div>
   </section>
 
   <section id="projetos">
-    <h2>Projetos em Destaque 🚀</h2>
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg>
+      </span>
+      Projetos em Destaque
+    </h2>
     <!-- Abas de Filtro por Categoria -->
     <div class="filter-tabs" id="filter-tabs">
       <button class="filter-btn active" data-filter="todos" type="button">Todos</button>
@@ -914,50 +1001,94 @@ footer{
     <div class="grid" id="projetos-grid"></div>
   </section>
 
-  <!-- Nova Seção: Conquistas & Certificados -->
+  <!-- Seção Conquistas & Certificados -->
   <section id="conquistas">
-    <h2>Conquistas & Reconhecimentos 🏆</h2>
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+      </span>
+      Conquistas & Reconhecimentos
+    </h2>
     <div class="awards-grid">
       <div class="award-card">
-        <span class="award-badge">🏆 Hackathon 2026</span>
+        <span class="award-badge">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          Hackathon 2026
+        </span>
         <h3>Hackathon Fábrica de Software 2k26</h3>
-        <p>Desenvolvimento em equipe de uma plataforma com IA que auxilia professores na detecção precoce de sinais de autismo, TEA e TDAH em crianças de 6 a 9 anos.</p>
+        <p>Desenvolvimento em equipe de uma plataforma com IA que auxilia professores na detecção precoce de sinais de autismo, TEA e TDAH em crianças de 6 a 9 anos no IFC Câmpus Araquari.</p>
       </div>
       <div class="award-card">
-        <span class="award-badge">🇺🇸 4 Anos de Formação</span>
-        <h3>Inglês Avançado · KNN Idiomas</h3>
-        <p>Formação completa de 4 anos de curso com domínio para leitura fluente de documentações técnicas, redação de código em inglês e comunicação internacional.</p>
+        <span class="award-badge">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          4 Anos de Formação
+        </span>
+        <h3>Inglês Intermediário · KNN Idiomas</h3>
+        <p>Formação de 4 anos de curso com domínio para leitura técnica de documentações em inglês, escrita de código e comunicação em equipe.</p>
       </div>
       <div class="award-card">
-        <span class="award-badge">📜 Curso Técnico</span>
-        <h3>Técnico em Informática · IFC</h3>
-        <p>Formação presencial com base sólida em algoritmos, lógica de programação, estruturas de dados, redes e banco de dados relacional.</p>
+        <span class="award-badge">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          Curso Técnico Integrado
+        </span>
+        <h3>Técnico em Informática para Internet · IFC</h3>
+        <p>Formação técnica presencial integrada ao ensino médio com base em algoritmos, lógica de programação, HTML5/CSS3, JavaScript e bancos de dados.</p>
       </div>
       <div class="award-card">
-        <span class="award-badge">🔬 Pesquisa & Processos</span>
+        <span class="award-badge">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Pesquisa & Processos
+        </span>
         <h3>Microprocessos Acadêmicos BSI</h3>
         <p>Pesquisa aplicada de mapeamento dos microprocessos acadêmicos do IFC Câmpus Araquari com documentação técnica padronizada em LaTeX.</p>
       </div>
     </div>
   </section>
 
+  <!-- Seção Formação e Experiência -->
   <section id="formacao">
-    <h2>Formação Acadêmica</h2>
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </span>
+      Formação & Trajetória
+    </h2>
     <div class="timeline">
-      <div><small>Em andamento</small><h3>Sistemas de Informação (Bacharelado)</h3><p>Instituto Federal Catarinense — Câmpus Araquari</p></div>
-      <div><small>Concluído</small><h3>Técnico em Informática</h3><p>Instituto Federal Catarinense — Câmpus Araquari</p></div>
+      <div>
+        <small>Graduação (Em andamento)</small>
+        <h3>Bacharelado em Sistemas de Informação</h3>
+        <p>Instituto Federal Catarinense — Câmpus Araquari</p>
+      </div>
+      <div>
+        <small>Técnico Integrado (Concluído)</small>
+        <h3>Técnico em Informática para Internet</h3>
+        <p>Instituto Federal Catarinense — Câmpus Araquari</p>
+      </div>
+      <div>
+        <small>Experiência Prática (2022 – 2023)</small>
+        <h3>Jovem Aprendiz (Almoxarifado) · TAF Indústria de Plásticos Ltda.</h3>
+        <p>Controle, organização e conferência de insumos e matérias-primas no setor de estoque/almoxarifado. Apoio a processos logísticos internos, rotinas de registro e cumprimento de normas operacionais.</p>
+      </div>
     </div>
   </section>
 
   <section id="recados">
-    <h2>Mural de recados 💬</h2>
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </span>
+      Mural de recados
+    </h2>
     <p class="lead">Deixe uma mensagem para mim! Seu recado fica gravado no banco de dados e aparece aqui no mural.</p>
     <div class="card" id="mural" style="margin-top:20px">
       <div id="form">
         <input id="nome" maxlength="40" placeholder="Seu nome" autocomplete="name">
         <input id="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px">
         <textarea id="texto" maxlength="280" rows="3" placeholder="Escreva seu recado"></textarea>
-        <button class="btn" id="enviar" type="button">✨ Enviar recado</button>
+        <button class="btn" id="enviar" type="button">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Enviar recado
+        </button>
       </div>
       <p id="status" class="muted" style="margin-top:14px">Carregando recados…</p>
       <div id="lista"></div>
@@ -965,28 +1096,58 @@ footer{
   </section>
 
   <section id="contato">
-    <h2>Vamos conversar? ✉️</h2>
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </span>
+      Vamos conversar?
+    </h2>
     <p class="lead">Procurando um estagiário ou desenvolvedor dedicado para somar no seu time? Fale comigo:</p>
     <div class="btns">
-      <a class="btn p" href="mailto:amarahigor@gmail.com">amarahigor@gmail.com</a>
-      <button class="btn s" id="btn-copy-email" type="button" title="Copiar e-mail">📋 Copiar e-mail</button>
-      <a class="btn s" href="https://github.com/HigorAmaral" target="_blank" rel="noopener">GitHub</a>
-      <a class="btn s" href="https://www.linkedin.com/in/higor-do-amaral-fritz-727869298/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn p" href="mailto:amarahigor@gmail.com">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        amarahigor@gmail.com
+      </a>
+      <button class="btn s" id="btn-copy-email" type="button" title="Copiar e-mail para a área de transferência">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copiar e-mail
+      </button>
+      <a class="btn s" href="/static/curriculo-higor.pdf" download="Curriculo-Higor-do-Amaral-Fritz.pdf" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Baixar CV (PDF)
+      </a>
+      <a class="btn s" href="https://github.com/HigorAmaral" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+      <a class="btn s" href="https://www.linkedin.com/in/higor-do-amaral-fritz-727869298/" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a class="btn s" href="http://lattes.cnpq.br/8038071079841565" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Lattes
+      </a>
     </div>
   </section>
 </main>
 
 <div class="toast" id="toast">
-  <span>✓</span> <span id="toast-msg">Mensagem</span>
+  <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toast-msg">Mensagem</span>
 </div>
 
-<footer>© 2026 Higor do Amaral Fritz. Desenvolvido com Django, HTML, CSS & JavaScript.</footer>
+<footer>
+  <p>© 2026 Higor do Amaral Fritz · Araquari, SC · Telefone: (47) 99656-5013</p>
+  <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript.</p>
+</footer>
 
 <script>
 // Gerenciador de Tema (Dark / Light Mode)
 (function(){
   var btn = document.getElementById('theme-toggle');
-  var icon = document.getElementById('theme-icon');
+  var iconSun = document.getElementById('theme-icon-sun');
+  var iconMoon = document.getElementById('theme-icon-moon');
   var html = document.documentElement;
 
   function getPreferredTheme(){
@@ -998,12 +1159,16 @@ footer{
   function applyTheme(theme){
     if(theme === 'dark'){
       html.setAttribute('data-theme', 'dark');
-      icon.textContent = '☀️';
+      if(iconSun) iconSun.style.display = 'inline-block';
+      if(iconMoon) iconMoon.style.display = 'none';
       btn.setAttribute('aria-label', 'Ativar modo claro');
+      btn.setAttribute('title', 'Ativar modo claro');
     } else {
       html.setAttribute('data-theme', 'light');
-      icon.textContent = '🌙';
+      if(iconSun) iconSun.style.display = 'none';
+      if(iconMoon) iconMoon.style.display = 'inline-block';
       btn.setAttribute('aria-label', 'Ativar modo escuro');
+      btn.setAttribute('title', 'Ativar modo escuro');
     }
     localStorage.setItem('theme', theme);
   }
@@ -1041,12 +1206,12 @@ footer{
 
     var speed = isDeleting ? 40 : 80;
     if(!isDeleting && charIdx === current.length){
-      speed = 1800; // Pausa após completar a palavra
+      speed = 1800;
       isDeleting = true;
     } else if(isDeleting && charIdx === 0){
       isDeleting = false;
       wordIdx = (wordIdx + 1) % words.length;
-      speed = 400; // Pausa antes de digitar a próxima
+      speed = 400;
     }
 
     setTimeout(tick, speed);
@@ -1128,7 +1293,7 @@ function dispararConfetes(){
     pieces.forEach(function(p){
       p.x += p.vx;
       p.y += p.vy;
-      p.vy += 0.35; // gravidade
+      p.vy += 0.35;
       p.rotation += p.vRot;
       ctx.save();
       ctx.translate(p.x, p.y);
@@ -1155,7 +1320,7 @@ function initTilt(){
       var cy = rect.height / 2;
       var dx = (x - cx) / cx;
       var dy = (y - cy) / cy;
-      card.style.transform = 'perspective(900px) rotateX(' + (-dy * 5) + 'deg) rotateY(' + (dx * 5) + 'deg) translateY(-4px)';
+      card.style.transform = 'perspective(900px) rotateX(' + (-dy * 4) + 'deg) rotateY(' + (dx * 4) + 'deg) translateY(-4px)';
     });
     card.addEventListener('mouseleave', function(){
       card.style.transform = '';
@@ -1266,7 +1431,7 @@ function initTilt(){
         document.getElementById('texto').value = '';
         await carregar();
         status.textContent = '';
-        showToast('Recado enviado com sucesso! 🎉');
+        showToast('Recado enviado com sucesso!');
         dispararConfetes();
       }
     }catch(e){
@@ -1282,11 +1447,11 @@ function initTilt(){
 (function(){
   var DEFAULTS = {
     "habilidades": [
-      {"titulo": "Front-end", "descricao": "Interfaces rápidas e organizadas em componentes.", "tecnologias": ["JavaScript", "React", "Vue", "HTML5/CSS3"]},
-      {"titulo": "Back-end", "descricao": "APIs RESTful, regras de negócio e painéis administrativos.", "tecnologias": ["Python", "Django", "Gunicorn", "PostgreSQL"]},
-      {"titulo": "Dados & Nuvem", "descricao": "Modelagem relacional e deploy automatizado.", "tecnologias": ["PostgreSQL", "MySQL", "Render", "CI/CD"]},
-      {"titulo": "Design & UI/UX", "descricao": "Protótipos navegáveis e design systems pensados no usuário.", "tecnologias": ["Figma", "Design System"]},
-      {"titulo": "Idiomas", "descricao": "Inglês com 4 anos de formação na KNN, para leitura técnica e comunicação internacional.", "tecnologias": ["Inglês Avançado"]}
+      {"titulo": "Front-end & Web", "descricao": "Interfaces rápidas, responsivas e organizadas em componentes.", "tecnologias": ["JavaScript", "HTML5", "CSS3", "React", "Vue"]},
+      {"titulo": "Back-end & APIs", "descricao": "APIs RESTful, autenticação, segurança e painéis administrativos.", "tecnologias": ["Python", "Django", "Gunicorn", "PostgreSQL"]},
+      {"titulo": "Dados & Ferramentas", "descricao": "Modelagem relacional, Git, GitHub e ambientes de desenvolvimento.", "tecnologias": ["PostgreSQL", "MySQL", "Git", "VS Code", "Linux/Windows"]},
+      {"titulo": "Design & UI/UX", "descricao": "Protótipos navegáveis no Figma e design systems pensados no usuário.", "tecnologias": ["Figma", "UI/UX", "Prototipagem"]},
+      {"titulo": "Idiomas & Comunicação", "descricao": "Inglês intermediário para documentação técnica e comunicação.", "tecnologias": ["Inglês (4 anos KNN)", "Boa comunicação"]}
     ],
     "projetos": [
       {
@@ -1301,7 +1466,7 @@ function initTilt(){
       },
       {
         "nome": "Portfólio Pessoal",
-        "descricao": "Site moderno com mural interativo de recados, autenticação, tema dinâmico, CI/CD e banco de dados PostgreSQL.",
+        "descricao": "Site moderno com mural interativo de recados, autenticação, tema dinâmico, CI/CD e banco de dados PostgreSQL no Render.",
         "tecnologias": ["Python", "Django", "JavaScript", "PostgreSQL", "Render"],
         "github": "https://github.com/HigorAmaral/portfolio-higor",
         "demo": "https://portfolio-higor.onrender.com",
@@ -1368,14 +1533,16 @@ function initTilt(){
 
     var rodape = el('div', 'rodape');
     if(p.github && /^https?:\/\//.test(p.github)){
-      var aGit = el('a', '', 'Ver no GitHub →');
+      var aGit = el('a', '', '');
+      aGit.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg> GitHub →';
       aGit.href = p.github;
       aGit.target = '_blank';
       aGit.rel = 'noopener';
       rodape.appendChild(aGit);
     }
     if(p.demo && /^https?:\/\//.test(p.demo)){
-      var aDemo = el('a', 'demo-link', 'Acessar Demo 🚀');
+      var aDemo = el('a', 'demo-link', '');
+      aDemo.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Acessar Demo';
       aDemo.href = p.demo;
       aDemo.target = '_blank';
       aDemo.rel = 'noopener';
@@ -1432,7 +1599,6 @@ function initTilt(){
     initTilt();
   }
 
-  // Eventos de clique nas abas de filtro
   var filterButtons = document.querySelectorAll('.filter-btn');
   filterButtons.forEach(function(btn){
     btn.addEventListener('click', function(){
