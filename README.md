@@ -1,4 +1,4 @@
-# 🚀 Portfólio Pessoal & API REST — Higor do Amaral Fritz
+#  Portfólio Pessoal & API REST — Higor do Amaral Fritz
 
 Aplicação web full-stack desenvolvida com **Django** no backend e interface moderna, responsiva e acessível no frontend. O projeto atua como o portfólio oficial de Higor do Amaral Fritz, reunindo projetos de software, artigos científicos (BSI/IFC), mural de recados interativo e documentação de API REST padronizada.
 
@@ -11,7 +11,7 @@ Aplicação web full-stack desenvolvida com **Django** no backend e interface mo
 
 ---
 
-## 🌐 Demonstração ao Vivo
+##  Demonstração ao Vivo
 
 * **Portfólio Oficial:** [portfolio-higor.onrender.com](https://portfolio-higor.onrender.com)
 * **Documentação Interativa da API (Swagger UI):** [portfolio-higor.onrender.com/api/docs/](https://portfolio-higor.onrender.com/api/docs/)
@@ -19,7 +19,7 @@ Aplicação web full-stack desenvolvida com **Django** no backend e interface mo
 
 ---
 
-## 🛠️ Tecnologias & Arquitetura
+##  Tecnologias & Arquitetura
 
 ### Back-end & Infraestrutura
 * **Linguagem & Framework:** Python 3.12+ com Django 6.
@@ -36,7 +36,7 @@ Aplicação web full-stack desenvolvida com **Django** no backend e interface mo
 
 ---
 
-## 🔒 Segurança & Boas Práticas (OWASP Compliance)
+##  Segurança & Boas Práticas (OWASP Compliance)
 
 A aplicação foi projetada seguindo diretrizes estritas de *Security by Design*:
 
@@ -58,7 +58,7 @@ A aplicação foi projetada seguindo diretrizes estritas de *Security by Design*
 
 ---
 
-## 📁 Estrutura do Repositório
+##  Estrutura do Repositório
 
 ```text
 portfolio-higor/
@@ -82,7 +82,7 @@ portfolio-higor/
 
 ---
 
-## 💻 Como Rodar o Projeto Localmente
+##  Como Rodar o Projeto Localmente
 
 ### Pré-requisitos
 * Python 3.12 ou superior instalado.
@@ -127,7 +127,7 @@ Acesse a aplicação no navegador em: `http://127.0.0.1:8000/`
 
 ---
 
-## 🧪 Executando os Testes Automatizados
+##  Executando os Testes Automatizados
 
 O projeto conta com testes unitários cobrindo endpoints de API, validações de integridade, rate limiting, regras de negócio e proteção de dados:
 
@@ -137,7 +137,7 @@ python manage.py test
 
 ---
 
-## 👨‍💻 Autor
+##  Autor
 
 **Higor do Amaral Fritz**  
 *Graduando em Bacharelado em Sistemas de Informação — IFC Câmpus Araquari*  
@@ -149,6 +149,6 @@ python manage.py test
 
 ---
 
-## 📄 Licença
+##  Licença
 
 Este projeto é desenvolvido para fins acadêmicos e profissionais de exibição de portfólio.
