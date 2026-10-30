@@ -327,9 +327,9 @@ header.nav{
   animation:pulse 2s infinite;
 }
 h1{
-  font-size:clamp(1.9rem, 5.8vw, 3.4rem);
+  font-size:clamp(2rem, 6vw, 3.5rem);
   line-height:1.15;
-  margin:18px 0;
+  margin:16px 0 10px;
   letter-spacing:-.03em;
   word-break:break-word;
 }
@@ -340,10 +340,28 @@ h1 span.name{
   color:transparent;
 }
 
-/* Digitação no Hero */
-.typing-wrap{
+/* Subtítulo dinâmico com altura fixa contra efeito sanfona (CLS) */
+.hero-role{
+  font-size:clamp(1.15rem, 3.2vw, 1.65rem);
+  font-weight:600;
+  line-height:1.4;
+  margin:0 0 18px;
   color:var(--text);
-  display:inline;
+  min-height:3em; /* Trava espaço de 2 linhas no mobile: zero layout shift */
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  column-gap:6px;
+}
+@media (min-width: 680px){
+  .hero-role{
+    min-height:1.6em; /* No desktop fixa em 1 linha */
+  }
+}
+.typing-wrap{
+  display:inline-flex;
+  align-items:baseline;
+  white-space:nowrap;
 }
 .typing-text{
   color:var(--accent);
@@ -892,7 +910,11 @@ footer a:hover{text-decoration:underline}
 <main class="wrap">
   <div class="hero">
     <span class="tag">Disponível para estágio e novos projetos</span>
-    <h1>Olá, eu sou <span class="name">Higor do Amaral Fritz</span>.<br>Desenvolvedor focado em <span class="typing-wrap"><span class="typing-text" id="typewriter"></span><span class="typing-cursor">|</span></span></h1>
+    <h1>Olá, eu sou <span class="name">Higor do Amaral Fritz</span>.</h1>
+    <div class="hero-role">
+      <span>Desenvolvedor focado em</span>
+      <span class="typing-wrap"><span class="typing-text" id="typewriter"></span><span class="typing-cursor">|</span></span>
+    </div>
     <p class="lead">Graduando em Sistemas de Informação pelo Instituto Federal Catarinense com formação técnica integrada em Informática. Experiência no desenvolvimento web de ponta a ponta, APIs seguras com Django, prototipagem no Figma e soluções com IA.</p>
     <div class="btns">
       <a class="btn p" href="#projetos">
@@ -1186,10 +1208,10 @@ footer a:hover{text-decoration:underline}
   var el = document.getElementById('typewriter');
   if(!el) return;
   var words = [
-    "Back-end & APIs com Django",
-    "Front-end & Interfaces Modernas",
+    "Back-end & APIs em Django",
+    "Front-end & Interfaces",
     "Soluções com IA Aplicada",
-    "Protótipos e UI no Figma",
+    "UI/UX & Design no Figma",
     "Sistemas de Informação no IFC"
   ];
   var wordIdx = 0, charIdx = 0, isDeleting = false;
