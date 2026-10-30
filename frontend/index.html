@@ -960,6 +960,26 @@ footer a:hover{text-decoration:underline}
 }
 .rodape a.swagger-link:hover{text-decoration:none;filter:brightness(1.15)}
 
+.rodape a.pdf-link{
+  background:color-mix(in srgb,#8b5cf6 16%,transparent);
+  color:#a78bfa;
+  padding:6px 14px;
+  border-radius:10px;
+  border:1px solid color-mix(in srgb,#8b5cf6 35%,transparent);
+  font-size:.84rem;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all .2s ease;
+}
+:root[data-theme="light"] .rodape a.pdf-link{
+  background:color-mix(in srgb,#7c3aed 12%,transparent);
+  color:#6d28d9;
+  border-color:color-mix(in srgb,#7c3aed 30%,transparent);
+}
+.rodape a.pdf-link:hover{text-decoration:none;filter:brightness(1.15);transform:translateY(-1px)}
+
 .btn-case{
   background:transparent;
   border:1px dashed color-mix(in srgb,var(--accent) 55%,transparent);
@@ -1303,10 +1323,16 @@ footer a:hover{text-decoration:underline}
       <div class="award-card">
         <span class="award-badge">
           <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          Pesquisa & Processos
+          Pesquisa Científica & BPMN
         </span>
         <h3>Microprocessos Acadêmicos BSI</h3>
-        <p>Pesquisa aplicada de mapeamento dos microprocessos acadêmicos do IFC Câmpus Araquari com documentação técnica padronizada em LaTeX.</p>
+        <p>Monografia e mapeamento dos microprocessos discentes do IFC com modelagem formal em BPMN, avaliação pelo modelo PEMM (Michael Hammer), diretrizes 5W2H e engenharia de requisitos com conformidade LGPD.</p>
+        <div style="margin-top:12px">
+          <a class="btn s" href="/static/projeto-bsi-microprocessos.pdf" target="_blank" rel="noopener" style="font-size:0.8rem;padding:5px 12px;display:inline-flex;align-items:center;gap:6px">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Ver Monografia (PDF) ↗
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -1803,16 +1829,24 @@ function initTilt(){
         "categoria": "frontend"
       },
       {
-        "nome": "Microprocessos Acadêmicos BSI",
-        "badge": "🔬 Pesquisa Acadêmica IFC",
+        "nome": "Projeto BSI: Microprocessos Acadêmicos",
+        "badge": "🔬 Pesquisa Científica & BPMN · IFC",
         "dominio": "ifc-araquari.edu.br/bsi",
-        "descricao": "Mapeamento estruturado e documentação padronizada dos microprocessos acadêmicos do IFC Câmpus Araquari com modelagem técnica em LaTeX.",
-        "tecnologias": ["Engenharia de Processos", "BSI", "LaTeX", "Pesquisa"],
+        "descricao": "Mapeamento e análise aprofundada dos microprocessos acadêmicos do Bacharelado em Sistemas de Informação no IFC Câmpus Araquari com modelagem BPMN, avaliação pelo modelo PEMM (Michael Hammer), diretrizes estratégicas 5W2H e engenharia de requisitos com conformidade LGPD.",
+        "tecnologias": ["BPMN / BPM", "Engenharia de Requisitos", "Modelo PEMM", "Matriz 5W2H", "LGPD", "LaTeX"],
         "github": "",
         "demo": "",
-        "status": "em_andamento",
-        "status_label": "Em andamento",
-        "categoria": "backend"
+        "pdf": "/static/projeto-bsi-microprocessos.pdf",
+        "status": "concluido",
+        "status_label": "Concluído (2026)",
+        "categoria": "backend",
+        "estudo_caso": {
+          "titulo": "Mapeamento & Análise de Microprocessos (BSI IFC)",
+          "badge": "🔬 BPMN · Modelo PEMM · 5W2H · Engenharia de Requisitos · LaTeX",
+          "desafio": "A dispersão de plataformas (SIGAA, SEI, Google Forms) e o trâmite manual nos registros discentes do IFC geravam retrabalho na secretaria acadêmica, falta de rastreabilidade de solicitações para os alunos e diagnóstico de maturidade inicial (P0 em indicadores e infraestrutura de TI).",
+          "solucao": "Estruturação qualitativa da trajetória discente em 4 fases (Entrada, Rotina, Pedidos Especiais e Conclusão), modelagem formal de 4 fluxos em BPMN (matrículas, TCC, dispensas, regime disciplinar), aplicação do modelo de maturidade PEMM de Michael Hammer, plano de ação 5W2H e levantamento rigoroso de 8 Requisitos Funcionais (RF01-RF08) e 4 Não-Funcionais (RNF01-RNF04) com proteção de dados e acessibilidade.",
+          "aprendizados": "Domínio prático de Gestão de Processos de Negócio (BPM/BPMN), Engenharia de Requisitos aplicada ao contexto educacional público federal, diagnóstico organizacional e redação científica técnica avançada com diagramação em LaTeX."
+        }
       }
     ]
   };
@@ -1873,6 +1907,14 @@ function initTilt(){
       aG.target = '_blank';
       aG.rel = 'noopener';
       modalFooter.appendChild(aG);
+    }
+    if(p.pdf){
+      var aP = el('a', 'btn s', '');
+      aP.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Ler Monografia Completa (PDF)';
+      aP.href = p.pdf;
+      aP.target = '_blank';
+      aP.rel = 'noopener';
+      modalFooter.appendChild(aP);
     }
 
     modalBackdrop.classList.add('open');
@@ -1942,7 +1984,7 @@ function initTilt(){
     var rodape = el('div', 'rodape');
 
     // Botão de Estudo de Caso
-    if(p.estudo_caso || p.nome.includes('Hackathon') || p.nome.includes('Portfólio')){
+    if(p.estudo_caso || p.nome.includes('Hackathon') || p.nome.includes('Portfólio') || p.nome.includes('BSI')){
       var btnCase = el('button', 'btn-case', '');
       btnCase.type = 'button';
       btnCase.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Estudo de Caso';
@@ -1950,6 +1992,16 @@ function initTilt(){
         abrirModalEstudo(p);
       });
       rodape.appendChild(btnCase);
+    }
+
+    // Botão Ver Monografia (PDF)
+    if(p.pdf){
+      var aPdf = el('a', 'pdf-link', '');
+      aPdf.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Ver Monografia (PDF) ↗';
+      aPdf.href = p.pdf;
+      aPdf.target = '_blank';
+      aPdf.rel = 'noopener';
+      rodape.appendChild(aPdf);
     }
 
     // Botão Acessar Projeto / Demo
@@ -2029,7 +2081,11 @@ function initTilt(){
     if(d.projetos && d.projetos.length){
       // Mescla projetos da API com os estudos de caso locais e links completos
       allProjects = d.projetos.map(function(proj){
-        var local = DEFAULTS.projetos.find(function(dp){ return dp.nome.toLowerCase().includes(proj.nome.toLowerCase().slice(0, 10)) || proj.nome.toLowerCase().includes(dp.nome.toLowerCase().slice(0, 10)); });
+        var local = DEFAULTS.projetos.find(function(dp){
+          var p1 = (proj.nome || '').toLowerCase();
+          var p2 = (dp.nome || '').toLowerCase();
+          return (p1.includes('bsi') && p2.includes('bsi')) || (p1.includes('hackathon') && p2.includes('hackathon')) || (p1.includes('portf') && p2.includes('portf')) || (p1.includes('santory') && p2.includes('santory')) || p1.includes(p2.slice(0, 8)) || p2.includes(p1.slice(0, 8));
+        });
         return Object.assign({}, local || {}, proj);
       });
     }
