@@ -367,23 +367,6 @@ header.nav{
 .hero{
   padding:clamp(44px, 8vw, 84px) 0 clamp(36px, 6vw, 64px);
   position:relative;
-  isolation:isolate;
-  overflow-x:clip;
-  max-width:100%;
-}
-.hero::before{
-  content:"";
-  position:absolute;
-  right:0;
-  top:0;
-  width:min(320px, 70vw);
-  height:min(320px, 70vw);
-  border-radius:50%;
-  background:var(--accent-soft);
-  filter:blur(60px);
-  animation:float 7s ease-in-out infinite;
-  z-index:-1;
-  pointer-events:none;
   max-width:100%;
 }
 .tag{
@@ -1215,6 +1198,17 @@ footer a:hover{text-decoration:underline}
   display:flex;
   justify-content:center;
   align-items:center;
+  position:relative;
+  isolation:isolate;
+}
+.hero-avatar-wrap::before{
+  content:"";
+  position:absolute;
+  inset:-36px;
+  border-radius:50%;
+  background:radial-gradient(circle, color-mix(in srgb, var(--accent) 26%, transparent) 0%, color-mix(in srgb, var(--accent) 8%, transparent) 48%, transparent 72%);
+  z-index:-1;
+  pointer-events:none;
 }
 .hero-avatar{
   position:relative;
