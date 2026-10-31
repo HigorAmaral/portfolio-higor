@@ -1,3 +1,4 @@
+import hashlib
 import json
 import logging
 import re
@@ -19,9 +20,12 @@ from django.views.decorators.http import require_GET, require_http_methods
 from .models import Habilidade, LinkContato, MetricaAcesso, Projeto, Recado
 from .notificacoes import notificar_novo_recado
 from .openapi import OPENAPI_SPEC
+from .protecao import ConteudoInvalido, validar_recado
 
 FRONTEND = Path(settings.BASE_DIR) / "frontend" / "index.html"
 INTERVALO_SEGUNDOS = 30  # tempo mínimo entre dois recados do mesmo IP
+MAX_RECADOS_POR_HORA_IP = 5  # teto por IP mesmo respeitando o intervalo
+MAX_RECADOS_GLOBAL_HORA = 60  # teto do site inteiro (contém ataques com muitos IPs)
 MAX_BODY_SIZE = 10 * 1024  # 10 KB limite para evitar DoS por payload excessivo
 JANELA_METRICA_SEGUNDOS = 30 * 60  # cada IP conta no máximo 1 visita/download a cada 30 min
 CAMINHOS_METRICA = {"/"}  # whitelist: impede criação ilimitada de linhas com caminhos arbitrários
@@ -198,8 +202,7 @@ def recados(request):
     if dados.get("site"):
         return JsonResponse({"ok": True}, status=201)
 
-    # Sanitização estrita contra XSS
-    nome_bruto = str(dados.get("nome") or "").strip()[:40] or "Anônimo"
+    nome_bruto = str(dados.get("nome") or "").strip()[:200]
     texto_bruto = str(dados.get("texto") or "").strip()
 
     if not texto_bruto:
@@ -207,18 +210,44 @@ def recados(request):
     if len(texto_bruto) > 280:
         return JsonResponse({"erro": "O recado pode ter no máximo 280 caracteres."}, status=400)
 
-    nome = _limpar_texto(nome_bruto)[:40] or "Anônimo"
-    texto = _limpar_texto(texto_bruto)[:280]
+    # Validação de conteúdo: bloqueia código (XSS/SQLi/template injection), links e spam
+    try:
+        nome, texto = validar_recado(nome_bruto, texto_bruto)
+    except ConteudoInvalido as erro:
+        logger.warning("Recado bloqueado pela validação de conteúdo (ip anonimizado)")
+        return JsonResponse({"erro": str(erro)}, status=400)
 
-    # Rate limiting por IP
-    chave = f"recado-ip-{_ip(request)}"
+    ip = _ip(request)
+
+    # Rate limiting em camadas: intervalo mínimo, teto por hora por IP e teto global
+    chave = f"recado-ip-{ip}"
     if not cache.add(chave, 1, INTERVALO_SEGUNDOS):
         return JsonResponse({"erro": "Espere um pouco antes de enviar outro recado."}, status=429)
+    if _excedeu_limite(f"recado-hora-{ip}", MAX_RECADOS_POR_HORA_IP, 3600):
+        return JsonResponse({"erro": "Você atingiu o limite de recados por hora. Tente mais tarde."}, status=429)
+    if _excedeu_limite("recado-global-hora", MAX_RECADOS_GLOBAL_HORA, 3600):
+        return JsonResponse({"erro": "O mural está recebendo muitas mensagens agora. Tente mais tarde."}, status=429)
+
+    # Anti-duplicata: o mesmo IP não pode enviar a mesma mensagem repetida em 5 minutos
+    chave_dup = f"recado-dup-{ip}-{hashlib.sha256(texto.casefold().encode('utf-8')).hexdigest()}"
+    if not cache.add(chave_dup, 1, 300):
+        return JsonResponse({"erro": "Esse recado já foi enviado recentemente."}, status=409)
 
     Recado.objects.create(nome=nome, texto=texto)
     notificar_novo_recado(nome, texto)
 
     return JsonResponse({"ok": True}, status=201)
+
+
+def _excedeu_limite(chave, limite, janela):
+    """Contador atômico no cache. Retorna True se o limite da janela já foi atingido."""
+    if cache.add(chave, 1, janela):
+        return False
+    try:
+        return cache.incr(chave) > limite
+    except ValueError:
+        cache.set(chave, 1, janela)
+        return False
 
 
 @require_GET

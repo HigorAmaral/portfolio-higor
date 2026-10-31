@@ -472,3 +472,109 @@ class MelhoriasPortfolioTestCase(TestCase):
         content_text = resp.content.decode("utf-8")
         self.assertIn("Data,Caminho,Visualizações,Downloads de Currículo", content_text)
         self.assertIn("/", content_text)
+
+
+class ProtecoesAvancadasTestCase(TestCase):
+    def setUp(self):
+        self.client = Client()
+        cache.clear()
+
+    def test_bloqueio_scanner_rotas_sensiveis(self):
+        """Varreduras em rotas como /.env, /wp-login.php recebem 404 seco e acumulam strikes."""
+        for rota in ["/.env", "/wp-login.php", "/.git/config", "/phpmyadmin", "/wp-admin/"]:
+            cache.clear()
+            resp = self.client.get(rota, secure=True)
+            self.assertEqual(resp.status_code, 404)
+            self.assertEqual(resp["Content-Type"], "text/plain; charset=utf-8")
+
+    def test_bloqueio_scanner_ferramentas_ataque(self):
+        """User-Agents de scanners como sqlmap e nikto recebem 404 seco imediatamente."""
+        resp = self.client.get("/", HTTP_USER_AGENT="sqlmap/1.5#stable", secure=True)
+        self.assertEqual(resp.status_code, 404)
+
+    def test_bloqueio_scanner_banimento_apos_strikes(self):
+        """Após 3 strikes de varredura maliciosa do mesmo IP, o IP é banido com 403."""
+        ip = "198.51.100.42"
+        # 3 requisições suspeitas
+        for _ in range(3):
+            self.client.get("/.env", HTTP_TRUE_CLIENT_IP=ip, secure=True)
+
+        # 4ª requisição (mesmo para rota legítima "/") é banida
+        resp = self.client.get("/", HTTP_TRUE_CLIENT_IP=ip, secure=True)
+        self.assertEqual(resp.status_code, 403)
+        self.assertIn("Acesso temporariamente bloqueado", resp.content.decode("utf-8"))
+
+    def test_metodos_http_nao_permitidos_bloqueados(self):
+        """Métodos HTTP não autorizados (ex: DELETE na raiz) recebem 405 imediato."""
+        resp = self.client.delete("/", secure=True)
+        self.assertEqual(resp.status_code, 405)
+
+    def test_recado_rejeita_links_phishing(self):
+        """Tentativas de injetar links no mural são bloqueadas com 400."""
+        payload = {"nome": "Spammer", "texto": "Visite meu site https://spam-malicioso.com e ganhe dinheiro"}
+        resp = self.client.post(
+            reverse("recados"),
+            data=json.dumps(payload),
+            content_type="application/json",
+            secure=True,
+        )
+        self.assertEqual(resp.status_code, 400)
+        self.assertIn("links não são permitidos", resp.json().get("erro", ""))
+
+    def test_recado_rejeita_sql_injection_residual(self):
+        """Tentativas de injeção SQL no texto são rejeitadas."""
+        payload = {"nome": "Atacante", "texto": "Meu recado ' OR 1=1 --"}
+        resp = self.client.post(
+            reverse("recados"),
+            data=json.dumps(payload),
+            content_type="application/json",
+            secure=True,
+        )
+        self.assertEqual(resp.status_code, 400)
+        self.assertIn("comandos ou expressões", resp.json().get("erro", ""))
+
+    def test_recado_rejeita_nome_reservado(self):
+        """Impedir que visitantes se passem pelo administrador/autor do site."""
+        payload = {"nome": "Higor Amaral", "texto": "Mensagem fingindo ser o autor"}
+        resp = self.client.post(
+            reverse("recados"),
+            data=json.dumps(payload),
+            content_type="application/json",
+            secure=True,
+        )
+        self.assertEqual(resp.status_code, 400)
+        self.assertIn("nome é reservado", resp.json().get("erro", ""))
+
+    def test_recado_rejeita_duplicata_mesmo_ip(self):
+        """O mesmo IP não pode reenviar o mesmo recado repetido em curto intervalo."""
+        payload = {"nome": "Visitante", "texto": "Mensagem bacana e original!"}
+        r1 = self.client.post(
+            reverse("recados"),
+            data=json.dumps(payload),
+            content_type="application/json",
+            HTTP_TRUE_CLIENT_IP="203.0.113.10",
+            secure=True,
+        )
+        self.assertEqual(r1.status_code, 201)
+
+        # Imediatamente o mesmo IP tenta mandar a mesma mensagem
+        # (limpa apenas o rate limit de 30s para testar a camada de duplicata)
+        cache.delete("recado-ip-203.0.113.10")
+        r2 = self.client.post(
+            reverse("recados"),
+            data=json.dumps(payload),
+            content_type="application/json",
+            HTTP_TRUE_CLIENT_IP="203.0.113.10",
+            secure=True,
+        )
+        self.assertEqual(r2.status_code, 409)
+        self.assertIn("já foi enviado recentemente", r2.json().get("erro", ""))
+
+    def test_csp_sem_unsafe_inline_em_scripts(self):
+        """O CSP estrito não deve conter 'unsafe-inline' em script-src."""
+        resp = self.client.get(reverse("index"), secure=True)
+        csp = resp.headers.get("Content-Security-Policy", "")
+        self.assertIn("script-src 'self'", csp)
+        self.assertNotIn("script-src 'self' 'unsafe-inline'", csp)
+        self.assertIn("script-src-attr 'none'", csp)
+        self.assertIn("object-src 'none'", csp)

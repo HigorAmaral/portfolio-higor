@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,16 +8,7 @@
 <meta name="theme-color" content="#0e1120" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#dbe3ed" media="(prefers-color-scheme: light)">
 <title>{% block codigo %}Erro{% endblock %} · {% block titulo %}Algo deu errado{% endblock %} | Higor Amaral</title>
-<script>
-  // Aplica o tema salvo no portfólio ANTES de pintar a tela (evita "piscar" de cor)
-  (function(){
-    try {
-      var t = localStorage.getItem('theme');
-      if(!t){ t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
-      document.documentElement.setAttribute('data-theme', t);
-    } catch(e){}
-  })();
-</script>
+<script src="{% static 'js/erro-tema.js' %}"></script>
 <style>
 /* ===== Paleta idêntica ao portfólio ===== */
 :root{
@@ -229,19 +221,6 @@ h1{margin:4px 0 10px;font-size:clamp(1.35rem,4.5vw,1.75rem);line-height:1.25;let
     <p class="rodape">{% block rodape %}Se o problema continuar, <a href="mailto:higoramaralfritz@gmail.com">me avise por e-mail</a>.{% endblock %}</p>
   </main>
 
-<script>
-  (function(){
-    var b = document.getElementById('voltar');
-    if(!b) return;
-    // Só mostra "Página anterior" se houver histórico dentro do próprio site
-    var temHistorico = history.length > 1 && document.referrer && document.referrer.indexOf(location.host) !== -1;
-    if(!temHistorico){ b.style.display = 'none'; return; }
-    b.addEventListener('click', function(){ history.back(); });
-  })();
-  (function(){
-    var r = document.getElementById('recarregar');
-    if(r) r.addEventListener('click', function(){ location.reload(); });
-  })();
-</script>
+<script src="{% static 'js/erro.js' %}"></script>
 </body>
 </html>

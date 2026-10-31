@@ -58,6 +58,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "config.middleware.SecurityHeadersMiddleware",
+    "config.middleware.BloqueioScannerMiddleware",
     "config.middleware.AdminBruteForceMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "corsheaders.middleware.CorsMiddleware",
@@ -177,6 +178,10 @@ if not DEBUG:
     CSRF_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
     CSRF_COOKIE_SAMESITE = "Lax"
+    # Prefixo __Host-: o navegador só aceita o cookie via HTTPS, no domínio exato e path "/"
+    # (impede que subdomínios ou conexões inseguras sobrescrevam a sessão do painel)
+    SESSION_COOKIE_NAME = "__Host-sessionid"
+    CSRF_COOKIE_NAME = "__Host-csrftoken"
 
     SECURE_SSL_REDIRECT = BEHIND_PROXY or os.environ.get("HTTPS", "1") == "1"
     SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", 31536000))
