@@ -6,7 +6,7 @@ from django.core.cache import cache
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from .models import MetricaAcesso, Recado
+from .models import MetricaAcesso, Projeto, Recado
 from .notificacoes import notificar_novo_recado
 
 
@@ -328,3 +328,80 @@ class PWATestCase(TestCase):
 
     def test_service_worker_nao_aceita_post(self):
         self.assertEqual(self.client.post("/sw.js", secure=True).status_code, 405)
+
+
+class MelhoriasPortfolioTestCase(TestCase):
+    def setUp(self):
+        self.client = Client()
+        cache.clear()
+
+    def test_recado_resposta_auto_timestamp_and_api(self):
+        """Verifica se resposta do autor no Recado preenche timestamp e é retornada na API."""
+        r = Recado.objects.create(nome="Recrutador", texto="Gostei muito do seu portfólio!")
+        self.assertEqual(r.resposta, "")
+        self.assertIsNone(r.respondido_em)
+
+        # Higor responde pelo painel
+        r.resposta = "Muito obrigado pelo feedback! Fico à disposição."
+        r.save()
+        r.refresh_from_db()
+        self.assertIsNotNone(r.respondido_em)
+
+        # GET /api/recados/ deve serializar resposta e data de resposta
+        resp = self.client.get(reverse("recados"), secure=True)
+        self.assertEqual(resp.status_code, 200)
+        dados = resp.json()
+        item = next((x for x in dados if x["nome"] == "Recrutador"), None)
+        self.assertIsNotNone(item)
+        self.assertEqual(item["resposta"], "Muito obrigado pelo feedback! Fico à disposição.")
+        self.assertIsNotNone(item["respondido_em"])
+
+    def test_projeto_estudo_caso_and_conteudo_api(self):
+        """Verifica se badge, pdf e estudo de caso estruturado são retornados na API de conteúdo."""
+        p = Projeto.objects.create(
+            nome="Projeto Teste",
+            descricao="Descrição de teste",
+            tecnologias="Python, Django",
+            badge="🏆 Teste Destaque",
+            pdf="/static/teste.pdf",
+            estudo_titulo="Estudo de Caso Teste",
+            estudo_desafio="Desafio de alta escala",
+            estudo_solucao="Arquitetura em microsserviços",
+            estudo_aprendizados="Alta disponibilidade",
+            visivel=True,
+        )
+        dados_ec = p.dados_estudo_caso()
+        self.assertIsNotNone(dados_ec)
+        self.assertEqual(dados_ec["titulo"], "Estudo de Caso Teste")
+        self.assertEqual(dados_ec["badge"], "🏆 Teste Destaque")
+        self.assertEqual(dados_ec["desafio"], "Desafio de alta escala")
+
+        resp = self.client.get(reverse("conteudo"), secure=True)
+        self.assertEqual(resp.status_code, 200)
+        projetos = resp.json().get("projetos", [])
+        proj = next((x for x in projetos if x["nome"] == "Projeto Teste"), None)
+        self.assertIsNotNone(proj)
+        self.assertEqual(proj["badge"], "🏆 Teste Destaque")
+        self.assertEqual(proj["pdf"], "/static/teste.pdf")
+        self.assertEqual(proj["estudo_caso"]["solucao"], "Arquitetura em microsserviços")
+
+    def test_admin_kpi_dashboard_context(self):
+        """Verifica se os KPIs de métricas e conteúdo são injetados no contexto do Django Admin."""
+        from django.contrib.admin import site
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+
+        rf = RequestFactory()
+        req = rf.get("/admin/")
+        req.user = User.objects.create_superuser("admin_test", "admin@test.com", "senha123")
+
+        extra = {}
+        # Chama a função customizada do admin
+        resp = site.index(req, extra_context=extra)
+        # O context_data do template response contém os KPIs
+        ctx = resp.context_data
+        self.assertIn("kpi_views", ctx)
+        self.assertIn("kpi_downloads", ctx)
+        self.assertIn("kpi_recados", ctx)
+        self.assertIn("kpi_respostas", ctx)
+        self.assertIn("kpi_projetos", ctx)

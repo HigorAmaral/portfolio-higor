@@ -170,7 +170,16 @@ def recados(request):
     if request.method == "GET":
         itens = Recado.objects.filter(visivel=True)[:30]
         return JsonResponse(
-            [{"nome": r.nome, "texto": r.texto, "criado_em": r.criado_em.isoformat()} for r in itens],
+            [
+                {
+                    "nome": r.nome,
+                    "texto": r.texto,
+                    "criado_em": r.criado_em.isoformat(),
+                    "resposta": r.resposta or "",
+                    "respondido_em": r.respondido_em.isoformat() if r.respondido_em else None,
+                }
+                for r in itens
+            ],
             safe=False,
         )
 
@@ -226,8 +235,11 @@ def conteudo(request):
             "tecnologias": p.lista_tecnologias(),
             "github": p.github,
             "demo": getattr(p, "demo", ""),
+            "badge": getattr(p, "badge", ""),
+            "pdf": getattr(p, "pdf", ""),
             "status": p.status,
             "status_label": p.get_status_display(),
+            "estudo_caso": p.dados_estudo_caso(),
         }
         for p in Projeto.objects.filter(visivel=True)
     ]

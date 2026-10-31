@@ -1,0 +1,32 @@
+{% extends "admin/index.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div class="kpi-dashboard-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:16px; margin-bottom:28px;">
+  <div style="background:var(--card-bg, #fff); border:1px solid var(--border-color, #d6dbec); border-radius:12px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
+    <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #5b6379); margin-bottom:6px; font-weight:600;">Visitas Totais</div>
+    <div style="font-size:1.85rem; font-weight:700; color:var(--primary, #4f46e5); line-height:1.1;">{{ kpi_views|default:"0" }}</div>
+    <div style="font-size:0.8rem; color:var(--body-quiet-color, #5b6379); margin-top:4px;">Acessos únicos agregados</div>
+  </div>
+
+  <div style="background:var(--card-bg, #fff); border:1px solid var(--border-color, #d6dbec); border-radius:12px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
+    <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #5b6379); margin-bottom:6px; font-weight:600;">Downloads de CV</div>
+    <div style="font-size:1.85rem; font-weight:700; color:#059669; line-height:1.1;">{{ kpi_downloads|default:"0" }}</div>
+    <div style="font-size:0.8rem; color:var(--body-quiet-color, #5b6379); margin-top:4px;">Currículos baixados</div>
+  </div>
+
+  <div style="background:var(--card-bg, #fff); border:1px solid var(--border-color, #d6dbec); border-radius:12px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
+    <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #5b6379); margin-bottom:6px; font-weight:600;">Recados no Mural</div>
+    <div style="font-size:1.85rem; font-weight:700; color:#d97706; line-height:1.1;">{{ kpi_recados|default:"0" }}</div>
+    <div style="font-size:0.8rem; color:var(--body-quiet-color, #5b6379); margin-top:4px;">{{ kpi_respostas|default:"0" }} respondido(s)</div>
+  </div>
+
+  <div style="background:var(--card-bg, #fff); border:1px solid var(--border-color, #d6dbec); border-radius:12px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
+    <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #5b6379); margin-bottom:6px; font-weight:600;">Projetos Ativos</div>
+    <div style="font-size:1.85rem; font-weight:700; color:#7c3aed; line-height:1.1;">{{ kpi_projetos|default:"0" }}</div>
+    <div style="font-size:0.8rem; color:var(--body-quiet-color, #5b6379); margin-top:4px;">Com estudo de caso</div>
+  </div>
+</div>
+
+{{ block.super }}
+{% endblock %}

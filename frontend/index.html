@@ -34,6 +34,52 @@
 <meta name="twitter:title" content="Higor do Amaral Fritz · Desenvolvedor Full Stack & Backend">
 <meta name="twitter:description" content="Portfólio com projetos reais em Python, Django, PostgreSQL, APIs RESTful documentadas (Swagger) e Inteligência Artificial.">
 <meta name="twitter:image" content="https://portfolio-higor.onrender.com/static/og-preview.png">
+<!-- Dados Estruturados Schema.org (JSON-LD) para SEO no Google -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://portfolio-higor.onrender.com/#person",
+      "name": "Higor do Amaral Fritz",
+      "url": "https://portfolio-higor.onrender.com/",
+      "image": "https://github.com/HigorAmaral.png",
+      "jobTitle": "Desenvolvedor Full Stack & Backend",
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Instituto Federal Catarinense (IFC)"
+      },
+      "knowsAbout": [
+        "Python",
+        "Django",
+        "PostgreSQL",
+        "APIs RESTful",
+        "Swagger / OpenAPI",
+        "Vue.js",
+        "Docker",
+        "Segurança Web",
+        "Inteligência Artificial"
+      ],
+      "sameAs": [
+        "https://github.com/HigorAmaral",
+        "https://www.linkedin.com/in/higor-do-amaral-fritz"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://portfolio-higor.onrender.com/#website",
+      "url": "https://portfolio-higor.onrender.com/",
+      "name": "Higor Fritz · Portfólio & Backend Production-Ready",
+      "description": "Portfólio com projetos reais em Python, Django, PostgreSQL, APIs RESTful documentadas e IA.",
+      "publisher": {
+        "@id": "https://portfolio-higor.onrender.com/#person"
+      },
+      "inLanguage": "pt-BR"
+    }
+  ]
+}
+</script>
 <style>
 :root{
   box-sizing:border-box;
@@ -1147,6 +1193,140 @@ footer a:hover{text-decoration:underline}
   flex-wrap:wrap;
   justify-content:flex-end;
 }
+
+/* Layout Hero com Avatar */
+.hero-grid{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:clamp(20px, 4vw, 44px);
+  margin-bottom:28px;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+}
+.hero-main{
+  flex:1;
+  min-width:0;
+  max-width:100%;
+}
+.hero-avatar-wrap{
+  flex-shrink:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.hero-avatar{
+  position:relative;
+  width:clamp(124px, 18vw, 168px);
+  height:clamp(124px, 18vw, 168px);
+  border-radius:50%;
+  padding:4px;
+  background:linear-gradient(135deg, var(--accent), #c084fc);
+  box-shadow:0 0 24px color-mix(in srgb, var(--accent) 35%, transparent);
+  animation:avatarGlow 4s ease-in-out infinite alternate;
+}
+.hero-avatar img{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+  display:block;
+  background:var(--surface);
+  border:3px solid var(--surface);
+}
+.hero-avatar-status{
+  position:absolute;
+  bottom:6px;
+  right:6px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#10b981;
+  border:3px solid var(--surface);
+  box-shadow:0 0 0 2px rgba(16,185,129,.35);
+}
+@keyframes avatarGlow{
+  from{ box-shadow:0 0 16px color-mix(in srgb, var(--accent) 25%, transparent); }
+  to{ box-shadow:0 0 32px color-mix(in srgb, var(--accent) 55%, transparent); }
+}
+@media (max-width:720px){
+  .hero-grid{
+    flex-direction:column-reverse;
+    align-items:flex-start;
+    gap:22px;
+  }
+  .hero-avatar-wrap{
+    align-self:center;
+  }
+}
+
+/* Botão Voltar ao Topo Flutuante */
+.back-to-top{
+  position:fixed;
+  bottom:calc(20px + env(safe-area-inset-bottom, 0px));
+  right:calc(20px + env(safe-area-inset-right, 0px));
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--line);
+  box-shadow:0 4px 16px rgba(0,0,0,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(12px);
+  transition:opacity .25s ease, transform .25s ease, background-color .2s ease, border-color .2s ease;
+  z-index:70;
+}
+.back-to-top.visible{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+.back-to-top:hover{
+  background:var(--accent);
+  color:var(--accent-text);
+  border-color:var(--accent);
+}
+
+/* Resposta do Autor no Mural de Recados */
+.msg-reply{
+  margin-top:10px;
+  padding:10px 14px;
+  background:color-mix(in srgb, var(--accent) 8%, var(--surface));
+  border-left:3px solid var(--accent);
+  border-radius:0 8px 8px 0;
+  font-size:.9rem;
+}
+.msg-reply-header{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:4px;
+}
+.reply-badge{
+  font-weight:700;
+  font-size:.78rem;
+  color:var(--accent);
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.reply-date{
+  font-size:.78rem;
+  color:var(--muted);
+}
+.msg-reply-text{
+  margin:0;
+  color:var(--text);
+  line-height:1.45;
+  word-break:break-word;
+}
+
 </style>
 </head>
 <body>
@@ -1214,14 +1394,16 @@ footer a:hover{text-decoration:underline}
 
 <main class="wrap">
   <div class="hero">
-    <span class="tag">Disponível para estágio e novos projetos</span>
-    <h1>Olá, eu sou <span class="name">Higor do Amaral Fritz</span>.</h1>
-    <div class="hero-role">
-      <span>Desenvolvedor focado em</span>
-      <span class="typing-wrap"><span class="typing-text" id="typewriter"></span><span class="typing-cursor">|</span></span>
-    </div>
-    <p class="lead">Graduando em Sistemas de Informação pelo Instituto Federal Catarinense com formação técnica integrada em Informática. Experiência no desenvolvimento web de ponta a ponta, APIs seguras com Django, prototipagem no Figma e soluções com IA.</p>
-    <div class="btns">
+    <div class="hero-grid">
+      <div class="hero-main">
+        <span class="tag">Disponível para estágio e novos projetos</span>
+        <h1>Olá, eu sou <span class="name">Higor do Amaral Fritz</span>.</h1>
+        <div class="hero-role">
+          <span>Desenvolvedor focado em</span>
+          <span class="typing-wrap"><span class="typing-text" id="typewriter"></span><span class="typing-cursor">|</span></span>
+        </div>
+        <p class="lead">Graduando em Sistemas de Informação pelo Instituto Federal Catarinense com formação técnica integrada em Informática. Experiência no desenvolvimento web de ponta a ponta, APIs seguras com Django, prototipagem no Figma e soluções com IA.</p>
+        <div class="btns">
       <a class="btn p" href="#projetos">
         <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         Ver projetos
@@ -1239,6 +1421,14 @@ footer a:hover{text-decoration:underline}
         <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         Falar comigo
       </a>
+    </div>
+      </div>
+      <div class="hero-avatar-wrap">
+        <div class="hero-avatar">
+          <img src="https://github.com/HigorAmaral.png" alt="Foto de perfil de Higor do Amaral Fritz" width="168" height="168" loading="eager" fetchpriority="high">
+          <span class="hero-avatar-status" title="Disponível para novos projetos e estágio" aria-label="Online / Disponível"></span>
+        </div>
+      </div>
     </div>
     <div class="stats">
       <div><b>7+</b><span>tecnologias</span></div>
@@ -1779,6 +1969,19 @@ function initTilt(){
       t.textContent = String(r.texto || '');
       box.appendChild(n);
       box.appendChild(t);
+      if(r.resposta){
+        var respBox = document.createElement('div');
+        respBox.className = 'msg-reply';
+        var respHeader = document.createElement('div');
+        respHeader.className = 'msg-reply-header';
+        respHeader.innerHTML = '<span class="reply-badge">Resposta do Higor</span>' + (r.respondido_em ? ' <span class="reply-date">· ' + new Date(r.respondido_em).toLocaleDateString('pt-BR') + '</span>' : '');
+        var respText = document.createElement('p');
+        respText.className = 'msg-reply-text';
+        respText.textContent = String(r.resposta);
+        respBox.appendChild(respHeader);
+        respBox.appendChild(respText);
+        box.appendChild(respBox);
+      }
       lista.appendChild(box);
     });
   }
@@ -2230,6 +2433,33 @@ function initTilt(){
     avisar('App instalado com sucesso!');
   });
 })();
+
+// Botão Voltar ao Topo
+(function(){
+  var btn = document.getElementById('back-to-top');
+  if(!btn) return;
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if(!ticking){
+      window.requestAnimationFrame(function(){
+        if(window.scrollY > 350){
+          btn.classList.add('visible');
+        } else {
+          btn.classList.remove('visible');
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, {passive: true});
+  btn.addEventListener('click', function(){
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+})();
 </script>
+<!-- Botão Voltar ao Topo Flutuante -->
+<button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
+  <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 </body>
 </html>
