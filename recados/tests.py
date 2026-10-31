@@ -6,7 +6,7 @@ from django.core.cache import cache
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from .models import MetricaAcesso, Projeto, Recado
+from .models import LinkContato, MetricaAcesso, Projeto, Recado
 from .notificacoes import notificar_novo_recado
 
 
@@ -405,3 +405,70 @@ class MelhoriasPortfolioTestCase(TestCase):
         self.assertIn("kpi_recados", ctx)
         self.assertIn("kpi_respostas", ctx)
         self.assertIn("kpi_projetos", ctx)
+
+    def test_link_contato_in_conteudo_api(self):
+        """Verifica se links de contato cadastrados são expostos na rota de conteúdo."""
+        LinkContato.objects.create(
+            chave="outro",
+            titulo="Blog Técnico",
+            url="https://medium.com/@higor",
+            ordem=10,
+            visivel=True,
+        )
+        resp = self.client.get(reverse("conteudo"), secure=True)
+        self.assertEqual(resp.status_code, 200)
+        dados = resp.json()
+        self.assertIn("links", dados)
+        item = next((x for x in dados["links"] if x["chave"] == "outro"), None)
+        self.assertIsNotNone(item)
+        self.assertEqual(item["titulo"], "Blog Técnico")
+        self.assertEqual(item["url"], "https://medium.com/@higor")
+
+    def test_admin_recado_filter_and_actions(self):
+        """Verifica o filtro de recados pendentes/respondidos e as ações de visibilidade."""
+        from django.contrib.admin import site
+        from .admin import RecadoAdmin, RespondidoListFilter
+
+        r1 = Recado.objects.create(nome="Visitante 1", texto="Olá", resposta="", visivel=True)
+        r2 = Recado.objects.create(nome="Visitante 2", texto="Oi", resposta="Tudo bem!", visivel=True)
+
+        admin_instance = RecadoAdmin(Recado, site)
+
+        # Ação marcar oculto
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from unittest.mock import MagicMock
+        rf = RequestFactory()
+        req = rf.get("/admin/recados/recado/")
+        req.user = User.objects.create_superuser("admin_act", "adm@test.com", "pass123")
+        setattr(req, "_messages", MagicMock())
+
+        admin_instance.marcar_oculto(req, Recado.objects.filter(id=r1.id))
+        r1.refresh_from_db()
+        self.assertFalse(r1.visivel)
+
+        admin_instance.marcar_visivel(req, Recado.objects.filter(id=r1.id))
+        r1.refresh_from_db()
+        self.assertTrue(r1.visivel)
+
+    def test_admin_metricas_exportar_csv(self):
+        """Verifica a exportação de métricas agregadas para CSV."""
+        from django.contrib.admin import site
+        from .admin import MetricaAcessoAdmin
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+
+        MetricaAcesso.objects.create(caminho="/", visualizacoes=15, downloads_curriculo=3)
+
+        admin_instance = MetricaAcessoAdmin(MetricaAcesso, site)
+        rf = RequestFactory()
+        req = rf.get("/admin/recados/metricaacesso/")
+        req.user = User.objects.create_superuser("admin_csv", "csv@test.com", "pass123")
+
+        resp = admin_instance.exportar_csv(req, MetricaAcesso.objects.all())
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp["Content-Type"], "text/csv; charset=utf-8")
+        self.assertIn("attachment; filename=", resp["Content-Disposition"])
+        content_text = resp.content.decode("utf-8")
+        self.assertIn("Data,Caminho,Visualizações,Downloads de Currículo", content_text)
+        self.assertIn("/", content_text)

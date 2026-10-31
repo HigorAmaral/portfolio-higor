@@ -131,3 +131,30 @@ class MetricaAcesso(models.Model):
     def __str__(self):
         return f"{self.data} ({self.caminho}): {self.visualizacoes} views, {self.downloads_curriculo} cv downloads"
 
+
+class LinkContato(models.Model):
+    """Canais de contato e links externos gerenciáveis no admin."""
+
+    CHAVES = (
+        ("whatsapp", "WhatsApp"),
+        ("linkedin", "LinkedIn"),
+        ("github", "GitHub"),
+        ("email", "E-mail"),
+        ("curriculo", "Currículo (PDF)"),
+        ("outro", "Outro Link"),
+    )
+
+    chave = models.CharField(max_length=30, choices=CHAVES, unique=True, help_text="Identificador único do canal.")
+    titulo = models.CharField(max_length=60, help_text="Texto exibido (Ex.: WhatsApp, LinkedIn, GitHub)")
+    url = models.CharField(max_length=300, help_text="URL completa ou mailto:")
+    ordem = models.PositiveSmallIntegerField(default=0, help_text="Menor número aparece primeiro.")
+    visivel = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["ordem", "id"]
+        verbose_name = "link de contato / rede social"
+        verbose_name_plural = "links de contato / redes sociais"
+
+    def __str__(self):
+        return f"{self.titulo} ({self.chave})"
+

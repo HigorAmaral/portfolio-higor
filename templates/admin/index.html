@@ -18,7 +18,7 @@
   <div style="background:var(--card-bg, #fff); border:1px solid var(--border-color, #d6dbec); border-radius:12px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
     <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #5b6379); margin-bottom:6px; font-weight:600;">Recados no Mural</div>
     <div style="font-size:1.85rem; font-weight:700; color:#d97706; line-height:1.1;">{{ kpi_recados|default:"0" }}</div>
-    <div style="font-size:0.8rem; color:var(--body-quiet-color, #5b6379); margin-top:4px;">{{ kpi_respostas|default:"0" }} respondido(s)</div>
+    <div style="font-size:0.8rem; color:var(--body-quiet-color, #5b6379); margin-top:4px;">{{ kpi_respostas|default:"0" }} respondido(s) · <a href="/admin/recados/recado/?respondido=pendente" style="color:#d97706; font-weight:600; text-decoration:underline;">{{ kpi_pendentes|default:"0" }} pendente(s)</a></div>
   </div>
 
   <div style="background:var(--card-bg, #fff); border:1px solid var(--border-color, #d6dbec); border-radius:12px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">

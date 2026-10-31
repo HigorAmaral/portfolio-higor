@@ -16,7 +16,7 @@ from django.utils.html import escape, strip_tags
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_http_methods
 
-from .models import Habilidade, MetricaAcesso, Projeto, Recado
+from .models import Habilidade, LinkContato, MetricaAcesso, Projeto, Recado
 from .notificacoes import notificar_novo_recado
 from .openapi import OPENAPI_SPEC
 
@@ -243,4 +243,8 @@ def conteudo(request):
         }
         for p in Projeto.objects.filter(visivel=True)
     ]
-    return JsonResponse({"habilidades": habilidades, "projetos": projetos})
+    links = [
+        {"chave": l.chave, "titulo": l.titulo, "url": l.url}
+        for l in LinkContato.objects.filter(visivel=True)
+    ]
+    return JsonResponse({"habilidades": habilidades, "projetos": projetos, "links": links})
