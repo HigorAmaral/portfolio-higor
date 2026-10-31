@@ -15,6 +15,8 @@ urlpatterns = [
     path("api/visitas/", views.visitas, name="visitas"),
     path("api/recados/", views.recados, name="recados"),
     path("api/conteudo/", views.conteudo, name="conteudo"),
+    path("manifest.webmanifest", views.manifest, name="manifest"),
+    path("sw.js", views.service_worker, name="service_worker"),
     path("", views.index, name="index"),
 ]
 

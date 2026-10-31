@@ -303,3 +303,28 @@ class HardeningTestCase(TestCase):
         res429 = resposta_429(req429)
         self.assertEqual(res429.status_code, 429)
         self.assertIn("Calma, respira um pouco", res429.content.decode("utf-8"))
+
+
+class PWATestCase(TestCase):
+    def test_manifest_valido(self):
+        """O manifest é servido na raiz, com tipo correto e ícones obrigatórios."""
+        resp = self.client.get("/manifest.webmanifest", secure=True)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn("application/manifest+json", resp["Content-Type"])
+        dados = json.loads(b"".join(resp.streaming_content))
+        self.assertEqual(dados["display"], "standalone")
+        self.assertEqual(dados["scope"], "/")
+        tamanhos = {i["sizes"] for i in dados["icons"]}
+        self.assertTrue({"192x192", "512x512"} <= tamanhos)
+
+    def test_service_worker_servido_na_raiz(self):
+        """O SW fica em /sw.js, sem cache HTTP e com escopo liberado para '/'."""
+        resp = self.client.get("/sw.js", secure=True)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn("javascript", resp["Content-Type"])
+        self.assertEqual(resp["Service-Worker-Allowed"], "/")
+        self.assertIn("no-cache", resp["Cache-Control"])
+        self.assertIn("worker-src 'self'", resp["Content-Security-Policy"])
+
+    def test_service_worker_nao_aceita_post(self):
+        self.assertEqual(self.client.post("/sw.js", secure=True).status_code, 405)

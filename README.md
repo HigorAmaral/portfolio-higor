@@ -27,12 +27,13 @@ Aplicação web full-stack desenvolvida com **Django** no backend e interface mo
 * **Servidor de Produção:** Gunicorn gerenciado por container Linux no Render.
 * **Arquivos Estáticos:** WhiteNoise com compressão gzip/brotli e cache agressivo de ativos.
 * **Documentação de API:** Especificação OpenAPI 3.0 com interface Swagger UI interativa nativa.
-* **CI/CD:** Pipeline automatizado no GitHub Actions executando 21 testes unitários em cada push.
+* **CI/CD:** Pipeline automatizado no GitHub Actions executando 24 testes unitários em cada push.
 
 ### Front-end & Interface
 * **Arquitetura:** HTML5 semântico, CSS3 com design tokens e JavaScript Vanilla (zero frameworks pesados para carregamento ultra-rápido).
 * **Acessibilidade & Design:** Paleta dinâmica adaptada para modo escuro e claro (Dark/Light mode) com cálculo de contraste harmonioso (`color-mix`), tipografia fluida e suporte a leitores de tela.
 * **Estudos de Caso:** Modais interativos detalhando desafios técnicos, decisões de engenharia e resultados de projetos.
+* **PWA (Progressive Web App):** Instalável no celular e desktop, com Service Worker para carregamento instantâneo e acesso offline ao conteúdo principal.
 
 ---
 
@@ -69,7 +70,7 @@ portfolio-higor/
 ├── recados/             # Aplicação core: models, views REST, testes e openapi.py
 │   ├── models.py        # Modelagem de dados (Recados, Projetos, Habilidades, Métricas)
 │   ├── openapi.py       # Especificação técnica do Swagger UI (OpenAPI 3.0)
-│   ├── tests.py         # Suíte com 21 testes unitários automatizados
+│   ├── tests.py         # Suíte com 24 testes unitários automatizados
 │   └── views.py         # Endpoints da API, mural de recados e health check
 ├── frontend/            # Frontend do site (HTML5, CSS modular e JavaScript)
 │   └── index.html       # Single Page com tema dinâmico, animações e integração REST

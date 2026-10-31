@@ -39,6 +39,26 @@ def index(request):
     return FileResponse(open(FRONTEND, "rb"), content_type="text/html; charset=utf-8")
 
 
+@require_GET
+def manifest(request):
+    """Web App Manifest do PWA (servido na raiz para escopo '/')."""
+    caminho = FRONTEND.parent / "manifest.webmanifest"
+    resp = FileResponse(open(caminho, "rb"), content_type="application/manifest+json")
+    resp["Cache-Control"] = "public, max-age=3600"
+    return resp
+
+
+@require_GET
+def service_worker(request):
+    """Service Worker do PWA. Precisa estar na raiz para controlar todo o site."""
+    caminho = FRONTEND.parent / "sw.js"
+    resp = FileResponse(open(caminho, "rb"), content_type="application/javascript; charset=utf-8")
+    # Sem cache HTTP: o navegador sempre verifica se há versão nova do SW
+    resp["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    resp["Service-Worker-Allowed"] = "/"
+    return resp
+
+
 def _ip(request):
     """Obtém o IP real do cliente de forma resistente a spoofing (ver config/seguranca.py)."""
     return ip_cliente(request)

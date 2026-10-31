@@ -23,6 +23,8 @@ class SecurityHeadersMiddleware:
                 "img-src 'self' data: https:; "
                 "font-src 'self' data:; "
                 "connect-src 'self'; "
+                "worker-src 'self'; "
+                "manifest-src 'self'; "
                 "object-src 'none'; "
                 "frame-ancestors 'none'; "
                 "form-action 'self'; "

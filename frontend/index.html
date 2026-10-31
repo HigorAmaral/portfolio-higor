@@ -10,6 +10,16 @@
 <meta name="description" content="Portfólio de Higor do Amaral Fritz — Desenvolvedor Full Stack & Backend. Projetos em Python, Django, PostgreSQL, APIs RESTful documentadas e Inteligência Artificial.">
 <meta name="author" content="Higor do Amaral Fritz">
 
+<!-- PWA -->
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/pwa/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/static/pwa/icon-192.png">
+<link rel="apple-touch-icon" href="/static/pwa/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Higor Fritz">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://portfolio-higor.onrender.com/">
@@ -60,6 +70,7 @@ html{
   scroll-behavior:smooth;
 }
 *,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
 body{
   margin:0;
   background:var(--bg);
@@ -1146,6 +1157,8 @@ footer a:hover{text-decoration:underline}
     <a href="#" class="logo">&lt;higor.fritz/&gt;</a>
     
     <div class="nav-actions">
+      <!-- Botão Instalar App (PWA): aparece só quando o navegador permite instalar -->
+      <button class="theme-toggle" id="btn-instalar" type="button" hidden aria-label="Instalar aplicativo" title="Instalar como aplicativo"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
       <!-- Botão de Alternar Tema (Dark/Light com ícone SVG) -->
       <button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema" type="button" title="Alternar tema claro/escuro">
         <svg class="icon" id="theme-icon-sun" style="display:none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -2172,6 +2185,49 @@ function initTilt(){
     a.addEventListener('click', function(){
       track('download_curriculo');
     });
+  });
+})();
+</script>
+<script>
+// PWA: registro do Service Worker e botão "Instalar app"
+(function(){
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function(){});
+    });
+  }
+
+  var btn = document.getElementById('btn-instalar');
+  var promptInstalacao = null;
+
+  function avisar(texto){
+    var t = document.getElementById('toast'), m = document.getElementById('toast-msg');
+    if(!t || !m) return;
+    m.textContent = texto;
+    t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 2800);
+  }
+
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    promptInstalacao = e;
+    if(btn) btn.hidden = false;
+  });
+
+  if(btn){
+    btn.addEventListener('click', function(){
+      if(!promptInstalacao) return;
+      promptInstalacao.prompt();
+      promptInstalacao.userChoice.finally(function(){
+        promptInstalacao = null;
+        btn.hidden = true;
+      });
+    });
+  }
+
+  window.addEventListener('appinstalled', function(){
+    if(btn) btn.hidden = true;
+    avisar('App instalado com sucesso!');
   });
 })();
 </script>

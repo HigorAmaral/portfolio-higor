@@ -1,0 +1,26 @@
+{
+  "id": "/",
+  "name": "Higor do Amaral Fritz — Portfólio",
+  "short_name": "Higor Fritz",
+  "description": "Portfólio de Higor do Amaral Fritz: projetos em Python, Django, PostgreSQL, APIs REST e Inteligência Artificial.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#0e1120",
+  "theme_color": "#0e1120",
+  "categories": ["education", "productivity", "business"],
+  "icons": [
+    { "src": "/static/pwa/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/static/pwa/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/static/pwa/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Projetos", "short_name": "Projetos", "url": "/?source=pwa#projetos", "icons": [{ "src": "/static/pwa/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Contato", "short_name": "Contato", "url": "/?source=pwa#contato", "icons": [{ "src": "/static/pwa/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Currículo (PDF)", "short_name": "Currículo", "url": "/static/curriculo-higor.pdf", "icons": [{ "src": "/static/pwa/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
