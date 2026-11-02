@@ -259,18 +259,6 @@ function initTilt(){
 })();
 
 
-// Barra de Progresso de Leitura no Topo
-(function(){
-  var bar = document.getElementById('scroll-progress');
-  if(!bar) return;
-  window.addEventListener('scroll', function(){
-    var winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    var scrolled = height > 0 ? (winScroll / height) * 100 : 0;
-    bar.style.width = Math.min(100, Math.max(0, scrolled)) + '%';
-  }, {passive: true});
-})();
-
 // Mural de Recados (API)
 (function(){
   var base = (document.querySelector('meta[name="api-base"]') || {}).content || '';
@@ -539,15 +527,6 @@ function initTilt(){
 
   function cardProjeto(p){
     var c = el('div', 'card novo');
-
-    // Mockup visual de navegador no topo do card
-    var prev = el('div', 'project-preview');
-    var dots = el('div', 'dots');
-    dots.innerHTML = '<span></span><span></span><span></span>';
-    prev.appendChild(dots);
-    var uStr = p.dominio || (p.demo ? p.demo.replace(/^https?:\/\//, '').split('/')[0] : (p.github ? p.github.replace(/^https?:\/\//, '') : 'higor.dev'));
-    prev.appendChild(el('span', 'preview-url', uStr));
-    c.appendChild(prev);
 
     // Selo de destaque (Hackathon 24h, Swagger OpenAPI, etc)
     var bText = p.badge || (p.nome.includes('Hackathon') ? '🏆 Hackathon 24h' : (p.nome.includes('Portfólio') ? '⚡ API REST ao vivo' : ''));
