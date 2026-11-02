@@ -6,9 +6,9 @@
   var html = document.documentElement;
 
   function getPreferredTheme(){
-    var saved = localStorage.getItem('theme');
+    var saved = localStorage.getItem('portfolio_theme');
     if(saved) return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return 'dark'; // Padrão: Escuro Moderno (#121212 / #1E1E1E / #00E676)
   }
 
   function applyTheme(theme){
@@ -25,7 +25,7 @@
       btn.setAttribute('aria-label', 'Ativar modo escuro');
       btn.setAttribute('title', 'Ativar modo escuro');
     }
-    localStorage.setItem('theme', theme);
+    localStorage.setItem('portfolio_theme', theme);
   }
 
   applyTheme(getPreferredTheme());
