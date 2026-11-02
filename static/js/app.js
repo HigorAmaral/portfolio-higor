@@ -340,7 +340,7 @@ function initTilt(){
     "projetos": [
       {
         "nome": "Hackathon Fábrica 2k26",
-        "badge": "🏆 Desenvolvido em 24h · Maratona Hackathon",
+        "badge": "Desenvolvido em 24h · Maratona Hackathon",
         "dominio": "delta.fabricadesoftware.ifc.edu.br",
         "descricao": "Plataforma com Inteligência Artificial desenvolvida em maratona intensiva de 24 horas para auxiliar professores na adaptação personalizada de atividades e percepção precoce de sinais em alunos neuroatípicos (TEA e TDAH).",
         "tecnologias": ["Python", "Django", "IA", "Educação Inclusiva", "Hackathon 24h"],
@@ -351,7 +351,7 @@ function initTilt(){
         "categoria": "ia",
         "estudo_caso": {
           "titulo": "Hackathon Fábrica 2k26 (Maratona 24H)",
-          "badge": "🏆 Hackathon 24H · IA Aplicada",
+          "badge": "Hackathon 24H · IA Aplicada",
           "desafio": "Criar uma solução tecnológica completa em apenas 24 horas contínuas para apoiar professores da rede pública a adaptar atividades e avaliações para crianças neuroatípicas de 6 a 9 anos (com TEA e TDAH), além de estruturar relatórios de observação em sala de aula.",
           "solucao": "Desenvolvemos em equipe uma aplicação web em Python e Django integrada com modelos de Inteligência Artificial. A ferramenta analisa o plano de aula do professor e gera versões adaptadas com linguagem direta, suporte imagético, redução de sobrecarga sensorial e roteiros lúdicos diferenciados. Deploy efetuado no ambiente da Fábrica de Software do IFC.",
           "aprendizados": "Trabalho ágil sob altíssima pressão de tempo, prototipagem relâmpago, integração de IA no backend Django e entrega de um produto funcional pronto para uso em sala de aula em 24 horas."
@@ -359,7 +359,7 @@ function initTilt(){
       },
       {
         "nome": "Portfólio Pessoal & API REST",
-        "badge": "⚡ API REST ao vivo (OpenAPI 3.0)",
+        "badge": "API REST ao vivo (OpenAPI 3.0)",
         "dominio": "portfolio-higor.onrender.com",
         "descricao": "Arquitetura web completa com mural interativo de recados, documentação OpenAPI 3.0 (Swagger UI), endpoint de health check, segurança reforçada contra XSS/DoS, esteira de CI/CD e banco PostgreSQL no Render.",
         "tecnologias": ["Python", "Django", "PostgreSQL", "Swagger UI", "CI/CD", "Render"],
@@ -371,7 +371,7 @@ function initTilt(){
         "categoria": "backend",
         "estudo_caso": {
           "titulo": "Portfólio & Backend Production-Ready",
-          "badge": "⚡ Django 6 · PostgreSQL · Swagger",
+          "badge": "Django 6 · PostgreSQL · Swagger",
           "desafio": "Construir uma aplicação web rápida, moderna e de custo zero de infraestrutura (Render Free Tier), porém com arquitetura, testes e padrões de segurança de nível sênior.",
           "solucao": "Estruturação de backend Django com PostgreSQL na nuvem, esteira de CI/CD no GitHub Actions com 21 testes unitários automatizados, documentação interativa Swagger (/api/docs/), rate limiting por IP confiável (True-Client-IP), proteção estrita de headers (CSP, HSTS, COOP), auditoria de CVEs com pip-audit e bot keep-alive para zero downtime.",
           "aprendizados": "Implementação prática de esteira de integração contínua (CI/CD), arquitetura resiliente na nuvem, hardening contra ataques cibernéticos e documentação padronizada OpenAPI 3.0."
@@ -379,7 +379,7 @@ function initTilt(){
       },
       {
         "nome": "Santory Pizzaria",
-        "badge": "🍕 Projeto Integrador · IFC",
+        "badge": "Projeto Integrador · IFC",
         "dominio": "santoryfrontend-1.vercel.app",
         "descricao": "Sistema integrado de gestão, PDV e delivery para pizzaria desenvolvido no IFC: SPA reativo em Vue 3 (Vite) hospedado na Vercel e backend REST com Django no Render, com baixa automática de estoque de insumos e múltiplos níveis de acesso.",
         "tecnologias": ["Vue 3", "Vite", "Python", "Django REST", "Vercel", "Render"],
@@ -390,7 +390,7 @@ function initTilt(){
         "categoria": "frontend",
         "estudo_caso": {
           "titulo": "Sistema Integrado de Gestão & PDV (Pizzaria Santory)",
-          "badge": "🍕 Vue 3 · Django REST · Vercel · Render · Projeto Integrador",
+          "badge": "Vue 3 · Django REST · Vercel · Render · Projeto Integrador",
           "desafio": "A Pizzaria Santory operava com fluxos semi-manuais e anotações em papel para pedidos de balcão e telefone, causando lentidão no atendimento, erros na transmissão dos pedidos à cozinha, falta de controle de estoque de ingredientes e ausência de rastreamento de entregas ou pagamentos online.",
           "solucao": "Desenvolvimento de um ecossistema web integrado com arquitetura desacoplada: interface SPA reativa em Vue 3 (Vite) na Vercel e backend RESTful com Django no Render. Modelagem relacional completa (DER), controle automático de estoque com baixa por insumo, PDV em tempo real para salão/cozinha, perfis de acesso (Administrador, Atendente, Pizzaiolo, Entregador e Cliente) e catálogo interativo com personalização de pedidos.",
           "aprendizados": "Arquitetura cliente-servidor desacoplada (Vue 3 + Django API), engenharia de requisitos com 37 RFs e 20 regras de negócio, modelagem de banco de dados relacional (DER), trabalho em equipe com Git/GitHub e deploy em múltiplos provedores em nuvem (Vercel e Render)."
@@ -398,7 +398,7 @@ function initTilt(){
       },
       {
         "nome": "Projeto BSI: Microprocessos Acadêmicos",
-        "badge": "🔬 Pesquisa Científica & BPMN · IFC",
+        "badge": "Pesquisa Científica & BPMN · IFC",
         "dominio": "ifc-araquari.edu.br/bsi",
         "descricao": "Mapeamento e análise aprofundada dos microprocessos acadêmicos do Bacharelado em Sistemas de Informação no IFC Câmpus Araquari com modelagem BPMN, avaliação pelo modelo PEMM (Michael Hammer), diretrizes estratégicas 5W2H e engenharia de requisitos com conformidade LGPD.",
         "tecnologias": ["BPMN / BPM", "Engenharia de Requisitos", "Modelo PEMM", "Matriz 5W2H", "LGPD", "LaTeX"],
@@ -410,7 +410,7 @@ function initTilt(){
         "categoria": "backend",
         "estudo_caso": {
           "titulo": "Mapeamento & Análise de Microprocessos (BSI IFC)",
-          "badge": "🔬 BPMN · Modelo PEMM · 5W2H · Engenharia de Requisitos · LaTeX",
+          "badge": "BPMN · Modelo PEMM · 5W2H · Engenharia de Requisitos · LaTeX",
           "desafio": "A dispersão de plataformas (SIGAA, SEI, Google Forms) e o trâmite manual nos registros discentes do IFC geravam retrabalho na secretaria acadêmica, falta de rastreabilidade de solicitações para os alunos e diagnóstico de maturidade inicial (P0 em indicadores e infraestrutura de TI).",
           "solucao": "Estruturação qualitativa da trajetória discente em 4 fases (Entrada, Rotina, Pedidos Especiais e Conclusão), modelagem formal de 4 fluxos em BPMN (matrículas, TCC, dispensas, regime disciplinar), aplicação do modelo de maturidade PEMM de Michael Hammer, plano de ação 5W2H e levantamento rigoroso de 8 Requisitos Funcionais (RF01-RF08) e 4 Não-Funcionais (RNF01-RNF04) com proteção de dados e acessibilidade.",
           "aprendizados": "Domínio prático de Gestão de Processos de Negócio (BPM/BPMN), Engenharia de Requisitos aplicada ao contexto educacional público federal, diagnóstico organizacional e redação científica técnica avançada com diagramação em LaTeX."
@@ -446,7 +446,7 @@ function initTilt(){
     if(!ec || !modalBackdrop) return;
 
     modalTitle.textContent = ec.titulo || p.nome;
-    modalBadge.textContent = ec.badge || p.badge || 'Estudo de Caso';
+    modalBadge.textContent = removerEmojis(ec.badge || p.badge || 'Estudo de Caso');
     modalDesafio.textContent = ec.desafio || 'Desafio técnico em produção.';
     modalSolucao.textContent = ec.solucao || 'Solução estruturada com boas práticas de engenharia de software.';
     modalAprendizados.textContent = ec.aprendizados || 'Evolução técnica e trabalho colaborativo.';
@@ -525,11 +525,20 @@ function initTilt(){
     return 'frontend';
   }
 
+  function removerEmojis(txt){
+    if(!txt) return '';
+    try {
+      return String(txt).replace(/\p{Extended_Pictographic}\s*/gu, '').trim();
+    } catch(e) {
+      return String(txt).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|\u26A1|\u2728/g, '').trim();
+    }
+  }
+
   function cardProjeto(p){
     var c = el('div', 'card novo');
 
     // Selo de destaque (Hackathon 24h, Swagger OpenAPI, etc)
-    var bText = p.badge || (p.nome.includes('Hackathon') ? '🏆 Hackathon 24h' : (p.nome.includes('Portfólio') ? '⚡ API REST ao vivo' : ''));
+    var bText = removerEmojis(p.badge || (p.nome.includes('Hackathon') ? 'Hackathon 24h' : (p.nome.includes('Portfólio') ? 'API REST ao vivo' : '')));
     if(bText){
       var bCls = 'project-badge-tag' + (bText.includes('24h') || bText.includes('Hackathon') ? ' hackathon' : (bText.includes('API') || bText.includes('Swagger') ? ' swagger' : ''));
       c.appendChild(el('span', bCls, bText));

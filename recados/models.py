@@ -62,7 +62,7 @@ class Projeto(models.Model):
         max_length=80,
         blank=True,
         verbose_name="Selo de destaque",
-        help_text="Ex.: 🏆 Hackathon 24h, ⚡ API REST ao vivo",
+        help_text="Ex.: Hackathon 24h, API REST ao vivo",
     )
     pdf = models.CharField(
         max_length=300,

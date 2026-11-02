@@ -6,7 +6,7 @@ def popular_estudos(apps, schema_editor):
 
     dados = {
         "Hackathon": {
-            "badge": "🏆 Hackathon 24H · IA Aplicada",
+            "badge": "Hackathon 24H · IA Aplicada",
             "pdf": "",
             "estudo_titulo": "Hackathon Fábrica 2k26 (Maratona 24H)",
             "estudo_desafio": (
@@ -26,7 +26,7 @@ def popular_estudos(apps, schema_editor):
             ),
         },
         "Portfólio": {
-            "badge": "⚡ Django 6 · PostgreSQL · Swagger",
+            "badge": "Django 6 · PostgreSQL · Swagger",
             "pdf": "",
             "estudo_titulo": "Portfólio & Backend Production-Ready",
             "estudo_desafio": (
@@ -45,7 +45,7 @@ def popular_estudos(apps, schema_editor):
             ),
         },
         "Santory": {
-            "badge": "🍕 Vue 3 · Django REST · Vercel · Render · Projeto Integrador",
+            "badge": "Vue 3 · Django REST · Vercel · Render · Projeto Integrador",
             "pdf": "",
             "estudo_titulo": "Sistema Integrado de Gestão & PDV (Pizzaria Santory)",
             "estudo_desafio": (
@@ -66,7 +66,7 @@ def popular_estudos(apps, schema_editor):
             ),
         },
         "BSI": {
-            "badge": "🔬 BPMN · Modelo PEMM · 5W2H · Engenharia de Requisitos · LaTeX",
+            "badge": "BPMN · Modelo PEMM · 5W2H · Engenharia de Requisitos · LaTeX",
             "pdf": "/static/projeto-bsi-microprocessos.pdf",
             "estudo_titulo": "Mapeamento & Análise de Microprocessos (BSI IFC)",
             "estudo_desafio": (
