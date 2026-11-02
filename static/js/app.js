@@ -783,3 +783,25 @@ function initTilt(){
     window.scrollTo({top: 0, behavior: 'smooth'});
   });
 })();
+
+// Header fixo: adiciona sombra sutil e fundo opaco ao rolar a página
+(function(){
+  var nav = document.querySelector('header.nav');
+  if(!nav) return;
+  var ticking = false;
+  function updateNav(){
+    if(window.scrollY > 15){
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if(!ticking){
+      window.requestAnimationFrame(updateNav);
+      ticking = true;
+    }
+  }, {passive: true});
+  updateNav();
+})();
