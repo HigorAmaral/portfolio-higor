@@ -95,19 +95,25 @@
       charIdx++;
     }
 
-    var speed = isDeleting ? 40 : 80;
+    var speed = isDeleting ? 35 : 75;
     if(!isDeleting && charIdx === current.length){
       speed = 1800;
       isDeleting = true;
     } else if(isDeleting && charIdx === 0){
       isDeleting = false;
       wordIdx = (wordIdx + 1) % words.length;
-      speed = 400;
+      speed = 350;
     }
 
-    setTimeout(tick, speed);
+    timer = setTimeout(tick, speed);
   }
   tick();
+
+  document.addEventListener('visibilitychange', function(){
+    if(!document.hidden && !timer){
+      tick();
+    }
+  }, {passive: true});
 })();
 
 // Toast Notification
@@ -188,15 +194,18 @@ function dispararConfetes(){
     });
   }
 
+  canvas.style.display = 'block';
   var start = Date.now();
   function animate(){
     var elapsed = Date.now() - start;
-    if(elapsed > 2500){
+    if(elapsed > 2400){
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.style.display = 'none';
       return;
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    pieces.forEach(function(p){
+    for(var j = 0; j < pieces.length; j++){
+      var p = pieces[j];
       p.x += p.vx;
       p.y += p.vy;
       p.vy += 0.35;
@@ -207,34 +216,55 @@ function dispararConfetes(){
       ctx.fillStyle = p.color;
       ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
       ctx.restore();
-    });
+    }
     requestAnimationFrame(animate);
   }
-  animate();
+  requestAnimationFrame(animate);
 }
 
-// Tilt 3D sutil + Spotlight Radial Glow nos Cards (Desktop)
+// Tilt 3D ultra-otimizado + Spotlight Radial Glow (Zero Reflow no mousemove, 60/120 FPS)
 function initTilt(){
-  if(!window.matchMedia('(hover: hover)').matches) return;
+  if(!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   var cards = document.querySelectorAll('.card, .focus-card, .award-card');
   cards.forEach(function(card){
     if(card.dataset.tiltBound === '1') return;
     card.dataset.tiltBound = '1';
-    card.addEventListener('mousemove', function(e){
-      var rect = card.getBoundingClientRect();
-      var x = e.clientX - rect.left;
-      var y = e.clientY - rect.top;
-      var cx = rect.width / 2;
-      var cy = rect.height / 2;
-      var dx = (x - cx) / cx;
-      var dy = (y - cy) / cy;
-      card.style.setProperty('--mouse-x', x + 'px');
-      card.style.setProperty('--mouse-y', y + 'px');
-      card.style.transform = 'perspective(900px) rotateX(' + (-dy * 4) + 'deg) rotateY(' + (dx * 4) + 'deg) translateY(-4px)';
-    });
-    card.addEventListener('mouseleave', function(){
+    var rect = null;
+    var rafId = null;
+
+    function onEnter(){
+      rect = card.getBoundingClientRect();
+      card.style.transition = 'border-color .25s ease, box-shadow .25s ease, background-color .3s ease';
+    }
+
+    function onMove(e){
+      if(!rect) rect = card.getBoundingClientRect();
+      var clientX = e.clientX;
+      var clientY = e.clientY;
+      if(rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(function(){
+        var x = clientX - rect.left;
+        var y = clientY - rect.top;
+        var cx = rect.width / 2;
+        var cy = rect.height / 2;
+        var dx = Math.max(-1, Math.min(1, (x - cx) / cx));
+        var dy = Math.max(-1, Math.min(1, (y - cy) / cy));
+        card.style.setProperty('--mouse-x', x + 'px');
+        card.style.setProperty('--mouse-y', y + 'px');
+        card.style.transform = 'perspective(900px) rotateX(' + (-dy * 3).toFixed(2) + 'deg) rotateY(' + (dx * 3).toFixed(2) + 'deg) translateY(-3px)';
+      });
+    }
+
+    function onLeave(){
+      if(rafId) cancelAnimationFrame(rafId);
+      rect = null;
+      card.style.transition = 'transform .35s cubic-bezier(0.16, 1, 0.3, 1), border-color .25s ease, box-shadow .25s ease, background-color .3s ease';
       card.style.transform = '';
-    });
+    }
+
+    card.addEventListener('mouseenter', onEnter, {passive: true});
+    card.addEventListener('mousemove', onMove, {passive: true});
+    card.addEventListener('mouseleave', onLeave, {passive: true});
   });
 }
 
@@ -709,11 +739,13 @@ initReveal();
       return detectCategoria(p) === currentFilter;
     });
 
+    var frag = document.createDocumentFragment();
     filtrados.forEach(function(p, idx){
       var card = cardProjeto(p);
       card.style.setProperty('--stagger', String(idx));
-      pg.appendChild(card);
+      frag.appendChild(card);
     });
+    pg.appendChild(frag);
 
     if(!filtrados.length){
       pg.appendChild(el('p', 'muted', 'Nenhum projeto encontrado nesta categoria.'));
@@ -834,32 +866,10 @@ initReveal();
   });
 })();
 
-// Botão Voltar ao Topo
-(function(){
-  var btn = document.getElementById('back-to-top');
-  if(!btn) return;
-  var ticking = false;
-  window.addEventListener('scroll', function(){
-    if(!ticking){
-      window.requestAnimationFrame(function(){
-        if(window.scrollY > 350){
-          btn.classList.add('visible');
-        } else {
-          btn.classList.remove('visible');
-        }
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, {passive: true});
-  btn.addEventListener('click', function(){
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  });
-})();
-
-// Header fixo & Scroll Spy de Seções Ativas
+// Scroll Unificado, Throttled e com Cache de Posições (Zero Travamentos)
 (function(){
   var nav = document.querySelector('header.nav');
+  var btnTop = document.getElementById('back-to-top');
   var navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
   var sections = [];
   navLinks.forEach(function(link){
@@ -868,35 +878,59 @@ initReveal();
     if(sec) sections.push({ id: id, el: sec, link: link });
   });
 
+  var sectionTops = [];
+  function cacheTops(){
+    sectionTops = sections.map(function(s){
+      return { id: s.id, top: s.el.offsetTop, link: s.link };
+    });
+  }
+  cacheTops();
+  window.addEventListener('resize', cacheTops, {passive: true});
+
   var ticking = false;
   function updateScrollEffects(){
-    var y = window.scrollY;
+    var y = window.scrollY || document.documentElement.scrollTop;
     if(nav){
       if(y > 15){
-        nav.classList.add('scrolled');
+        if(!nav.classList.contains('scrolled')) nav.classList.add('scrolled');
       } else {
-        nav.classList.remove('scrolled');
+        if(nav.classList.contains('scrolled')) nav.classList.remove('scrolled');
       }
     }
-    if(sections.length){
+    if(btnTop){
+      if(y > 350){
+        if(!btnTop.classList.contains('visible')) btnTop.classList.add('visible');
+      } else {
+        if(btnTop.classList.contains('visible')) btnTop.classList.remove('visible');
+      }
+    }
+    if(sectionTops.length){
       var currentId = '';
       var offset = y + 180;
-      for(var i = 0; i < sections.length; i++){
-        if(sections[i].el.offsetTop <= offset){
-          currentId = sections[i].id;
+      for(var i = 0; i < sectionTops.length; i++){
+        if(sectionTops[i].top <= offset){
+          currentId = sectionTops[i].id;
         }
       }
-      sections.forEach(function(s){
-        s.link.classList.toggle('active-section', s.id === currentId);
-      });
+      for(var j = 0; j < sectionTops.length; j++){
+        sectionTops[j].link.classList.toggle('active-section', sectionTops[j].id === currentId);
+      }
     }
     ticking = false;
   }
+
   window.addEventListener('scroll', function(){
     if(!ticking){
       window.requestAnimationFrame(updateScrollEffects);
       ticking = true;
     }
   }, {passive: true});
+
+  if(btnTop){
+    btnTop.addEventListener('click', function(){
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  }
+
   updateScrollEffects();
 })();

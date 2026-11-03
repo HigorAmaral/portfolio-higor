@@ -79,6 +79,15 @@
   ]
 }
 </script>
+<script>
+(function(){
+  try{
+    var t = localStorage.getItem('portfolio_theme_v3') || localStorage.getItem('portfolio_theme');
+    if(!t){ t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+    document.documentElement.setAttribute('data-theme', t);
+  }catch(e){}
+})();
+</script>
 <style>
 :root{
   box-sizing:border-box;
@@ -126,18 +135,24 @@ html{
 [hidden]{display:none!important}
 body{
   margin:0;
-  background:var(--bg);
+  background-color:var(--bg);
   color:var(--text);
   font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   overflow-x:hidden;
   max-width:100%;
   width:100%;
   position:relative;
-  background-image:radial-gradient(52rem 28rem at 88% -8%,color-mix(in srgb,var(--accent) 8%,transparent),transparent),radial-gradient(38rem 24rem at -8% 38%,color-mix(in srgb,var(--accent) 4%,transparent),transparent);
-  background-attachment:fixed;
   -webkit-font-smoothing:antialiased;
   padding-bottom:env(safe-area-inset-bottom, 0px);
-  transition:background-color .3s ease, color .3s ease;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background-image:radial-gradient(52rem 28rem at 88% -8%,color-mix(in srgb,var(--accent) 8%,transparent),transparent),radial-gradient(38rem 24rem at -8% 38%,color-mix(in srgb,var(--accent) 4%,transparent),transparent);
+  transform:translateZ(0);
 }
 .wrap{
   max-width:960px;
@@ -551,10 +566,11 @@ h1 span.name{
 }
 .stats span{color:var(--muted);font-size:.88rem;line-height:1.35}
 
-/* Seções */
+/* Seções (Isolamento de Layout e Estilos) */
 section{
   padding:clamp(44px, 7vw, 64px) 0;
   border-top:1px solid var(--line);
+  contain:layout style;
 }
 h2{
   display:flex;
@@ -595,9 +611,8 @@ h2 .heading-icon{
   box-shadow:var(--card-shadow);
   display:flex;
   flex-direction:column;
-  transition:transform .2s ease-out, border-color .25s, box-shadow .25s ease-out, background-color .3s;
-  transform-style:preserve-3d;
-  will-change:transform;
+  transition:border-color .2s ease, box-shadow .2s ease, background-color .25s ease;
+  contain:layout style paint;
   min-width:0;
   max-width:100%;
 }
@@ -748,13 +763,14 @@ h2 .heading-icon{
   gap:14px;
   align-items:flex-start;
   box-shadow:var(--card-shadow);
-  transition:transform .2s ease, border-color .2s ease;
+  transition:border-color .2s ease, box-shadow .2s ease;
+  contain:layout style paint;
   min-width:0;
   max-width:100%;
 }
 .focus-card:hover{
-  transform:translateY(-3px);
   border-color:var(--accent);
+  box-shadow:0 8px 24px -6px color-mix(in srgb,var(--accent) 25%,transparent);
 }
 .focus-icon{
   color:var(--accent);
@@ -786,13 +802,14 @@ h2 .heading-icon{
   flex-direction:column;
   gap:8px;
   box-shadow:var(--card-shadow);
+  contain:layout style paint;
   min-width:0;
   max-width:100%;
-  transition:transform .2s ease, border-color .2s ease;
+  transition:border-color .2s ease, box-shadow .2s ease;
 }
 .award-card:hover{
-  transform:translateY(-3px);
   border-color:var(--accent);
+  box-shadow:0 8px 24px -6px color-mix(in srgb,var(--accent) 25%,transparent);
 }
 .award-badge{
   display:inline-flex;
@@ -902,7 +919,7 @@ textarea{resize:vertical;min-height:90px}
   transform:translateX(-50%) translateY(0);
 }
 
-/* Canvas de Confetes */
+/* Canvas de Confetes (Zero Render Overhead quando inativo) */
 #confetti-canvas{
   position:fixed;
   top:0;
@@ -911,6 +928,7 @@ textarea{resize:vertical;min-height:90px}
   height:100%;
   pointer-events:none;
   z-index:9998;
+  display:none;
 }
 
 /* Rodapé */
@@ -933,7 +951,10 @@ footer a:hover{text-decoration:underline}
   0%,100%{transform:translateY(0) rotate(0deg)}
   50%{transform:translateY(-10px) rotate(1.5deg)}
 }
-@keyframes pulse{0%{box-shadow:0 0 0 0 var(--accent-secondary, var(--accent))}70%,100%{box-shadow:0 0 0 10px transparent}}
+@keyframes pulse{
+  0%,100%{ transform:scale(0.92); opacity:0.75; }
+  50%{ transform:scale(1.22); opacity:1; }
+}
 @keyframes gradientShift{
   0%{background-position:0% 50%}
   50%{background-position:100% 50%}
@@ -989,7 +1010,20 @@ footer a:hover{text-decoration:underline}
   animation:heroAvatarIn .9s cubic-bezier(0.22, 1, 0.36, 1) .2s both;
 }
 .hero-avatar{
-  animation:heroFloat 5.5s ease-in-out infinite, avatarGlow 4s ease-in-out infinite alternate;
+  animation:heroFloat 5.5s ease-in-out infinite;
+  transform:translateZ(0);
+}
+.hero-avatar::before{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:50%;
+  background:linear-gradient(135deg, var(--accent), var(--accent-secondary, #0D9488));
+  filter:blur(10px);
+  z-index:-1;
+  opacity:0.4;
+  animation:avatarGlow 3.5s ease-in-out infinite alternate;
+  pointer-events:none;
 }
 
 /* Transição suave ao alternar tema (Claro <-> Escuro) */
@@ -1112,42 +1146,38 @@ section:hover h2 .heading-icon{
   box-shadow:0 4px 10px color-mix(in srgb, var(--accent-secondary, #0D9488) 18%, transparent);
 }
 
-/* ===== Sistema de Scroll-Reveal Multi-Direcional ===== */
+/* ===== Sistema de Scroll-Reveal Otimizado (100% GPU Compositor, Zero Blur Lag) ===== */
 .reveal{
   opacity:0;
-  transform:translateY(28px);
-  filter:blur(4px);
-  transition:opacity .7s cubic-bezier(0.22, 1, 0.36, 1),
-             transform .7s cubic-bezier(0.22, 1, 0.36, 1),
-             filter .65s cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay:calc(var(--stagger, 0) * 85ms);
-  will-change:opacity, transform, filter;
+  transform:translateY(20px);
+  transition:opacity .55s cubic-bezier(0.22, 1, 0.36, 1),
+             transform .55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay:calc(var(--stagger, 0) * 60ms);
 }
 /* Variação 1: Slide da Esquerda */
 .reveal.reveal-left{
-  transform:translateX(-38px) translateY(8px);
+  transform:translateX(-28px);
 }
 /* Variação 2: Slide da Direita */
 .reveal.reveal-right{
-  transform:translateX(38px) translateY(8px);
+  transform:translateX(28px);
 }
-/* Variação 3: Pop 3D com Perspectiva (Cards de Skills e Projetos) */
+/* Variação 3: Pop Suave (Cards de Skills e Projetos) */
 .reveal.reveal-pop{
-  transform:perspective(900px) translateY(34px) scale(0.9) rotateX(12deg);
+  transform:translateY(24px) scale(0.96);
 }
-/* Variação 4: Flip Suave em Y (Cards de Conquistas) */
+/* Variação 4: Flip Suave (Cards de Conquistas) */
 .reveal.reveal-flip{
-  transform:perspective(900px) translateY(24px) rotateY(-14deg) scale(0.94);
+  transform:translateY(20px) scale(0.97);
 }
 /* Variação 5: Zoom Suave (FAQ / Mural) */
 .reveal.reveal-zoom{
-  transform:scale(0.93) translateY(18px);
+  transform:scale(0.96) translateY(14px);
 }
 
 .reveal.in{
   opacity:1;
-  transform:perspective(900px) translate3d(0,0,0) scale(1) rotateX(0) rotateY(0);
-  filter:blur(0);
+  transform:none;
 }
 
 /* Timeline Animada */
@@ -1511,8 +1541,8 @@ section:hover h2 .heading-icon{
   box-shadow:0 0 0 2px rgba(16,185,129,.35);
 }
 @keyframes avatarGlow{
-  from{ box-shadow:0 0 16px color-mix(in srgb, var(--accent) 25%, transparent); }
-  to{ box-shadow:0 0 32px color-mix(in srgb, var(--accent) 55%, transparent); }
+  from{ opacity:0.3; transform:scale(0.98); }
+  to{ opacity:0.65; transform:scale(1.02); }
 }
 @media (max-width:720px){
   .hero-grid{
@@ -1972,7 +2002,7 @@ h2 .heading-icon{
       </div>
       <div class="hero-avatar-wrap">
         <div class="hero-avatar">
-          <img src="https://github.com/HigorAmaral.png" alt="Foto de perfil de Higor do Amaral Fritz" width="168" height="168" loading="eager" fetchpriority="high">
+          <img src="https://github.com/HigorAmaral.png" alt="Foto de perfil de Higor do Amaral Fritz" width="168" height="168" loading="eager" fetchpriority="high" decoding="async">
           <span class="hero-avatar-status" title="Disponível para novos projetos e estágio" aria-label="Online / Disponível"></span>
         </div>
       </div>
@@ -2312,7 +2342,7 @@ h2 .heading-icon{
   <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
-<script src="/static/js/app.js?v=20261103-ui"></script>
+<script src="/static/js/app.js?v=20261103-opt"></script>
 <!-- Botão Voltar ao Topo Flutuante -->
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>

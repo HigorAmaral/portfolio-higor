@@ -5,7 +5,7 @@
  *  - /api/conteudo/: stale-while-revalidate (cards aparecem offline).
  *  - Demais rotas (/api/*, painel, POSTs): nunca são interceptadas nem cacheadas.
  */
-const VERSAO = 'v2';
+const VERSAO = 'v4';
 const CACHE_PAGINAS = 'higor-paginas-' + VERSAO;
 const CACHE_ESTATICOS = 'higor-estaticos-' + VERSAO;
 const CACHE_API = 'higor-api-' + VERSAO;
