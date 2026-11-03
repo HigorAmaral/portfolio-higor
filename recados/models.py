@@ -53,7 +53,19 @@ class Projeto(models.Model):
         EM_ANDAMENTO = "em_andamento", "Em andamento"
         CONCLUIDO = "concluido", "Concluído"
 
+    class Categoria(models.TextChoices):
+        BACKEND = "backend", "Back-end"
+        FRONTEND = "frontend", "Front-end"
+        IA = "ia", "IA & Inovação"
+
     nome = models.CharField(max_length=80)
+    categoria = models.CharField(
+        max_length=20,
+        choices=Categoria.choices,
+        default=Categoria.BACKEND,
+        verbose_name="Categoria (aba no site)",
+        help_text="Define em qual aba de filtro o projeto fica no portfólio (Back-end, Front-end ou IA & Inovação).",
+    )
     descricao = models.TextField(blank=True)
     tecnologias = models.CharField(max_length=200, blank=True, help_text="Separe por vírgula. Ex.: React, Django")
     github = models.URLField(max_length=300, blank=True)

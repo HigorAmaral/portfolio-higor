@@ -260,6 +260,8 @@ def conteudo(request):
     projetos = [
         {
             "nome": p.nome,
+            "categoria": p.categoria,
+            "categoria_label": p.get_categoria_display(),
             "descricao": p.descricao,
             "tecnologias": p.lista_tecnologias(),
             "github": p.github,

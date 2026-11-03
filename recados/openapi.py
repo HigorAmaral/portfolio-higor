@@ -103,6 +103,8 @@ OPENAPI_SPEC = {
                                     "projetos": [
                                         {
                                             "nome": "Portfólio Pessoal",
+                                            "categoria": "backend",
+                                            "categoria_label": "Back-end",
                                             "descricao": "Sistema completo com Django",
                                             "tecnologias": ["Django", "Python", "PostgreSQL"],
                                             "github": "https://github.com/HigorAmaral/portfolio-higor",

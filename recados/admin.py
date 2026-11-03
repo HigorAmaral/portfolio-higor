@@ -71,15 +71,16 @@ class HabilidadeAdmin(admin.ModelAdmin):
 
 @admin.register(Projeto)
 class ProjetoAdmin(admin.ModelAdmin):
-    list_display = ("nome", "status", "badge", "github", "demo", "ordem", "visivel")
-    list_editable = ("status", "ordem", "visivel")
-    list_filter = ("status", "visivel")
+    list_display = ("nome", "categoria", "status", "badge", "github", "demo", "ordem", "visivel")
+    list_editable = ("categoria", "status", "ordem", "visivel")
+    list_filter = ("categoria", "status", "visivel")
     search_fields = ("nome", "descricao", "estudo_titulo", "estudo_desafio")
     fieldsets = (
         (
             "Informações Básicas",
             {
-                "fields": ("nome", "descricao", "tecnologias", "status", "ordem", "visivel"),
+                "fields": ("nome", "categoria", "status", "descricao", "tecnologias", "ordem", "visivel"),
+                "description": "Escolha em 'Categoria' em qual aba do portfólio o projeto deve ficar (Back-end, Front-end ou IA & Inovação).",
             },
         ),
         (

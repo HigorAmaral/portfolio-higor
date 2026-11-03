@@ -383,7 +383,16 @@ class MelhoriasPortfolioTestCase(TestCase):
         self.assertIsNotNone(proj)
         self.assertEqual(proj["badge"], "🏆 Teste Destaque")
         self.assertEqual(proj["pdf"], "/static/teste.pdf")
+        self.assertEqual(proj["categoria"], "backend")
         self.assertEqual(proj["estudo_caso"]["solucao"], "Arquitetura em microsserviços")
+
+        # Verifica alteração de categoria pelo Admin (ex: mudar para IA & Inovação)
+        p.categoria = Projeto.Categoria.IA
+        p.save()
+        resp2 = self.client.get(reverse("conteudo"), secure=True)
+        proj2 = next((x for x in resp2.json().get("projetos", []) if x["nome"] == "Projeto Teste"), None)
+        self.assertEqual(proj2["categoria"], "ia")
+        self.assertEqual(proj2["categoria_label"], "IA & Inovação")
 
     def test_admin_kpi_dashboard_context(self):
         """Verifica se os KPIs de métricas e conteúdo são injetados no contexto do Django Admin."""

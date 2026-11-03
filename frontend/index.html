@@ -1,2351 +1,2526 @@
-<!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
-<head>
-<meta name="api-base" content="">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#E2E8F0">
-<title>Higor do Amaral Fritz · Desenvolvedor Full Stack & Backend</title>
-<meta name="description" content="Portfólio de Higor do Amaral Fritz — Desenvolvedor Full Stack & Backend. Projetos em Python, Django, PostgreSQL, APIs RESTful documentadas e Inteligência Artificial.">
-<meta name="author" content="Higor do Amaral Fritz">
-
-<!-- PWA -->
-<link rel="manifest" href="/manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="32x32" href="/static/pwa/favicon-32.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/static/pwa/icon-192.png">
-<link rel="apple-touch-icon" href="/static/pwa/apple-touch-icon.png">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Higor Fritz">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://portfolio-higor.onrender.com/">
-<meta property="og:title" content="Higor do Amaral Fritz · Desenvolvedor Full Stack & Backend">
-<meta property="og:description" content="Portfólio com projetos reais em Python, Django, PostgreSQL, APIs RESTful documentadas (Swagger) e Inteligência Artificial.">
-<meta property="og:image" content="https://portfolio-higor.onrender.com/static/og-preview.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Higor do Amaral Fritz · Desenvolvedor Full Stack & Backend">
-<meta name="twitter:description" content="Portfólio com projetos reais em Python, Django, PostgreSQL, APIs RESTful documentadas (Swagger) e Inteligência Artificial.">
-<meta name="twitter:image" content="https://portfolio-higor.onrender.com/static/og-preview.png">
-<!-- Dados Estruturados Schema.org (JSON-LD) para SEO no Google -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person",
-      "@id": "https://portfolio-higor.onrender.com/#person",
-      "name": "Higor do Amaral Fritz",
-      "url": "https://portfolio-higor.onrender.com/",
-      "image": "https://github.com/HigorAmaral.png",
-      "jobTitle": "Desenvolvedor Full Stack & Backend",
-      "alumniOf": {
-        "@type": "EducationalOrganization",
-        "name": "Instituto Federal Catarinense (IFC)"
-      },
-      "knowsAbout": [
-        "Python",
-        "Django",
-        "PostgreSQL",
-        "APIs RESTful",
-        "Swagger / OpenAPI",
-        "Vue.js",
-        "Docker",
-        "Segurança Web",
-        "Inteligência Artificial"
-      ],
-      "sameAs": [
-        "https://github.com/HigorAmaral",
-        "https://www.linkedin.com/in/higor-do-amaral-fritz"
-      ]
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://portfolio-higor.onrender.com/#website",
-      "url": "https://portfolio-higor.onrender.com/",
-      "name": "Higor Fritz · Portfólio & Backend Production-Ready",
-      "description": "Portfólio com projetos reais em Python, Django, PostgreSQL, APIs RESTful documentadas e IA.",
-      "publisher": {
-        "@id": "https://portfolio-higor.onrender.com/#person"
-      },
-      "inLanguage": "pt-BR"
-    }
-  ]
-}
-</script>
-<script>
-(function(){
-  try{
-    var t = localStorage.getItem('portfolio_theme_v3') || localStorage.getItem('portfolio_theme');
-    if(!t){ t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
-    document.documentElement.setAttribute('data-theme', t);
-  }catch(e){}
-})();
-</script>
-<style>
-:root{
-  box-sizing:border-box;
-  --bg:#E2E8F0;--surface:#EDF2F7;--text:#1E293B;--muted:#475569;--line:#CBD5E1;
-  --primary:#1D4ED8;--accent:#1D4ED8;--accent-secondary:#0F766E;--accent-purple:#0F766E;
-  --accent-soft:rgba(29, 78, 216, 0.10);--accent-secondary-soft:rgba(15, 118, 110, 0.12);--accent-text:#F8FAFC;
-  --card-shadow:0 2px 6px rgba(15, 23, 42, 0.05), 0 10px 24px -6px rgba(15, 23, 42, 0.07);
-  --text-sec:#334155;
-  color-scheme:light;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#0F172A;--surface:#1E293B;--text:#F8FAFC;--muted:#94A3B8;--line:#334155;
-    --primary:#3B82F6;--accent:#3B82F6;--accent-secondary:#14B8A6;--accent-purple:#14B8A6;
-    --accent-soft:rgba(59, 130, 246, 0.15);--accent-secondary-soft:rgba(20, 184, 166, 0.15);--accent-text:#FFFFFF;
-    --card-shadow:0 4px 20px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
-    --text-sec:#94A3B8;
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0F172A;--surface:#1E293B;--text:#F8FAFC;--muted:#94A3B8;--line:#334155;
-  --primary:#3B82F6;--accent:#3B82F6;--accent-secondary:#14B8A6;--accent-purple:#14B8A6;
-  --accent-soft:rgba(59, 130, 246, 0.15);--accent-secondary-soft:rgba(20, 184, 166, 0.15);--accent-text:#FFFFFF;
-  --card-shadow:0 4px 20px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
-  --text-sec:#94A3B8;
-  color-scheme:dark;
-}
-:root[data-theme="light"]{
-  --bg:#E2E8F0;--surface:#EDF2F7;--text:#1E293B;--muted:#475569;--line:#CBD5E1;
-  --primary:#1D4ED8;--accent:#1D4ED8;--accent-secondary:#0F766E;--accent-purple:#0F766E;
-  --accent-soft:rgba(29, 78, 216, 0.10);--accent-secondary-soft:rgba(15, 118, 110, 0.12);--accent-text:#F8FAFC;
-  --card-shadow:0 2px 6px rgba(15, 23, 42, 0.05), 0 10px 24px -6px rgba(15, 23, 42, 0.07);
-  --text-sec:#334155;
-  color-scheme:light;
-}
-html{
-  overflow-x:hidden;
-  max-width:100%;
-  width:100%;
-  scroll-padding-top:calc(74px + env(safe-area-inset-top, 0px));
-  scroll-behavior:smooth;
-}
-*,*::before,*::after{box-sizing:border-box}
-[hidden]{display:none!important}
-body{
-  margin:0;
-  background-color:var(--bg);
-  color:var(--text);
-  font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  overflow-x:hidden;
-  max-width:100%;
-  width:100%;
-  position:relative;
-  -webkit-font-smoothing:antialiased;
-  padding-bottom:env(safe-area-inset-bottom, 0px);
-}
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  background-image:radial-gradient(52rem 28rem at 88% -8%,color-mix(in srgb,var(--accent) 8%,transparent),transparent),radial-gradient(38rem 24rem at -8% 38%,color-mix(in srgb,var(--accent) 4%,transparent),transparent);
-  transform:translateZ(0);
-}
-.wrap{
-  max-width:960px;
-  margin:0 auto;
-  padding:0 clamp(16px, 4vw, 24px);
-  width:100%;
-  box-sizing:border-box;
-}
-
-/* Ícones SVG Auxiliares */
-.icon{
-  width:18px;
-  height:18px;
-  stroke:currentColor;
-  stroke-width:2;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-  fill:none;
-  flex-shrink:0;
-  display:inline-block;
-  vertical-align:middle;
-}
-.icon-sm{width:15px;height:15px}
-.icon-lg{width:22px;height:22px}
-
-/* Header & Navegação */
-header.nav{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  width:100%;
-  background:color-mix(in srgb,var(--bg) 88%,transparent);
-  -webkit-backdrop-filter:blur(18px);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line);
-  z-index:60;
-  padding-top:env(safe-area-inset-top, 0px);
-  transition:background-color .3s ease, border-color .3s ease, box-shadow .3s ease;
-}
-header.nav.scrolled{
-  box-shadow:0 4px 20px rgba(0,0,0,0.08);
-  background:color-mix(in srgb,var(--bg) 95%,transparent);
-}
-main.wrap{
-  padding-top:calc(64px + env(safe-area-inset-top, 0px));
-}
-.nav .wrap{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  min-height:60px;
-  gap:12px;
-}
-.logo{
-  font-weight:700;
-  letter-spacing:-.01em;
-  background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 55%,var(--accent-purple, #7C4DFF)));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  font-size:1.15rem;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  min-height:44px;
-}
-
-/* Ações do Header (Nav + Botão Tema) */
-.nav-actions{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-/* Botão de Alternar Tema (Dark / Light) */
-.theme-toggle{
-  background:var(--surface);
-  border:1.5px solid var(--line);
-  color:var(--text);
-  border-radius:999px;
-  width:40px;
-  height:40px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  transition:border-color .2s ease, transform .2s ease, background-color .2s ease, color .2s ease;
-  touch-action:manipulation;
-}
-.theme-toggle:hover{
-  border-color:var(--accent);
-  color:var(--accent);
-  transform:scale(1.05);
-}
-.theme-toggle:active{transform:scale(0.95)}
-
-/* Links Desktop */
-.nav-links{
-  display:flex;
-  gap:20px;
-  align-items:center;
-}
-.nav-links a{
-  color:var(--muted);
-  text-decoration:none;
-  white-space:nowrap;
-  position:relative;
-  padding:8px 0;
-  font-size:.95rem;
-  font-weight:500;
-  transition:color .2s;
-  min-height:44px;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-}
-.nav-links a::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:6px;
-  height:2px;
-  width:0;
-  background:var(--accent);
-  transition:width .25s ease;
-}
-.nav-links a:hover{color:var(--accent)}
-.nav-links a:hover::after{width:100%}
-
-/* Botão do Menu Mobile (Pílula) */
-.nav-toggle{
-  display:none;
-  align-items:center;
-  gap:8px;
-  background:var(--surface);
-  border:1.5px solid color-mix(in srgb,var(--accent) 35%,var(--line));
-  padding:8px 16px;
-  border-radius:999px;
-  cursor:pointer;
-  color:var(--text);
-  font-family:inherit;
-  font-size:.9rem;
-  font-weight:600;
-  box-shadow:0 2px 10px rgba(0,0,0,0.06);
-  transition:border-color .2s ease, background-color .2s ease, color .2s ease, transform .15s ease;
-  z-index:70;
-  touch-action:manipulation;
-}
-.nav-toggle:active{transform:scale(0.97)}
-.nav-toggle.active{
-  border-color:var(--accent);
-  background:var(--accent-soft);
-  color:var(--accent);
-}
-.nav-toggle-box{
-  width:16px;
-  height:12px;
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-.nav-toggle-bar{
-  display:block;
-  width:100%;
-  height:2px;
-  background-color:currentColor;
-  border-radius:2px;
-  transition:transform .25s ease, opacity .2s ease;
-}
-.nav-toggle.active .nav-toggle-bar:nth-child(1){transform:translateY(5px) rotate(45deg)}
-.nav-toggle.active .nav-toggle-bar:nth-child(2){transform:translateY(-5px) rotate(-45deg)}
-
-/* Overlay mobile */
-.nav-overlay{display:none}
-
-@media (max-width: 768px){
-  .nav-toggle{display:inline-flex}
-  .nav-overlay{
-    display:block;
-    position:fixed;
-    inset:0;
-    background:rgba(10, 15, 30, 0.45);
-    -webkit-backdrop-filter:blur(6px);
-    backdrop-filter:blur(6px);
-    z-index:55;
-    opacity:0;
-    visibility:hidden;
-    transition:opacity .25s ease, visibility .25s;
-  }
-  .nav-overlay.open{opacity:1;visibility:visible}
-
-  .nav-links{
-    position:fixed;
-    top:calc(66px + env(safe-area-inset-top, 0px));
-    left:clamp(12px, 4vw, 24px);
-    right:clamp(12px, 4vw, 24px);
-    background:color-mix(in srgb,var(--surface) 96%,transparent);
-    -webkit-backdrop-filter:blur(24px);
-    backdrop-filter:blur(24px);
-    border:1px solid color-mix(in srgb,var(--accent) 25%,var(--line));
-    border-radius:22px;
-    padding:12px;
-    flex-direction:column;
-    align-items:stretch;
-    gap:4px;
-    box-shadow:0 20px 48px -10px rgba(15, 20, 45, 0.35);
-    z-index:60;
-    opacity:0;
-    visibility:hidden;
-    transform:translateY(-10px) scale(0.97);
-    transition:transform .25s cubic-bezier(0.16, 1, 0.3, 1), opacity .2s ease, visibility .25s;
-    max-height:calc(100vh - 90px);
-    overflow-y:auto;
-  }
-  .nav-links.open{
-    opacity:1;
-    visibility:visible;
-    transform:translateY(0) scale(1);
-  }
-  .nav-links a{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:12px 16px;
-    font-size:1.02rem;
-    font-weight:600;
-    color:var(--text);
-    border-radius:14px;
-    text-decoration:none;
-    min-height:48px;
-    transition:background-color .18s ease, color .18s ease, transform .15s ease;
-  }
-  .nav-links a:hover, .nav-links a:active{
-    background:var(--accent-soft);
-    color:var(--accent);
-    transform:translateX(4px);
-  }
-  .nav-links a::after{display:none}
-}
-
-/* Hero */
-.hero{
-  padding:clamp(44px, 8vw, 84px) 0 clamp(36px, 6vw, 64px);
-  position:relative;
-  max-width:100%;
-}
-.tag{
-  display:inline-flex;
-  align-items:center;
-  background:var(--accent-secondary-soft, rgba(13, 148, 136, 0.10));
-  color:var(--accent-secondary, #0D9488);
-  padding:6px 14px;
-  border-radius:999px;
-  font-size:.82rem;
-  font-weight:600;
-  border:1px solid color-mix(in srgb,var(--accent-secondary, #0D9488) 30%,transparent);
-  max-width:100%;
-}
-.tag::before{
-  content:"";
-  display:inline-block;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--accent-secondary, #0D9488);
-  margin-right:8px;
-  flex-shrink:0;
-  animation:pulse 2s infinite;
-}
-h1{
-  font-size:clamp(2rem, 6vw, 3.5rem);
-  line-height:1.15;
-  margin:16px 0 10px;
-  letter-spacing:-.03em;
-  word-break:break-word;
-}
-h1 span.name{
-  background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 55%,var(--accent-purple, #7C4DFF)));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-/* Subtítulo dinâmico com altura fixa contra efeito sanfona (CLS) */
-.hero-role{
-  font-size:clamp(1.15rem, 3.2vw, 1.65rem);
-  font-weight:600;
-  line-height:1.4;
-  margin:0 0 18px;
-  color:var(--text);
-  min-height:3em; /* Trava espaço de 2 linhas no mobile: zero layout shift */
-  display:flex;
-  align-items:baseline;
-  flex-wrap:wrap;
-  column-gap:6px;
-  max-width:100%;
-}
-@media (min-width: 680px){
-  .hero-role{
-    min-height:1.6em; /* No desktop fixa em 1 linha */
-  }
-}
-@media (max-width: 480px){
-  .hero-role{
-    font-size:1.1rem;
-    min-height:3.6em;
-  }
-  .typing-wrap{
-    white-space:normal;
-  }
-}
-.typing-wrap{
-  display:inline-flex;
-  align-items:baseline;
-  max-width:100%;
-}
-.typing-text{
-  color:var(--accent);
-  font-weight:700;
-  border-bottom:2px solid color-mix(in srgb,var(--accent) 40%,transparent);
-  word-break:break-word;
-  overflow-wrap:break-word;
-}
-.typing-cursor{
-  display:inline-block;
-  color:var(--accent);
-  animation:blink .7s infinite;
-  font-weight:300;
-  margin-left:2px;
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-
-.lead{
-  color:var(--muted);
-  font-size:clamp(1rem, 2.6vw, 1.15rem);
-  line-height:1.7;
-  max-width:640px;
-  word-break:break-word;
-}
-
-/* Botões */
-.btns{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-top:28px;
-}
-.btn{
-  padding:12px 22px;
-  border-radius:12px;
-  text-decoration:none;
-  font-weight:600;
-  font-size:.95rem;
-  border:1px solid var(--accent);
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:46px;
-  gap:8px;
-  transition:transform .2s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
-  cursor:pointer;
-  text-align:center;
-  touch-action:manipulation;
-}
-.btn.p, button.btn{
-  background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 80%,#1d4ed8));
-  color:var(--accent-text);
-  border-color:transparent;
-  box-shadow:0 8px 22px color-mix(in srgb,var(--accent) 32%,transparent);
-}
-.btn.s{
-  background:var(--surface);
-  color:var(--accent);
-  border-color:color-mix(in srgb,var(--accent) 40%,var(--line));
-}
-.btn.s:hover{
-  border-color:var(--accent);
-  background:var(--accent-soft);
-}
-@media (hover: hover){
-  .btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 26px color-mix(in srgb,var(--accent) 38%,transparent);
-  }
-}
-.btn:active{transform:translateY(1px)}
-@media (max-width: 480px){
-  .btns{flex-direction:column;width:100%}
-  .btns .btn{width:100%}
-}
-
-/* Stats */
-.stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(min(100%, 120px), 1fr));
-  gap:16px clamp(12px, 3vw, 24px);
-  margin-top:40px;
-  padding-top:24px;
-  border-top:1px solid var(--line);
-  width:100%;
-  max-width:100%;
-}
-.stats>div{display:flex;flex-direction:column;gap:2px}
-.stats b{
-  font-size:clamp(1.8rem, 4.8vw, 2.2rem);
-  line-height:1.1;
-  color:var(--accent-secondary, #0D9488);
-  letter-spacing:-.03em;
-}
-.stats span{color:var(--muted);font-size:.88rem;line-height:1.35}
-
-/* Seções (Isolamento de Layout e Estilos) */
-section{
-  padding:clamp(44px, 7vw, 64px) 0;
-  border-top:1px solid var(--line);
-  contain:layout style;
-}
-h2{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-size:clamp(1.4rem, 4.2vw, 1.75rem);
-  margin:0 0 24px;
-  letter-spacing:-.02em;
-  word-break:break-word;
-}
-h2 .heading-icon{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--accent);
-  background:var(--accent-soft);
-  width:36px;
-  height:36px;
-  border-radius:10px;
-  flex-shrink:0;
-}
-
-/* Grid & Cards com suporte a Tilt 3D */
-.grid{
-  display:grid;
-  gap:18px;
-  grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  width:100%;
-  max-width:100%;
-}
-.card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:clamp(18px, 4vw, 24px);
-  position:relative;
-  overflow:hidden;
-  box-shadow:var(--card-shadow);
-  display:flex;
-  flex-direction:column;
-  transition:border-color .2s ease, box-shadow .2s ease, background-color .25s ease;
-  contain:layout style paint;
-  min-width:0;
-  max-width:100%;
-}
-.card::before{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  top:0;
-  height:4px;
-  background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 45%,transparent));
-}
-@media (hover: hover){
-  .card:hover{
-    border-color:var(--accent);
-    box-shadow:0 14px 36px -12px color-mix(in srgb,var(--accent) 45%,transparent);
-  }
-}
-.card .topo{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:10px;
-  margin-bottom:8px;
-  flex-wrap:wrap;
-}
-.card h3{
-  font-size:1.12rem;
-  margin:0;
-  word-break:break-word;
-}
-.card p{
-  margin:6px 0 0;
-  color:var(--muted);
-  font-size:.95rem;
-  line-height:1.6;
-  word-break:break-word;
-}
-.chips{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin-top:14px;
-}
-.chip{
-  background:var(--accent-secondary-soft, rgba(13, 148, 136, 0.10));
-  color:var(--accent-secondary, #0D9488);
-  font-size:.78rem;
-  font-weight:600;
-  padding:4px 10px;
-  border-radius:999px;
-  border:1px solid color-mix(in srgb,var(--accent-secondary, #0D9488) 22%,transparent);
-}
-.status{
-  flex:none;
-  font-size:.74rem;
-  font-weight:700;
-  padding:3px 10px;
-  border-radius:999px;
-  white-space:nowrap;
-}
-.status.em_andamento{
-  background:var(--accent-soft);
-  color:var(--accent);
-  border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
-}
-.status.concluido{
-  background:color-mix(in srgb,#22c55e 16%,transparent);
-  color:#15803d;
-  border:1px solid color-mix(in srgb,#22c55e 40%,transparent);
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]) .status.concluido{color:#4ade80}
-}
-:root[data-theme="dark"] .status.concluido{color:#4ade80}
-
-.rodape{
-  margin-top:auto;
-  padding-top:16px;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-.rodape a{
-  color:var(--accent);
-  font-weight:600;
-  font-size:.92rem;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  min-height:38px;
-}
-.rodape a:hover{text-decoration:underline}
-.rodape a.demo-link{
-  background:var(--accent-soft);
-  padding:6px 14px;
-  border-radius:10px;
-  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
-}
-.rodape a.demo-link:hover{text-decoration:none;filter:brightness(1.05)}
-
-/* Filtros de Projetos */
-.filter-tabs{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:22px;
-}
-.filter-btn{
-  background:var(--surface);
-  color:var(--muted);
-  border:1.5px solid var(--line);
-  padding:8px 16px;
-  border-radius:999px;
-  font-family:inherit;
-  font-size:.88rem;
-  font-weight:600;
-  cursor:pointer;
-  transition:all .2s ease;
-}
-.filter-btn:hover{
-  border-color:var(--accent);
-  color:var(--text);
-}
-.filter-btn.active{
-  background:var(--accent);
-  color:var(--accent-text);
-  border-color:var(--accent);
-  box-shadow:0 4px 14px color-mix(in srgb,var(--accent) 30%,transparent);
-}
-
-/* Seção Foco Atual (Now) */
-.focus-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap:16px;
-  width:100%;
-  max-width:100%;
-}
-.focus-card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:20px;
-  display:flex;
-  gap:14px;
-  align-items:flex-start;
-  box-shadow:var(--card-shadow);
-  transition:border-color .2s ease, box-shadow .2s ease;
-  contain:layout style paint;
-  min-width:0;
-  max-width:100%;
-}
-.focus-card:hover{
-  border-color:var(--accent);
-  box-shadow:0 8px 24px -6px color-mix(in srgb,var(--accent) 25%,transparent);
-}
-.focus-icon{
-  color:var(--accent);
-  background:var(--accent-soft);
-  padding:10px;
-  border-radius:12px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-}
-.focus-card h3{margin:0 0 4px;font-size:1.05rem}
-.focus-card p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.55}
-
-/* Seção Conquistas & Certificados */
-.awards-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap:16px;
-  width:100%;
-  max-width:100%;
-}
-.award-card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  box-shadow:var(--card-shadow);
-  contain:layout style paint;
-  min-width:0;
-  max-width:100%;
-  transition:border-color .2s ease, box-shadow .2s ease;
-}
-.award-card:hover{
-  border-color:var(--accent);
-  box-shadow:0 8px 24px -6px color-mix(in srgb,var(--accent) 25%,transparent);
-}
-.award-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  font-size:.78rem;
-  font-weight:700;
-  color:var(--accent-secondary, #0D9488);
-  background:var(--accent-secondary-soft, rgba(13, 148, 136, 0.10));
-  padding:4px 10px;
-  border-radius:999px;
-  align-self:flex-start;
-}
-.award-card h3{margin:4px 0 2px;font-size:1.08rem}
-.award-card p{margin:0;color:var(--muted);font-size:.92rem;line-height:1.55}
-
-/* Timeline */
-.timeline{
-  border-left:3px solid var(--line);
-  padding-left:22px;
-  margin-left:6px;
-  display:grid;
-  gap:24px;
-}
-.timeline>div{position:relative}
-.timeline>div::before{
-  content:"";
-  position:absolute;
-  left:-31px;
-  top:6px;
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  background:var(--accent);
-  box-shadow:0 0 0 5px var(--accent-soft);
-}
-.timeline small{
-  color:var(--accent);
-  font-weight:600;
-  font-size:.85rem;
-}
-.timeline h3{margin:4px 0 2px;font-size:1.1rem}
-.timeline p{margin:0;color:var(--muted);font-size:.95rem}
-
-/* Mural de Recados & Formulário */
-#form{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-input, textarea{
-  width:100%;
-  font-family:inherit;
-  font-size:16px;
-  color:var(--text);
-  background:var(--bg);
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:12px 14px;
-  transition:border-color .2s ease, box-shadow .2s ease, background-color .3s;
-}
-input:focus, textarea:focus{
-  outline:none;
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent);
-}
-textarea{resize:vertical;min-height:90px}
-#form button.btn{align-self:flex-start}
-@media (max-width: 540px){
-  #form button.btn{width:100%}
-}
-.msg{
-  border-top:1px solid var(--line);
-  padding:14px 0;
-  animation:up .5s ease both;
-  word-break:break-word;
-  overflow-wrap:break-word;
-}
-.msg b{display:block;font-size:.95rem;margin-bottom:2px}
-.msg span{color:var(--muted);font-size:.92rem;line-height:1.5}
-.muted{color:var(--muted);margin:0 0 12px;font-size:.92rem}
-
-/* Toast de Notificação */
-.toast{
-  position:fixed;
-  bottom:24px;
-  left:50%;
-  transform:translateX(-50%) translateY(100px);
-  background:var(--surface);
-  color:var(--text);
-  border:1.5px solid var(--accent);
-  padding:12px 24px;
-  border-radius:999px;
-  box-shadow:0 12px 32px rgba(0,0,0,0.22);
-  font-weight:600;
-  font-size:.95rem;
-  z-index:9999;
-  opacity:0;
-  pointer-events:none;
-  transition:transform .3s cubic-bezier(0.16, 1, 0.3, 1), opacity .3s ease;
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
-}
-
-/* Canvas de Confetes (Zero Render Overhead quando inativo) */
-#confetti-canvas{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  z-index:9998;
-  display:none;
-}
-
-/* Rodapé */
-footer{
-  padding:36px 0 clamp(24px, 5vw, 40px);
-  color:var(--muted);
-  font-size:.88rem;
-  text-align:center;
-  border-top:1px solid var(--line);
-  padding-left:clamp(16px, 4vw, 24px);
-  padding-right:clamp(16px, 4vw, 24px);
-}
-footer a{color:var(--accent);text-decoration:none}
-footer a:hover{text-decoration:underline}
-
-/* Animações & Transições Diversas */
-@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-@keyframes heroFloat{
-  0%,100%{transform:translateY(0) rotate(0deg)}
-  50%{transform:translateY(-10px) rotate(1.5deg)}
-}
-@keyframes pulse{
-  0%,100%{ transform:scale(0.92); opacity:0.75; }
-  50%{ transform:scale(1.22); opacity:1; }
-}
-@keyframes gradientShift{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
-@keyframes heroAvatarIn{
-  0%{opacity:0;transform:scale(0.82) translateX(24px) rotate(-4deg)}
-  100%{opacity:1;transform:scale(1) translateX(0) rotate(0deg)}
-}
-@keyframes cardFilterEnter{
-  0%{opacity:0;transform:translateY(20px) scale(0.95)}
-  100%{opacity:1;transform:translateY(0) scale(1)}
-}
-@keyframes cardFilterExit{
-  0%{opacity:1;transform:scale(1)}
-  100%{opacity:0;transform:scale(0.92) translateY(10px)}
-}
-@keyframes faqSlideDown{
-  0%{opacity:0;transform:translateY(-8px)}
-  100%{opacity:1;transform:translateY(0)}
-}
-@keyframes iconSpinSpring{
-  0%{transform:rotate(-140deg) scale(0.5);opacity:0}
-  100%{transform:rotate(0deg) scale(1);opacity:1}
-}
-@keyframes timelineDotPulse{
-  0%{box-shadow:0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent)}
-  70%{box-shadow:0 0 0 10px transparent}
-  100%{box-shadow:0 0 0 0 transparent}
-}
-
-/* Gradiente vivo na Logo e no Nome do Hero */
-.logo, h1 span.name{
-  background:linear-gradient(90deg, var(--accent), var(--accent-secondary, #0D9488), #3b82f6, var(--accent));
-  background-size:250% auto;
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  animation:gradientShift 6s ease infinite;
-}
-
-/* Entrada escalonada do Hero */
-.hero-main > *{
-  animation:up .75s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.hero-main > *:nth-child(1){animation-delay:.05s}
-.hero-main > *:nth-child(2){animation-delay:.16s}
-.hero-main > *:nth-child(3){animation-delay:.27s}
-.hero-main > *:nth-child(4){animation-delay:.38s}
-.hero-main > *:nth-child(5){animation-delay:.48s}
-
-.hero-avatar-wrap{
-  animation:heroAvatarIn .9s cubic-bezier(0.22, 1, 0.36, 1) .2s both;
-}
-.hero-avatar{
-  animation:heroFloat 5.5s ease-in-out infinite;
-  transform:translateZ(0);
-}
-.hero-avatar::before{
-  content:"";
-  position:absolute;
-  inset:-3px;
-  border-radius:50%;
-  background:linear-gradient(135deg, var(--accent), var(--accent-secondary, #0D9488));
-  filter:blur(10px);
-  z-index:-1;
-  opacity:0.4;
-  animation:avatarGlow 3.5s ease-in-out infinite alternate;
-  pointer-events:none;
-}
-
-/* Transição suave ao alternar tema (Claro <-> Escuro) */
-html.theme-transition,
-html.theme-transition *,
-html.theme-transition *::before,
-html.theme-transition *::after{
-  transition:background-color .45s cubic-bezier(0.22, 1, 0.36, 1),
-             border-color .45s cubic-bezier(0.22, 1, 0.36, 1),
-             color .35s ease,
-             box-shadow .45s ease !important;
-}
-::view-transition-old(root),
-::view-transition-new(root){
-  animation:none;
-  mix-blend-mode:normal;
-}
-.theme-toggle svg{
-  animation:iconSpinSpring .45s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* Link ativo na navegação (Scroll Spy) */
-.nav-links a.active-section{
-  color:var(--accent);
-  font-weight:600;
-}
-.nav-links a.active-section::after{
-  width:100%;
-  background:linear-gradient(90deg, var(--accent), var(--accent-secondary, #0D9488));
-}
-
-/* Efeito Shimmer (Feixe de luz) e Micro-interações nos Botões */
-.btn{
-  position:relative;
-  overflow:hidden;
-  transition:transform .28s cubic-bezier(0.34, 1.56, 0.64, 1),
-             box-shadow .28s ease,
-             background-color .25s ease,
-             border-color .25s ease,
-             color .25s ease;
-}
-.btn.p::after, button.btn::after, .btn.btn-whatsapp::after{
-  content:"";
-  position:absolute;
-  top:0;
-  left:-120%;
-  width:65%;
-  height:100%;
-  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.32), transparent);
-  transform:skewX(-20deg);
-  transition:left .6s cubic-bezier(0.22, 1, 0.36, 1);
-  pointer-events:none;
-}
-.btn.p:hover::after, button.btn:hover::after, .btn.btn-whatsapp:hover::after{
-  left:140%;
-}
-.btn svg{
-  transition:transform .28s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.btn:hover svg{
-  transform:scale(1.14) translateX(1px);
-}
-
-/* Micro-interação nos ícones de título de seção */
-h2 .heading-icon{
-  transition:transform .35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .3s ease, color .3s ease, box-shadow .3s ease;
-}
-section:hover h2 .heading-icon{
-  transform:scale(1.12) rotate(-6deg);
-  background:var(--accent);
-  color:var(--accent-text);
-  box-shadow:0 6px 16px color-mix(in srgb, var(--accent) 32%, transparent);
-}
-
-/* Spotlight Radial Glow nos Cards + Barra Superior Animada */
-.card, .focus-card, .award-card{
-  position:relative;
-  overflow:hidden;
-}
-.card::after, .focus-card::after, .award-card::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(360px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%);
-  opacity:0;
-  transition:opacity .35s ease;
-  pointer-events:none;
-  z-index:0;
-}
-.card:hover::after, .focus-card:hover::after, .award-card:hover::after{
-  opacity:1;
-}
-.card > *, .focus-card > *, .award-card > *{
-  position:relative;
-  z-index:1;
-}
-.card::before{
-  transition:height .25s ease, background .35s ease;
-}
-.card:hover::before{
-  height:5px;
-  background:linear-gradient(90deg, var(--accent), var(--accent-secondary, #0D9488));
-}
-.focus-card:hover .focus-icon{
-  transform:scale(1.1) rotate(5deg);
-  background:var(--accent);
-  color:var(--accent-text);
-}
-.focus-icon{
-  transition:transform .3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .25s ease, color .25s ease;
-}
-
-/* Chips / Tags interativos */
-.chip{
-  transition:transform .22s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
-}
-.chip:hover{
-  transform:translateY(-2px) scale(1.04);
-  border-color:var(--accent-secondary, #0D9488);
-  box-shadow:0 4px 10px color-mix(in srgb, var(--accent-secondary, #0D9488) 18%, transparent);
-}
-
-/* ===== Sistema de Scroll-Reveal Otimizado (100% GPU Compositor, Zero Blur Lag) ===== */
-.reveal{
-  opacity:0;
-  transform:translateY(20px);
-  transition:opacity .55s cubic-bezier(0.22, 1, 0.36, 1),
-             transform .55s cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay:calc(var(--stagger, 0) * 60ms);
-}
-/* Variação 1: Slide da Esquerda */
-.reveal.reveal-left{
-  transform:translateX(-28px);
-}
-/* Variação 2: Slide da Direita */
-.reveal.reveal-right{
-  transform:translateX(28px);
-}
-/* Variação 3: Pop Suave (Cards de Skills e Projetos) */
-.reveal.reveal-pop{
-  transform:translateY(24px) scale(0.96);
-}
-/* Variação 4: Flip Suave (Cards de Conquistas) */
-.reveal.reveal-flip{
-  transform:translateY(20px) scale(0.97);
-}
-/* Variação 5: Zoom Suave (FAQ / Mural) */
-.reveal.reveal-zoom{
-  transform:scale(0.96) translateY(14px);
-}
-
-.reveal.in{
-  opacity:1;
-  transform:none;
-}
-
-/* Timeline Animada */
-.timeline > div::before{
-  transition:transform .4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .3s ease;
-}
-.timeline > div.in::before{
-  animation:timelineDotPulse 1.8s ease-out 0.3s 2;
-}
-.timeline > div:hover::before{
-  transform:scale(1.3);
-  background:var(--accent-secondary, #0D9488);
-}
-
-/* Animação de Filtragem dos Cards de Projetos */
-.novo{
-  animation:cardFilterEnter .55s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay:calc(var(--stagger, 0) * 75ms);
-}
-#projetos-grid.filtering .card{
-  animation:cardFilterExit .18s ease forwards;
-}
-
-/* Animação do Acordeão FAQ */
-.faq-item[open] .faq-answer{
-  animation:faqSlideDown .32s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.faq-question{
-  transition:background-color .2s ease, color .2s ease;
-}
-.faq-question:hover{
-  background:color-mix(in srgb, var(--accent) 4%, transparent);
-}
-
-/* Animação em Camadas do Modal de Estudo de Caso */
-.modal-backdrop .modal-section,
-.modal-backdrop .modal-footer{
-  opacity:0;
-  transform:translateY(14px);
-  transition:opacity .38s ease, transform .38s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.modal-backdrop.open .modal-section,
-.modal-backdrop.open .modal-footer{
-  opacity:1;
-  transform:translateY(0);
-}
-.modal-backdrop.open .modal-section:nth-of-type(1){transition-delay:.08s}
-.modal-backdrop.open .modal-section:nth-of-type(2){transition-delay:.16s}
-.modal-backdrop.open .modal-section:nth-of-type(3){transition-delay:.24s}
-.modal-backdrop.open .modal-footer{transition-delay:.30s}
-
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none!important;transition:none!important}
-  .reveal{opacity:1!important;transform:none!important;filter:none!important}
-  .card{transform:none!important}
-  .modal-backdrop .modal-section, .modal-backdrop .modal-footer{opacity:1!important;transform:none!important}
-}
-::selection{background:var(--accent);color:var(--accent-text)}
-:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
-
-/* Botão WhatsApp suave (sem forçar a vista) */
-.btn.btn-whatsapp{
-  background: color-mix(in srgb, #16a34a 14%, var(--surface));
-  color: #166534;
-  border-color: color-mix(in srgb, #16a34a 38%, var(--line));
-  box-shadow: 0 2px 8px rgba(22, 101, 52, 0.08);
-}
-.btn.btn-whatsapp svg{
-  color: #16a34a;
-}
-.btn.btn-whatsapp:hover{
-  background: color-mix(in srgb, #16a34a 24%, var(--surface));
-  border-color: #16a34a;
-  color: #14532d;
-  box-shadow: 0 4px 14px rgba(22, 101, 52, 0.16);
-  transform: translateY(-2px);
-}
-:root:not([data-theme="light"]) .btn.btn-whatsapp,
-:root[data-theme="dark"] .btn.btn-whatsapp{
-  background: color-mix(in srgb, #22c55e 12%, var(--surface));
-  color: #4ade80;
-  border-color: color-mix(in srgb, #22c55e 28%, var(--line));
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-:root:not([data-theme="light"]) .btn.btn-whatsapp svg,
-:root[data-theme="dark"] .btn.btn-whatsapp svg{
-  color: #4ade80;
-}
-:root:not([data-theme="light"]) .btn.btn-whatsapp:hover,
-:root[data-theme="dark"] .btn.btn-whatsapp:hover{
-  background: color-mix(in srgb, #22c55e 22%, var(--surface));
-  border-color: #4ade80;
-  color: #86efac;
-  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.22);
-}
-
-/* Mockup Visual do Projeto */
-.project-preview{
-  background:color-mix(in srgb,var(--surface) 60%,#000);
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:9px 12px;
-  margin-bottom:14px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  font-size:.76rem;
-  color:var(--muted);
-}
-.project-preview .dots{display:flex;gap:5px;align-items:center}
-.project-preview .dots span{width:7px;height:7px;border-radius:50%;background:var(--line)}
-.project-preview .dots span:nth-child(1){background:#f87171}
-.project-preview .dots span:nth-child(2){background:#fbbf24}
-.project-preview .dots span:nth-child(3){background:#4ade80}
-.project-preview .preview-url{
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  direction:rtl;
-  text-align:left;
-  max-width:100%;
-  flex:1;
-  min-width:0;
-}
-.project-badge-tag{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  font-size:.74rem;
-  font-weight:700;
-  padding:3px 10px;
-  border-radius:999px;
-  background:color-mix(in srgb,var(--accent) 15%,transparent);
-  color:var(--accent);
-  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
-  margin-bottom:10px;
-  align-self:flex-start;
-}
-.project-badge-tag.hackathon{
-  background:color-mix(in srgb,#f59e0b 16%,transparent);
-  color:#f59e0b;
-  border-color:color-mix(in srgb,#f59e0b 35%,transparent);
-}
-.project-badge-tag.swagger{
-  background:color-mix(in srgb,#0ea5e9 16%,transparent);
-  color:#0ea5e9;
-  border-color:color-mix(in srgb,#0ea5e9 35%,transparent);
-}
-
-.rodape a.swagger-link{
-  background:color-mix(in srgb,#0ea5e9 16%,transparent);
-  color:#0ea5e9;
-  padding:6px 14px;
-  border-radius:10px;
-  border:1px solid color-mix(in srgb,#0ea5e9 35%,transparent);
-}
-.rodape a.swagger-link:hover{text-decoration:none;filter:brightness(1.15)}
-
-.rodape a.pdf-link{
-  background:color-mix(in srgb,#8b5cf6 16%,transparent);
-  color:var(--accent-purple, #7C4DFF);
-  padding:6px 14px;
-  border-radius:10px;
-  border:1px solid color-mix(in srgb,#8b5cf6 35%,transparent);
-  font-size:.84rem;
-  font-weight:600;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  transition:all .2s ease;
-}
-:root[data-theme="light"] .rodape a.pdf-link{
-  background:color-mix(in srgb,#7c3aed 12%,transparent);
-  color:#6d28d9;
-  border-color:color-mix(in srgb,#7c3aed 30%,transparent);
-}
-.rodape a.pdf-link:hover{text-decoration:none;filter:brightness(1.15);transform:translateY(-1px)}
-
-.btn-case{
-  background:transparent;
-  border:1px dashed color-mix(in srgb,var(--accent) 55%,transparent);
-  color:var(--accent);
-  font-size:.84rem;
-  font-weight:600;
-  padding:6px 12px;
-  border-radius:8px;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  transition:all .2s ease;
-  font-family:inherit;
-  min-height:36px;
-}
-.btn-case:hover{
-  background:var(--accent-soft);
-  border-style:solid;
-  border-color:var(--accent);
-}
-
-/* Modal de Estudo de Caso */
-.modal-backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(10, 15, 29, 0.78);
-  -webkit-backdrop-filter:blur(8px);
-  backdrop-filter:blur(8px);
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:16px;
-  opacity:0;
-  visibility:hidden;
-  transition:opacity .25s ease, visibility .25s ease;
-}
-.modal-backdrop.open{
-  opacity:1;
-  visibility:visible;
-}
-.modal-card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:20px;
-  width:min(680px, 100%);
-  max-height:90vh;
-  overflow-y:auto;
-  padding:clamp(20px, 5vw, 36px);
-  box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);
-  transform:translateY(16px) scale(.98);
-  transition:transform .25s cubic-bezier(.2,.8,.2,1);
-}
-.modal-backdrop.open .modal-card{
-  transform:translateY(0) scale(1);
-}
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  margin-bottom:16px;
-  padding-bottom:12px;
-  border-bottom:1px solid var(--line);
-  gap:12px;
-}
-.modal-tag{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  font-size:.76rem;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.04em;
-  padding:4px 10px;
-  border-radius:999px;
-  background:var(--accent-secondary-soft, rgba(13, 148, 136, 0.10));
-  color:var(--accent-secondary, #0D9488);
-  border:1px solid color-mix(in srgb,var(--accent-secondary, #0D9488) 30%,transparent);
-}
-.modal-close{
-  background:none;
-  border:none;
-  font-size:1.8rem;
-  line-height:1;
-  color:var(--muted);
-  cursor:pointer;
-  padding:2px 8px;
-  border-radius:8px;
-  transition:color .2s;
-}
-.modal-close:hover{color:var(--text)}
-.modal-title{
-  margin:4px 0 16px;
-  font-size:clamp(1.25rem, 3.8vw, 1.55rem);
-  letter-spacing:-.02em;
-}
-.modal-section{margin-top:16px}
-.modal-section h4{
-  margin:0 0 6px;
-  font-size:.92rem;
-  color:var(--accent);
-  display:flex;
-  align-items:center;
-  gap:6px;
-  text-transform:uppercase;
-  letter-spacing:.03em;
-}
-.modal-section p{margin:0;color:var(--muted);font-size:.94rem;line-height:1.65}
-.modal-footer{
-  margin-top:24px;
-  padding-top:16px;
-  border-top:1px solid var(--line);
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-}
-
-/* Layout Hero com Avatar */
-.hero-grid{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:clamp(20px, 4vw, 44px);
-  margin-bottom:28px;
-  width:100%;
-  max-width:100%;
-  min-width:0;
-}
-.hero-main{
-  flex:1;
-  min-width:0;
-  max-width:100%;
-}
-.hero-avatar-wrap{
-  flex-shrink:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:relative;
-  isolation:isolate;
-}
-.hero-avatar-wrap::before{
-  content:"";
-  position:absolute;
-  inset:-36px;
-  border-radius:50%;
-  background:radial-gradient(circle, color-mix(in srgb, var(--accent) 26%, transparent) 0%, color-mix(in srgb, var(--accent) 8%, transparent) 48%, transparent 72%);
-  z-index:-1;
-  pointer-events:none;
-}
-.hero-avatar{
-  position:relative;
-  width:clamp(124px, 18vw, 168px);
-  height:clamp(124px, 18vw, 168px);
-  border-radius:50%;
-  padding:4px;
-  background:linear-gradient(135deg, var(--accent), var(--accent-purple, #7C4DFF));
-  box-shadow:0 0 24px color-mix(in srgb, var(--accent) 35%, transparent);
-  animation:avatarGlow 4s ease-in-out infinite alternate;
-}
-.hero-avatar img{
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  object-fit:cover;
-  display:block;
-  background:var(--surface);
-  border:3px solid var(--surface);
-}
-.hero-avatar-status{
-  position:absolute;
-  bottom:6px;
-  right:6px;
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  background:#10b981;
-  border:3px solid var(--surface);
-  box-shadow:0 0 0 2px rgba(16,185,129,.35);
-}
-@keyframes avatarGlow{
-  from{ opacity:0.3; transform:scale(0.98); }
-  to{ opacity:0.65; transform:scale(1.02); }
-}
-@media (max-width:720px){
-  .hero-grid{
-    flex-direction:column-reverse;
-    align-items:flex-start;
-    gap:22px;
-  }
-  .hero-avatar-wrap{
-    align-self:center;
-  }
-}
-
-/* Botão Voltar ao Topo Flutuante */
-.back-to-top{
-  position:fixed;
-  bottom:calc(20px + env(safe-area-inset-bottom, 0px));
-  right:calc(20px + env(safe-area-inset-right, 0px));
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:var(--surface);
-  color:var(--text);
-  border:1px solid var(--line);
-  box-shadow:0 4px 16px rgba(0,0,0,.15);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  opacity:0;
-  visibility:hidden;
-  transform:translateY(12px);
-  transition:opacity .25s ease, transform .25s ease, background-color .2s ease, border-color .2s ease;
-  z-index:70;
-}
-.back-to-top.visible{
-  opacity:1;
-  visibility:visible;
-  transform:translateY(0);
-}
-.back-to-top:hover{
-  background:var(--accent);
-  color:var(--accent-text);
-  border-color:var(--accent);
-}
-
-/* Resposta do Autor no Mural de Recados */
-.msg-reply{
-  margin-top:10px;
-  padding:10px 14px;
-  background:color-mix(in srgb, var(--accent) 8%, var(--surface));
-  border-left:3px solid var(--accent);
-  border-radius:0 8px 8px 0;
-  font-size:.9rem;
-}
-.msg-reply-header{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-bottom:4px;
-}
-.reply-badge{
-  font-weight:700;
-  font-size:.78rem;
-  color:var(--accent-secondary, #0D9488);
-  text-transform:uppercase;
-  letter-spacing:.03em;
-}
-.reply-date{
-  font-size:.78rem;
-  color:var(--muted);
-}
-.msg-reply-text{
-  margin:0;
-  color:var(--text);
-  line-height:1.45;
-  word-break:break-word;
-}
-
-
-/* Refinamento Visual Premium (Clean Corporate & Editorial UI) */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  background-image:
-    radial-gradient(color-mix(in srgb, var(--accent) 16%, transparent) 1px, transparent 1px),
-    radial-gradient(46rem 28rem at 85% -5%, color-mix(in srgb, var(--accent) 9%, transparent), transparent),
-    radial-gradient(40rem 26rem at 10% 35%, color-mix(in srgb, var(--accent-secondary, #0D9488) 7%, transparent), transparent);
-  background-size:28px 28px, 100% 100%, 100% 100%;
-  -webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 25%, #000 35%, transparent 100%);
-  mask-image:radial-gradient(ellipse 90% 80% at 50% 25%, #000 35%, transparent 100%);
-}
-
-header.nav{
-  background:color-mix(in srgb, var(--surface) 80%, transparent);
-  border-bottom:1px solid color-mix(in srgb, var(--line) 85%, transparent);
-}
-header.nav.scrolled{
-  background:color-mix(in srgb, var(--surface) 92%, transparent);
-  box-shadow:0 8px 30px -10px rgba(15, 23, 42, 0.08);
-  border-bottom-color:color-mix(in srgb, var(--accent) 18%, var(--line));
-}
-
-@media (min-width: 769px){
-  .nav-links{
-    gap:6px;
-    background:color-mix(in srgb, var(--bg) 70%, var(--surface));
-    padding:4px 6px;
-    border-radius:999px;
-    border:1px solid var(--line);
-  }
-  .nav-links a{
-    padding:6px 12px;
-    min-height:36px;
-    border-radius:999px;
-    font-size:.88rem;
-    font-weight:600;
-    transition:color .22s ease, background-color .22s ease, transform .2s ease;
-  }
-  .nav-links a::after{
-    display:none;
-  }
-  .nav-links a:hover{
-    color:var(--accent);
-    background:color-mix(in srgb, var(--accent) 8%, transparent);
-  }
-  .nav-links a.active-section{
-    color:var(--accent-text);
-    background:linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 75%, var(--accent-secondary, #0D9488)));
-    box-shadow:0 4px 12px color-mix(in srgb, var(--accent) 28%, transparent);
-  }
-}
-
-/* Tipografia e Destaques de Seção */
-h1{
-  font-weight:800;
-  letter-spacing:-.035em;
-}
-h2{
-  font-weight:800;
-  letter-spacing:-.025em;
-  position:relative;
-}
-h2 .heading-icon{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  border:1px solid color-mix(in srgb, var(--accent) 20%, transparent);
-  box-shadow:0 4px 12px color-mix(in srgb, var(--accent) 10%, transparent);
-}
-
-/* Card Editorial para a seção Sobre Mim */
-.sobre-conteudo{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-left:4px solid var(--accent);
-  border-radius:18px;
-  padding:clamp(20px, 4vw, 28px);
-  box-shadow:var(--card-shadow);
-  margin-top:18px !important;
-}
-.sobre-conteudo strong{
-  color:var(--text);
-  font-weight:700;
-}
-
-/* Refinamento dos Cards de Projetos, Skills, Foco e Conquistas */
-.card, .focus-card, .award-card{
-  border-radius:18px;
-  border:1px solid var(--line);
-  box-shadow:0 1px 2px rgba(15, 23, 42, 0.03), 0 10px 26px -6px rgba(15, 23, 42, 0.05);
-}
-@media (hover: hover){
-  .card:hover, .focus-card:hover, .award-card:hover{
-    border-color:color-mix(in srgb, var(--accent) 45%, var(--line));
-    box-shadow:0 20px 38px -12px color-mix(in srgb, var(--accent) 16%, rgba(15, 23, 42, 0.08));
-  }
-}
-
-/* Abas de Filtro em Cápsula Elegante */
-.filter-tabs{
-  display:inline-flex;
-  background:color-mix(in srgb, var(--bg) 65%, var(--surface));
-  padding:5px;
-  border-radius:999px;
-  border:1px solid var(--line);
-  gap:4px;
-  margin-bottom:26px;
-}
-.filter-btn{
-  border:none;
-  background:transparent;
-  padding:8px 18px;
-  border-radius:999px;
-}
-.filter-btn:hover{
-  color:var(--accent);
-  background:color-mix(in srgb, var(--accent) 6%, transparent);
-}
-.filter-btn.active{
-  background:linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 80%, #1d4ed8));
-  color:var(--accent-text);
-  box-shadow:0 4px 14px color-mix(in srgb, var(--accent) 28%, transparent);
-}
-
-/* Timeline de Formação em Cards Conectados */
-.timeline{
-  border-left:3px solid color-mix(in srgb, var(--accent) 30%, var(--line));
-  padding-left:26px;
-  gap:18px;
-}
-.timeline > div{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:18px 22px;
-  box-shadow:var(--card-shadow);
-  transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-}
-.timeline > div:hover{
-  transform:translateX(4px);
-  border-color:color-mix(in srgb, var(--accent) 45%, var(--line));
-}
-.timeline > div::before{
-  left:-35px;
-  top:22px;
-  border:3px solid var(--bg);
-}
-
-/* Recados estilizados no Mural */
-#lista{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin-top:12px;
-}
-.msg{
-  background:var(--bg);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:14px 18px;
-}
-
-/* Badges do Hero (Disponibilidade & Localização) */
-.hero-badges{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  align-items:center;
-  margin-bottom:8px;
-}
-.tag-location{
-  background:color-mix(in srgb, var(--surface) 90%, transparent);
-  color:var(--text);
-  border:1px solid var(--line);
-  font-weight:500;
-}
-.tag-location::before{
-  display:none;
-}
-.tag-location svg{
-  color:var(--accent);
-  margin-right:4px;
-}
-
-/* FAQ Accordion */
-.faq-accordion{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  margin-top:20px;
-}
-.faq-item{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:14px;
-  overflow:hidden;
-  transition:border-color .2s ease, box-shadow .2s ease;
-}
-.faq-item[open]{
-  border-color:color-mix(in srgb, var(--accent) 45%, var(--line));
-  box-shadow:var(--card-shadow);
-}
-.faq-question{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:16px 20px;
-  font-weight:600;
-  font-size:1.02rem;
-  color:var(--text);
-  cursor:pointer;
-  user-select:none;
-  list-style:none;
-}
-.faq-question::-webkit-details-marker{
-  display:none;
-}
-.faq-arrow{
-  transition:transform .25s ease;
-  flex-shrink:0;
-  color:var(--muted);
-}
-.faq-item[open] .faq-arrow{
-  transform:rotate(180deg);
-  color:var(--accent);
-}
-.faq-answer{
-  padding:0 20px 18px 20px;
-  color:var(--muted);
-  font-size:.95rem;
-  line-height:1.6;
-  border-top:1px solid color-mix(in srgb, var(--line) 40%, transparent);
-  padding-top:12px;
-}
-.faq-answer p{margin:0}
-.faq-answer strong{color:var(--text)}
-
-/* Badge de Status da API no Rodapé */
-.api-status-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:6px 14px;
-  background:color-mix(in srgb, var(--surface) 85%, transparent);
-  border:1px solid var(--line);
-  border-radius:999px;
-  font-size:.8rem;
-  font-weight:600;
-  color:var(--text);
-  text-decoration:none;
-  transition:border-color .2s ease, background-color .2s ease, transform .15s ease;
-}
-.api-status-badge:hover{
-  border-color:var(--accent);
-  color:var(--accent);
-  transform:translateY(-1px);
-}
-.status-pulse-dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#10b981;
-  box-shadow:0 0 0 0 rgba(16,185,129,.7);
-  animation:statusPulse 2s infinite;
-}
-@keyframes statusPulse{
-  0%{ box-shadow:0 0 0 0 rgba(16,185,129,.7); }
-  70%{ box-shadow:0 0 0 8px rgba(16,185,129,0); }
-  100%{ box-shadow:0 0 0 0 rgba(16,185,129,0); }
-}
-
-</style>
-</head>
-<body>
-<canvas id="confetti-canvas"></canvas>
-
-<header class="nav">
-  <div class="wrap">
-    <a href="#" class="logo">&lt;higor.fritz/&gt;</a>
-    
-    <div class="nav-actions">
-      <!-- Botão Instalar App (PWA): aparece só quando o navegador permite instalar -->
-      <button class="theme-toggle" id="btn-instalar" type="button" hidden aria-label="Instalar aplicativo" title="Instalar como aplicativo"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
-      <!-- Botão de Alternar Tema (Dark/Light com ícone SVG) -->
-      <button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema" type="button" title="Alternar tema claro/escuro">
-        <svg class="icon" id="theme-icon-sun" style="display:none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg class="icon" id="theme-icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-
-      <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false" type="button">
-        <span class="nav-toggle-box">
-          <span class="nav-toggle-bar"></span>
-          <span class="nav-toggle-bar"></span>
-        </span>
-        <span>Menu</span>
-      </button>
-    </div>
-
-    <nav class="nav-links" id="nav-links">
-      <a href="#sobre">
-        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Sobre
-      </a>
-      <a href="#foco">
-        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-        Foco
-      </a>
-      <a href="#skills">
-        <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        Skills
-      </a>
-      <a href="#projetos">
-        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg>
-        Projetos
-      </a>
-      <a href="#conquistas">
-        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-        Conquistas
-      </a>
-      <a href="#formacao">
-        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-        Formação
-      </a>
-      <a href="#recados">
-        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Recados
-      </a>
-      <a href="#contato">
-        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contato
-      </a>
-    </nav>
-  </div>
-</header>
-<div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
-
-<main class="wrap">
-  <div class="hero">
-    <div class="hero-grid">
-      <div class="hero-main">
-        <div class="hero-badges">
-          <span class="tag">Disponível para estágio e novos projetos</span>
-          <span class="tag tag-location">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Araquari / Joinville · SC (Híbrido, Presencial ou Remoto)
-          </span>
-        </div>
-        <h1>Olá, eu sou <span class="name">Higor do Amaral Fritz</span>.</h1>
-        <div class="hero-role">
-          <span>Desenvolvedor focado em</span>
-          <span class="typing-wrap"><span class="typing-text" id="typewriter"></span><span class="typing-cursor">|</span></span>
-        </div>
-        <p class="lead">Graduando em Sistemas de Informação pelo Instituto Federal Catarinense com formação técnica integrada em Informática. Experiência no desenvolvimento web de ponta a ponta, APIs seguras com Django, prototipagem no Figma e soluções com IA.</p>
-        <div class="btns">
-      <a class="btn p" href="#projetos">
-        <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Ver projetos
-      </a>
-      <a class="btn btn-whatsapp" href="https://wa.me/5547996565013?text=Ol%C3%A1%20Higor!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20uma%20oportunidade." target="_blank" rel="noopener" title="Conversar no WhatsApp">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-        WhatsApp
-      </a>
-      <!-- Link direto para download do currículo enviado pelo usuário -->
-      <a class="btn s" href="/static/curriculo-higor.pdf" download="Curriculo-Higor-do-Amaral-Fritz.pdf" target="_blank" rel="noopener" title="Baixar currículo completo em PDF">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Baixar Currículo (PDF)
-      </a>
-      <a class="btn s" href="#contato">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Falar comigo
-      </a>
-    </div>
-      </div>
-      <div class="hero-avatar-wrap">
-        <div class="hero-avatar">
-          <img src="https://github.com/HigorAmaral.png" alt="Foto de perfil de Higor do Amaral Fritz" width="168" height="168" loading="eager" fetchpriority="high" decoding="async">
-          <span class="hero-avatar-status" title="Disponível para novos projetos e estágio" aria-label="Online / Disponível"></span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <section id="sobre">
-    <h2>
-      <span class="heading-icon">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      </span>
-      Sobre mim
-    </h2>
-    <p class="lead">Formado como Técnico em Informática para Internet e graduando em <strong>Bacharelado em Sistemas de Informação pelo Instituto Federal Catarinense (IFC – Araquari)</strong>, com sólida base prática em desenvolvimento de software, arquitetura de sistemas e tecnologia da informação.</p>
-    <div class="sobre-conteudo" style="display:flex; flex-direction:column; gap:14px; margin-top:14px; color:var(--text-sec); line-height:1.7;">
-      <p>Com experiência no ciclo completo de desenvolvimento (<strong>frontend e backend</strong>), atuo na construção de sistemas web modernos com <strong>JavaScript, React, Vue.js, Python, Django e SQL</strong>. Possuo vivência prática na criação de APIs RESTful estruturadas, modelagem de banco de dados, autenticação segura e interfaces responsivas, utilizando <strong>Git, GitHub e Figma</strong> para versionamento e prototipação.</p>
-      <p>Entre os projetos desenvolvidos, destaco a criação de um <strong>sistema de gestão de acervo em Hackathon</strong> e um <strong>e-commerce para pizzaria</strong>, participando desde a concepção e arquitetura até a entrega final. Essas vivências consolidaram tanto minha capacidade técnica quanto soft skills essenciais: comunicação assertiva, resolução de problemas e trabalho em equipe.</p>
-      <p>Atualmente, <strong>busco uma oportunidade como Desenvolvedor Júnior</strong>, focado em contribuir para o desenvolvimento de sistemas robustos, escaláveis e bem estruturados, aprendendo continuamente e colaborando em ambientes que valorizam inovação e boas práticas.</p>
-    </div>
-  </section>
-
-  <!-- Seção Foco Atual -->
-  <section id="foco">
-    <h2>
-      <span class="heading-icon">
-        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-      </span>
-      Em foco agora
-    </h2>
-    <div class="focus-grid">
-      <div class="focus-card">
-        <div class="focus-icon">
-          <svg class="icon icon-lg" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        </div>
-        <div>
-          <h3>Back-end & Arquitetura Web</h3>
-          <p>Construção de APIs RESTful estruturadas com Python e Django, autenticação JWT, cookies seguros e modelagem em PostgreSQL.</p>
-        </div>
-      </div>
-      <div class="focus-card">
-        <div class="focus-icon">
-          <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        </div>
-        <div>
-          <h3>Inteligência Artificial Aplicada</h3>
-          <p>Integração de LLMs em soluções de impacto social e educação inclusiva, como ferramentas para adaptação pedagógica.</p>
-        </div>
-      </div>
-      <div class="focus-card">
-        <div class="focus-icon">
-          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-        </div>
-        <div>
-          <h3>UI/UX & Design Systems</h3>
-          <p>Prototipação no Figma, componentização e interfaces com foco em usabilidade, fluidez, contraste e acessibilidade.</p>
-        </div>
-      </div>
-      <div class="focus-card">
-        <div class="focus-icon">
-          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-        </div>
-        <div>
-          <h3>Formação Superior no IFC</h3>
-          <p>Bacharelado em Sistemas de Informação, aprofundando engenharia de software, processos e governança de TI.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="skills">
-    <h2>
-      <span class="heading-icon">
-        <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      </span>
-      Habilidades
-    </h2>
-    <div class="grid" id="skills-grid"></div>
-  </section>
-
-  <section id="projetos">
-    <h2>
-      <span class="heading-icon">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg>
-      </span>
-      Projetos em Destaque
-    </h2>
-    <!-- Abas de Filtro por Categoria -->
-    <div class="filter-tabs" id="filter-tabs">
-      <button class="filter-btn active" data-filter="todos" type="button">Todos</button>
-      <button class="filter-btn" data-filter="backend" type="button">Back-end</button>
-      <button class="filter-btn" data-filter="frontend" type="button">Front-end</button>
-      <button class="filter-btn" data-filter="ia" type="button">IA & Inovação</button>
-    </div>
-    <div class="grid" id="projetos-grid"></div>
-  </section>
-
-  <!-- Seção Conquistas & Certificados -->
-  <section id="conquistas">
-    <h2>
-      <span class="heading-icon">
-        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-      </span>
-      Conquistas & Reconhecimentos
-    </h2>
-    <div class="awards-grid">
-      <div class="award-card">
-        <span class="award-badge">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-          Maratona 24 Horas · Destaque
-        </span>
-        <h3>Hackathon Fábrica de Software 2k26</h3>
-        <p>Desenvolvimento em equipe de uma plataforma com IA construída em uma maratona intensiva de 24 horas ininterruptas para auxiliar professores na adaptação personalizada de atividades e detecção precoce de sinais de autismo, TEA e TDAH em crianças de 6 a 9 anos no IFC Câmpus Araquari.</p>
-        <div style="margin-top:12px">
-          <a class="btn s" href="https://delta.fabricadesoftware.ifc.edu.br/login?redirect=/turmas" target="_blank" rel="noopener" style="display:inline-flex;font-size:.82rem;padding:6px 12px;border-radius:8px">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Acessar Sistema ao Vivo ↗
-          </a>
-        </div>
-      </div>
-      <div class="award-card">
-        <span class="award-badge">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          4 Anos de Formação
-        </span>
-        <h3>Inglês Intermediário · KNN Idiomas</h3>
-        <p>Formação de 4 anos de curso com domínio para leitura técnica de documentações em inglês, escrita de código e comunicação em equipe.</p>
-      </div>
-      <div class="award-card">
-        <span class="award-badge">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-          Curso Técnico Integrado
-        </span>
-        <h3>Técnico em Informática para Internet · IFC</h3>
-        <p>Formação técnica presencial integrada ao ensino médio com base em algoritmos, lógica de programação, HTML5/CSS3, JavaScript e bancos de dados.</p>
-      </div>
-      <div class="award-card">
-        <span class="award-badge">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          Pesquisa Científica & BPMN
-        </span>
-        <h3>Microprocessos Acadêmicos BSI</h3>
-        <p>Monografia e mapeamento dos microprocessos discentes do IFC com modelagem formal em BPMN, avaliação pelo modelo PEMM (Michael Hammer), diretrizes 5W2H e engenharia de requisitos com conformidade LGPD.</p>
-        <div style="margin-top:12px">
-          <a class="btn s" href="/static/projeto-bsi-microprocessos.pdf" target="_blank" rel="noopener" style="font-size:0.8rem;padding:5px 12px;display:inline-flex;align-items:center;gap:6px">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Ver Monografia (PDF) ↗
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Seção Formação e Experiência -->
-  <section id="formacao">
-    <h2>
-      <span class="heading-icon">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-      </span>
-      Formação & Trajetória
-    </h2>
-    <div class="timeline">
-      <div>
-        <small>Graduação (2026 – 2029 / Em andamento)</small>
-        <h3>Bacharelado em Sistemas de Informação</h3>
-        <p>Instituto Federal Catarinense — Câmpus Araquari · Período Matutino (08:20 às 12:00)</p>
-      </div>
-      <div>
-        <small>Técnico Integrado (Concluído)</small>
-        <h3>Técnico em Informática para Internet</h3>
-        <p>Instituto Federal Catarinense — Câmpus Araquari</p>
-      </div>
-      <div>
-        <small>Experiência Prática (2022 – 2023)</small>
-        <h3>Jovem Aprendiz (Almoxarifado) · TAF Indústria de Plásticos Ltda.</h3>
-        <p>Controle, organização e conferência de insumos e matérias-primas no setor de estoque/almoxarifado. Apoio a processos logísticos internos, rotinas de registro e cumprimento de normas operacionais.</p>
-      </div>
-    </div>
-  </section>
-
-    <!-- Seção FAQ para Recrutadores & Gestores -->
-  <section id="faq">
-    <h2>
-      <span class="heading-icon">
-        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      </span>
-      Dúvidas Frequentes de Recrutadores & Gestores
-    </h2>
-    <p class="lead">Perguntas comuns sobre minha disponibilidade, formação no IFC, perfil técnico e facilidade de adaptação em novas equipes.</p>
-
-    <div class="faq-accordion">
-      <details class="faq-item">
-        <summary class="faq-question">
-          <span>Qual é a sua previsão de conclusão do Bacharelado em Sistemas de Informação?</span>
-          <svg class="icon faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </summary>
-        <div class="faq-answer">
-          <p>Iniciei a graduação em <strong>2026</strong> no Instituto Federal Catarinense (Câmpus Araquari) e o curso tem duração regular de 4 anos, com previsão de formatura em <strong>2029</strong>. Minhas aulas acontecem no <strong>período da manhã (das 08:20 às 12:00)</strong>, deixando o período da tarde e noite <strong>100% livres</strong> para estágio.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-question">
-          <span>Qual a sua disponibilidade de carga horária e formato de trabalho?</span>
-          <svg class="icon faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </summary>
-        <div class="faq-answer">
-          <p>Como tenho aulas pela manhã (08:20 às 12:00), tenho total disponibilidade para cumprir jornadas de <strong>4h a 6h diárias (20h a 30h semanais)</strong> no <strong>período da tarde</strong> (a partir das 13:00 / 13:30). Resido em Santa Catarina e atendo com facilidade aos formatos <strong>presencial ou híbrido</strong> em Araquari, Joinville e região norte de SC, além de disponibilidade integral para atuação <strong>100% remota</strong> para empresas de todo o Brasil.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-question">
-          <span>Quais tecnologias você tem maior domínio e quais está aprofundando?</span>
-          <svg class="icon faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </summary>
-        <div class="faq-answer">
-          <p>Foco consistente em <strong>Back-end com Python e Django</strong>, modelagem de dados relacional (PostgreSQL e MySQL), documentação interativa (Swagger / OpenAPI 3.0), testes automatizados e segurança (CSP, rate limiting, sanitização). No <strong>Front-end</strong>, domino JavaScript (ES6+), ecossistema Vue 3 (Vite), React e prototipagem no Figma. Atualmente aprofundo estudos em arquiteturas resilientes e integração de modelos de IA aplicados a produtos reais.</p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-question">
-          <span>Você tem facilidade para aprender uma nova stack exigida pela empresa?</span>
-          <svg class="icon faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </summary>
-        <div class="faq-answer">
-          <p>Sim, com certeza! Minha formação técnica em Informática integrada ao Ensino Médio somada à graduação no IFC me deu uma sólida base de <strong>lógica, estruturas de dados, orientação a objetos e modelagem de processos (BPMN)</strong>. Isso me permite absorver novas linguagens (como Java/Spring, Go, TypeScript/Node) e ferramentas da esteira DevOps com muita rapidez e autonomia.</p>
-        </div>
-      </details>
-    </div>
-  </section>
-
-  <section id="recados">
-    <h2>
-      <span class="heading-icon">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      </span>
-      Mural de recados
-    </h2>
-    <p class="lead">Deixe uma mensagem para mim! Seu recado fica gravado no banco de dados e aparece aqui no mural.</p>
-    <div class="card" id="mural" style="margin-top:20px">
-      <div id="form">
-        <input id="nome" maxlength="40" placeholder="Seu nome" autocomplete="name">
-        <input id="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:0;top:0;opacity:0;pointer-events:none;width:1px;height:1px;z-index:-1">
-        <textarea id="texto" maxlength="280" rows="3" placeholder="Escreva seu recado"></textarea>
-        <button class="btn" id="enviar" type="button">
-          <svg class="icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          Enviar recado
-        </button>
-      </div>
-      <p id="status" class="muted" style="margin-top:14px">Carregando recados…</p>
-      <div id="lista"></div>
-    </div>
-  </section>
-
-  <section id="contato">
-    <h2>
-      <span class="heading-icon">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </span>
-      Vamos conversar?
-    </h2>
-    <p class="lead">Procurando um estagiário ou desenvolvedor dedicado para somar no seu time? Fale comigo:</p>
-    <div class="btns">
-      <a class="btn btn-whatsapp" href="https://wa.me/5547996565013?text=Ol%C3%A1%20Higor!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20uma%20oportunidade." target="_blank" rel="noopener">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-        Conversar no WhatsApp
-      </a>
-      <a class="btn p" href="mailto:amarahigor@gmail.com">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        amarahigor@gmail.com
-      </a>
-      <button class="btn s" id="btn-copy-email" type="button" title="Copiar e-mail para a área de transferência">
-        <svg class="icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        Copiar e-mail
-      </button>
-      <a class="btn s" href="/static/curriculo-higor.pdf" download="Curriculo-Higor-do-Amaral-Fritz.pdf" target="_blank" rel="noopener">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Baixar CV (PDF)
-      </a>
-      <a class="btn s" href="https://github.com/HigorAmaral" target="_blank" rel="noopener">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-        GitHub
-      </a>
-      <a class="btn s" href="https://www.linkedin.com/in/higor-do-amaral-fritz-727869298/" target="_blank" rel="noopener">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        LinkedIn
-      </a>
-      <a class="btn s" href="http://lattes.cnpq.br/8038071079841565" target="_blank" rel="noopener">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Lattes
-      </a>
-    </div>
-  </section>
-</main>
-
-<div class="toast" id="toast">
-  <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-  <span id="toast-msg">Mensagem</span>
-</div>
-
-<!-- Modal de Estudo de Caso -->
-<div id="modal-case" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="modal-card">
-    <div class="modal-header">
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <span class="modal-tag" id="modal-tag">Estudo de Caso</span>
-        <span class="chip" id="modal-badge">Hackathon 24H</span>
-      </div>
-      <button type="button" class="modal-close" id="modal-close" aria-label="Fechar modal">&times;</button>
-    </div>
-    <h3 class="modal-title" id="modal-title">Título do Projeto</h3>
-    <div class="modal-section">
-      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> O Desafio</h4>
-      <p id="modal-desafio"></p>
-    </div>
-    <div class="modal-section">
-      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> A Solução Técnica & Arquitetura</h4>
-      <p id="modal-solucao"></p>
-    </div>
-    <div class="modal-section">
-      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Resultados & Aprendizados</h4>
-      <p id="modal-aprendizados"></p>
-    </div>
-    <div class="modal-footer" id="modal-footer"></div>
-  </div>
-</div>
-
-<footer>
-  <div style="margin-bottom:14px; display:flex; justify-content:center;">
-    <a class="api-status-badge" href="/api/docs/" target="_blank" rel="noopener" title="Documentação interativa Swagger e Health Check em tempo real">
-      <span class="status-pulse-dot"></span>
-      <span>API REST Operational · 100% Uptime</span>
-    </a>
-  </div>
-  <p>© 2026 Higor do Amaral Fritz · Araquari, SC · Telefone: (47) 99656-5013</p>
-  <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
-</footer>
-
-<script src="/static/js/app.js?v=20261103-v2"></script>
-<!-- Botão Voltar ao Topo Flutuante -->
-<button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
-  <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
-</button>
-</body>
-</html>
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta name="api-base" content="">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#E2E8F0">
+<title>Higor do Amaral Fritz · Desenvolvedor Full Stack & Backend</title>
+<meta name="description" content="Portfólio de Higor do Amaral Fritz — Desenvolvedor Full Stack & Backend. Projetos em Python, Django, PostgreSQL, APIs RESTful documentadas e Inteligência Artificial.">
+<meta name="author" content="Higor do Amaral Fritz">
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/pwa/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/static/pwa/icon-192.png">
+<link rel="apple-touch-icon" href="/static/pwa/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Higor Fritz">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://portfolio-higor.onrender.com/">
+<meta property="og:title" content="Higor do Amaral Fritz · Desenvolvedor Full Stack & Backend">
+<meta property="og:description" content="Portfólio com projetos reais em Python, Django, PostgreSQL, APIs RESTful documentadas (Swagger) e Inteligência Artificial.">
+<meta property="og:image" content="https://portfolio-higor.onrender.com/static/og-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Higor do Amaral Fritz · Desenvolvedor Full Stack & Backend">
+<meta name="twitter:description" content="Portfólio com projetos reais em Python, Django, PostgreSQL, APIs RESTful documentadas (Swagger) e Inteligência Artificial.">
+<meta name="twitter:image" content="https://portfolio-higor.onrender.com/static/og-preview.png">
+<!-- Dados Estruturados Schema.org (JSON-LD) para SEO no Google -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://portfolio-higor.onrender.com/#person",
+      "name": "Higor do Amaral Fritz",
+      "url": "https://portfolio-higor.onrender.com/",
+      "image": "https://github.com/HigorAmaral.png",
+      "jobTitle": "Desenvolvedor Full Stack & Backend",
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Instituto Federal Catarinense (IFC)"
+      },
+      "knowsAbout": [
+        "Python",
+        "Django",
+        "PostgreSQL",
+        "APIs RESTful",
+        "Swagger / OpenAPI",
+        "Vue.js",
+        "Docker",
+        "Segurança Web",
+        "Inteligência Artificial"
+      ],
+      "sameAs": [
+        "https://github.com/HigorAmaral",
+        "https://www.linkedin.com/in/higor-do-amaral-fritz"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://portfolio-higor.onrender.com/#website",
+      "url": "https://portfolio-higor.onrender.com/",
+      "name": "Higor Fritz · Portfólio & Backend Production-Ready",
+      "description": "Portfólio com projetos reais em Python, Django, PostgreSQL, APIs RESTful documentadas e IA.",
+      "publisher": {
+        "@id": "https://portfolio-higor.onrender.com/#person"
+      },
+      "inLanguage": "pt-BR"
+    }
+  ]
+}
+</script>
+<script>
+(function(){
+  try{
+    var t = localStorage.getItem('portfolio_theme_v3') || localStorage.getItem('portfolio_theme');
+    if(!t){ t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+    document.documentElement.setAttribute('data-theme', t);
+  }catch(e){}
+})();
+</script>
+<style>
+:root{
+  box-sizing:border-box;
+  --bg:#E2E8F0;--surface:#EDF2F7;--text:#1E293B;--muted:#475569;--line:#CBD5E1;
+  --primary:#1D4ED8;--accent:#1D4ED8;--accent-secondary:#0F766E;--accent-purple:#0F766E;
+  --accent-soft:rgba(29, 78, 216, 0.10);--accent-secondary-soft:rgba(15, 118, 110, 0.12);--accent-text:#F8FAFC;
+  --card-shadow:0 2px 6px rgba(15, 23, 42, 0.05), 0 10px 24px -6px rgba(15, 23, 42, 0.07);
+  --text-sec:#334155;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F172A;--surface:#1E293B;--text:#F8FAFC;--muted:#94A3B8;--line:#334155;
+    --primary:#3B82F6;--accent:#3B82F6;--accent-secondary:#14B8A6;--accent-purple:#14B8A6;
+    --accent-soft:rgba(59, 130, 246, 0.15);--accent-secondary-soft:rgba(20, 184, 166, 0.15);--accent-text:#FFFFFF;
+    --card-shadow:0 4px 20px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+    --text-sec:#94A3B8;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F172A;--surface:#1E293B;--text:#F8FAFC;--muted:#94A3B8;--line:#334155;
+  --primary:#3B82F6;--accent:#3B82F6;--accent-secondary:#14B8A6;--accent-purple:#14B8A6;
+  --accent-soft:rgba(59, 130, 246, 0.15);--accent-secondary-soft:rgba(20, 184, 166, 0.15);--accent-text:#FFFFFF;
+  --card-shadow:0 4px 20px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --text-sec:#94A3B8;
+  color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#E2E8F0;--surface:#EDF2F7;--text:#1E293B;--muted:#475569;--line:#CBD5E1;
+  --primary:#1D4ED8;--accent:#1D4ED8;--accent-secondary:#0F766E;--accent-purple:#0F766E;
+  --accent-soft:rgba(29, 78, 216, 0.10);--accent-secondary-soft:rgba(15, 118, 110, 0.12);--accent-text:#F8FAFC;
+  --card-shadow:0 2px 6px rgba(15, 23, 42, 0.05), 0 10px 24px -6px rgba(15, 23, 42, 0.07);
+  --text-sec:#334155;
+  color-scheme:light;
+}
+html{
+  overflow-x:hidden;
+  max-width:100%;
+  width:100%;
+  scroll-padding-top:calc(74px + env(safe-area-inset-top, 0px));
+  scroll-behavior:smooth;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  margin:0;
+  background-color:var(--bg);
+  color:var(--text);
+  font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  overflow-x:hidden;
+  max-width:100%;
+  width:100%;
+  position:relative;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom, 0px);
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background-image:radial-gradient(52rem 28rem at 88% -8%,color-mix(in srgb,var(--accent) 8%,transparent),transparent),radial-gradient(38rem 24rem at -8% 38%,color-mix(in srgb,var(--accent) 4%,transparent),transparent);
+  transform:translateZ(0);
+}
+.wrap{
+  max-width:960px;
+  margin:0 auto;
+  padding:0 clamp(16px, 4vw, 24px);
+  width:100%;
+  box-sizing:border-box;
+}
+
+/* Ícones SVG Auxiliares */
+.icon{
+  width:18px;
+  height:18px;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  fill:none;
+  flex-shrink:0;
+  display:inline-block;
+  vertical-align:middle;
+}
+.icon-sm{width:15px;height:15px}
+.icon-lg{width:22px;height:22px}
+
+/* Header & Navegação */
+header.nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  width:100%;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+  z-index:60;
+  padding-top:env(safe-area-inset-top, 0px);
+  transition:background-color .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+header.nav.scrolled{
+  box-shadow:0 4px 20px rgba(0,0,0,0.08);
+  background:color-mix(in srgb,var(--bg) 95%,transparent);
+}
+main.wrap{
+  padding-top:calc(64px + env(safe-area-inset-top, 0px));
+}
+.nav .wrap{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  min-height:60px;
+  gap:12px;
+}
+.logo{
+  font-weight:700;
+  letter-spacing:-.01em;
+  background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 55%,var(--accent-purple, #7C4DFF)));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  font-size:1.15rem;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+}
+
+/* Ações do Header (Nav + Botão Tema) */
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* Botão de Alternar Tema (Dark / Light) */
+.theme-toggle{
+  background:var(--surface);
+  border:1.5px solid var(--line);
+  color:var(--text);
+  border-radius:999px;
+  width:40px;
+  height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:border-color .2s ease, transform .2s ease, background-color .2s ease, color .2s ease;
+  touch-action:manipulation;
+}
+.theme-toggle:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+  transform:scale(1.05);
+}
+.theme-toggle:active{transform:scale(0.95)}
+
+/* Links Desktop */
+.nav-links{
+  display:flex;
+  gap:20px;
+  align-items:center;
+}
+.nav-links a{
+  color:var(--muted);
+  text-decoration:none;
+  white-space:nowrap;
+  position:relative;
+  padding:8px 0;
+  font-size:.95rem;
+  font-weight:500;
+  transition:color .2s;
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:6px;
+  height:2px;
+  width:0;
+  background:var(--accent);
+  transition:width .25s ease;
+}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{width:100%}
+
+/* Botão do Menu Mobile (Pílula) */
+.nav-toggle{
+  display:none;
+  align-items:center;
+  gap:8px;
+  background:var(--surface);
+  border:1.5px solid color-mix(in srgb,var(--accent) 35%,var(--line));
+  padding:8px 16px;
+  border-radius:999px;
+  cursor:pointer;
+  color:var(--text);
+  font-family:inherit;
+  font-size:.9rem;
+  font-weight:600;
+  box-shadow:0 2px 10px rgba(0,0,0,0.06);
+  transition:border-color .2s ease, background-color .2s ease, color .2s ease, transform .15s ease;
+  z-index:70;
+  touch-action:manipulation;
+}
+.nav-toggle:active{transform:scale(0.97)}
+.nav-toggle.active{
+  border-color:var(--accent);
+  background:var(--accent-soft);
+  color:var(--accent);
+}
+.nav-toggle-box{
+  width:16px;
+  height:12px;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.nav-toggle-bar{
+  display:block;
+  width:100%;
+  height:2px;
+  background-color:currentColor;
+  border-radius:2px;
+  transition:transform .25s ease, opacity .2s ease;
+}
+.nav-toggle.active .nav-toggle-bar:nth-child(1){transform:translateY(5px) rotate(45deg)}
+.nav-toggle.active .nav-toggle-bar:nth-child(2){transform:translateY(-5px) rotate(-45deg)}
+
+/* Overlay mobile */
+.nav-overlay{display:none}
+
+@media (max-width: 768px){
+  .nav-toggle{display:inline-flex}
+  .nav-overlay{
+    display:block;
+    position:fixed;
+    inset:0;
+    background:rgba(10, 15, 30, 0.45);
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
+    z-index:55;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .25s ease, visibility .25s;
+  }
+  .nav-overlay.open{opacity:1;visibility:visible}
+
+  .nav-links{
+    position:fixed;
+    top:calc(66px + env(safe-area-inset-top, 0px));
+    left:clamp(12px, 4vw, 24px);
+    right:clamp(12px, 4vw, 24px);
+    background:color-mix(in srgb,var(--surface) 96%,transparent);
+    -webkit-backdrop-filter:blur(24px);
+    backdrop-filter:blur(24px);
+    border:1px solid color-mix(in srgb,var(--accent) 25%,var(--line));
+    border-radius:22px;
+    padding:12px;
+    flex-direction:column;
+    align-items:stretch;
+    gap:4px;
+    box-shadow:0 20px 48px -10px rgba(15, 20, 45, 0.35);
+    z-index:60;
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(-10px) scale(0.97);
+    transition:transform .25s cubic-bezier(0.16, 1, 0.3, 1), opacity .2s ease, visibility .25s;
+    max-height:calc(100vh - 90px);
+    overflow-y:auto;
+  }
+  .nav-links.open{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0) scale(1);
+  }
+  .nav-links a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 16px;
+    font-size:1.02rem;
+    font-weight:600;
+    color:var(--text);
+    border-radius:14px;
+    text-decoration:none;
+    min-height:48px;
+    transition:background-color .18s ease, color .18s ease, transform .15s ease;
+  }
+  .nav-links a:hover, .nav-links a:active{
+    background:var(--accent-soft);
+    color:var(--accent);
+    transform:translateX(4px);
+  }
+  .nav-links a::after{display:none}
+}
+
+/* Hero */
+.hero{
+  padding:clamp(44px, 8vw, 84px) 0 clamp(36px, 6vw, 64px);
+  position:relative;
+  max-width:100%;
+}
+.tag{
+  display:inline-flex;
+  align-items:center;
+  background:var(--accent-secondary-soft, rgba(13, 148, 136, 0.10));
+  color:var(--accent-secondary, #0D9488);
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:.82rem;
+  font-weight:600;
+  border:1px solid color-mix(in srgb,var(--accent-secondary, #0D9488) 30%,transparent);
+  max-width:100%;
+}
+.tag::before{
+  content:"";
+  display:inline-block;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--accent-secondary, #0D9488);
+  margin-right:8px;
+  flex-shrink:0;
+  animation:pulse 2s infinite;
+}
+h1{
+  font-size:clamp(2rem, 6vw, 3.5rem);
+  line-height:1.15;
+  margin:16px 0 10px;
+  letter-spacing:-.03em;
+  word-break:break-word;
+}
+h1 span.name{
+  background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 55%,var(--accent-purple, #7C4DFF)));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+/* Subtítulo dinâmico com altura fixa contra efeito sanfona (CLS) */
+.hero-role{
+  font-size:clamp(1.15rem, 3.2vw, 1.65rem);
+  font-weight:600;
+  line-height:1.4;
+  margin:0 0 18px;
+  color:var(--text);
+  min-height:3em; /* Trava espaço de 2 linhas no mobile: zero layout shift */
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  column-gap:6px;
+  max-width:100%;
+}
+@media (min-width: 680px){
+  .hero-role{
+    min-height:1.6em; /* No desktop fixa em 1 linha */
+  }
+}
+@media (max-width: 480px){
+  .hero-role{
+    font-size:1.1rem;
+    min-height:3.6em;
+  }
+  .typing-wrap{
+    white-space:normal;
+  }
+}
+.typing-wrap{
+  display:inline-flex;
+  align-items:baseline;
+  max-width:100%;
+}
+.typing-text{
+  color:var(--accent);
+  font-weight:700;
+  border-bottom:2px solid color-mix(in srgb,var(--accent) 40%,transparent);
+  word-break:break-word;
+  overflow-wrap:break-word;
+}
+.typing-cursor{
+  display:inline-block;
+  color:var(--accent);
+  animation:blink .7s infinite;
+  font-weight:300;
+  margin-left:2px;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.lead{
+  color:var(--muted);
+  font-size:clamp(1rem, 2.6vw, 1.15rem);
+  line-height:1.7;
+  max-width:640px;
+  word-break:break-word;
+}
+
+/* Botões */
+.btns{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:28px;
+}
+.btn{
+  padding:12px 22px;
+  border-radius:12px;
+  text-decoration:none;
+  font-weight:600;
+  font-size:.95rem;
+  border:1px solid var(--accent);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  gap:8px;
+  transition:transform .2s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
+  cursor:pointer;
+  text-align:center;
+  touch-action:manipulation;
+}
+.btn.p, button.btn{
+  background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 80%,#1d4ed8));
+  color:var(--accent-text);
+  border-color:transparent;
+  box-shadow:0 8px 22px color-mix(in srgb,var(--accent) 32%,transparent);
+}
+.btn.s{
+  background:var(--surface);
+  color:var(--accent);
+  border-color:color-mix(in srgb,var(--accent) 40%,var(--line));
+}
+.btn.s:hover{
+  border-color:var(--accent);
+  background:var(--accent-soft);
+}
+@media (hover: hover){
+  .btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 26px color-mix(in srgb,var(--accent) 38%,transparent);
+  }
+}
+.btn:active{transform:translateY(1px)}
+@media (max-width: 480px){
+  .btns{flex-direction:column;width:100%}
+  .btns .btn{width:100%}
+}
+
+/* Stats */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 120px), 1fr));
+  gap:16px clamp(12px, 3vw, 24px);
+  margin-top:40px;
+  padding-top:24px;
+  border-top:1px solid var(--line);
+  width:100%;
+  max-width:100%;
+}
+.stats>div{display:flex;flex-direction:column;gap:2px}
+.stats b{
+  font-size:clamp(1.8rem, 4.8vw, 2.2rem);
+  line-height:1.1;
+  color:var(--accent-secondary, #0D9488);
+  letter-spacing:-.03em;
+}
+.stats span{color:var(--muted);font-size:.88rem;line-height:1.35}
+
+/* Seções (Isolamento de Layout e Estilos) */
+section{
+  padding:clamp(44px, 7vw, 64px) 0;
+  border-top:1px solid var(--line);
+  contain:layout style;
+}
+h2{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:clamp(1.4rem, 4.2vw, 1.75rem);
+  margin:0 0 24px;
+  letter-spacing:-.02em;
+  word-break:break-word;
+}
+h2 .heading-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--accent);
+  background:var(--accent-soft);
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  flex-shrink:0;
+}
+
+/* Grid & Cards com suporte a Tilt 3D */
+.grid{
+  display:grid;
+  gap:18px;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  width:100%;
+  max-width:100%;
+}
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:clamp(18px, 4vw, 24px);
+  position:relative;
+  overflow:hidden;
+  box-shadow:var(--card-shadow);
+  display:flex;
+  flex-direction:column;
+  transition:border-color .2s ease, box-shadow .2s ease, background-color .25s ease;
+  contain:layout style paint;
+  min-width:0;
+  max-width:100%;
+}
+.card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:4px;
+  background:linear-gradient(90deg,var(--accent),color-mix(in srgb,var(--accent) 45%,transparent));
+}
+@media (hover: hover){
+  .card:hover{
+    border-color:var(--accent);
+    box-shadow:0 14px 36px -12px color-mix(in srgb,var(--accent) 45%,transparent);
+  }
+}
+.card .topo{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:8px;
+  flex-wrap:wrap;
+}
+.card h3{
+  font-size:1.12rem;
+  margin:0;
+  word-break:break-word;
+}
+.card p{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:.95rem;
+  line-height:1.6;
+  word-break:break-word;
+}
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:14px;
+}
+.chip{
+  background:var(--accent-secondary-soft, rgba(13, 148, 136, 0.10));
+  color:var(--accent-secondary, #0D9488);
+  font-size:.78rem;
+  font-weight:600;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid color-mix(in srgb,var(--accent-secondary, #0D9488) 22%,transparent);
+}
+.status{
+  flex:none;
+  font-size:.74rem;
+  font-weight:700;
+  padding:3px 10px;
+  border-radius:999px;
+  white-space:nowrap;
+}
+.status.em_andamento{
+  background:var(--accent-soft);
+  color:var(--accent);
+  border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
+}
+.status.concluido{
+  background:color-mix(in srgb,#22c55e 16%,transparent);
+  color:#15803d;
+  border:1px solid color-mix(in srgb,#22c55e 40%,transparent);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .status.concluido{color:#4ade80}
+}
+:root[data-theme="dark"] .status.concluido{color:#4ade80}
+
+.rodape{
+  margin-top:auto;
+  padding-top:16px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.rodape a{
+  color:var(--accent);
+  font-weight:600;
+  font-size:.92rem;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  min-height:38px;
+}
+.rodape a:hover{text-decoration:underline}
+.rodape a.demo-link{
+  background:var(--accent-soft);
+  padding:6px 14px;
+  border-radius:10px;
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+}
+.rodape a.demo-link:hover{text-decoration:none;filter:brightness(1.05)}
+
+/* Filtros de Projetos */
+.filter-tabs{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+}
+.filter-btn{
+  background:var(--surface);
+  color:var(--muted);
+  border:1.5px solid var(--line);
+  padding:8px 16px;
+  border-radius:999px;
+  font-family:inherit;
+  font-size:.88rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.filter-btn:hover{
+  border-color:var(--accent);
+  color:var(--text);
+}
+.filter-btn.active{
+  background:var(--accent);
+  color:var(--accent-text);
+  border-color:var(--accent);
+  box-shadow:0 4px 14px color-mix(in srgb,var(--accent) 30%,transparent);
+}
+
+/* Seção Foco Atual (Now) */
+.focus-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap:16px;
+  width:100%;
+  max-width:100%;
+}
+.focus-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  box-shadow:var(--card-shadow);
+  transition:border-color .2s ease, box-shadow .2s ease;
+  contain:layout style paint;
+  min-width:0;
+  max-width:100%;
+}
+.focus-card:hover{
+  border-color:var(--accent);
+  box-shadow:0 8px 24px -6px color-mix(in srgb,var(--accent) 25%,transparent);
+}
+.focus-icon{
+  color:var(--accent);
+  background:var(--accent-soft);
+  padding:10px;
+  border-radius:12px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.focus-card h3{margin:0 0 4px;font-size:1.05rem}
+.focus-card p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.55}
+
+/* Seção Conquistas & Certificados */
+.awards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap:16px;
+  width:100%;
+  max-width:100%;
+}
+.award-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  box-shadow:var(--card-shadow);
+  contain:layout style paint;
+  min-width:0;
+  max-width:100%;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.award-card:hover{
+  border-color:var(--accent);
+  box-shadow:0 8px 24px -6px color-mix(in srgb,var(--accent) 25%,transparent);
+}
+.award-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.78rem;
+  font-weight:700;
+  color:var(--accent-secondary, #0D9488);
+  background:var(--accent-secondary-soft, rgba(13, 148, 136, 0.10));
+  padding:4px 10px;
+  border-radius:999px;
+  align-self:flex-start;
+}
+.award-card h3{margin:4px 0 2px;font-size:1.08rem}
+.award-card p{margin:0;color:var(--muted);font-size:.92rem;line-height:1.55}
+
+/* Timeline */
+.timeline{
+  border-left:3px solid var(--line);
+  padding-left:22px;
+  margin-left:6px;
+  display:grid;
+  gap:24px;
+}
+.timeline>div{position:relative}
+.timeline>div::before{
+  content:"";
+  position:absolute;
+  left:-31px;
+  top:6px;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 5px var(--accent-soft);
+}
+.timeline small{
+  color:var(--accent);
+  font-weight:600;
+  font-size:.85rem;
+}
+.timeline h3{margin:4px 0 2px;font-size:1.1rem}
+.timeline p{margin:0;color:var(--muted);font-size:.95rem}
+
+/* Mural de Recados & Formulário */
+#form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+input, textarea{
+  width:100%;
+  font-family:inherit;
+  font-size:16px;
+  color:var(--text);
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px 14px;
+  transition:border-color .2s ease, box-shadow .2s ease, background-color .3s;
+}
+input:focus, textarea:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent);
+}
+textarea{resize:vertical;min-height:90px}
+#form button.btn{align-self:flex-start}
+@media (max-width: 540px){
+  #form button.btn{width:100%}
+}
+.msg{
+  border-top:1px solid var(--line);
+  padding:14px 0;
+  animation:up .5s ease both;
+  word-break:break-word;
+  overflow-wrap:break-word;
+}
+.msg b{display:block;font-size:.95rem;margin-bottom:2px}
+.msg span{color:var(--muted);font-size:.92rem;line-height:1.5}
+.muted{color:var(--muted);margin:0 0 12px;font-size:.92rem}
+
+/* Toast de Notificação */
+.toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%) translateY(100px);
+  background:var(--surface);
+  color:var(--text);
+  border:1.5px solid var(--accent);
+  padding:12px 24px;
+  border-radius:999px;
+  box-shadow:0 12px 32px rgba(0,0,0,0.22);
+  font-weight:600;
+  font-size:.95rem;
+  z-index:9999;
+  opacity:0;
+  pointer-events:none;
+  transition:transform .3s cubic-bezier(0.16, 1, 0.3, 1), opacity .3s ease;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* Canvas de Confetes (Zero Render Overhead quando inativo) */
+#confetti-canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:9998;
+  display:none;
+}
+
+/* Rodapé */
+footer{
+  padding:36px 0 clamp(24px, 5vw, 40px);
+  color:var(--muted);
+  font-size:.88rem;
+  text-align:center;
+  border-top:1px solid var(--line);
+  padding-left:clamp(16px, 4vw, 24px);
+  padding-right:clamp(16px, 4vw, 24px);
+}
+footer a{color:var(--accent);text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+/* Animações & Transições Diversas */
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes heroFloat{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-10px) rotate(1.5deg)}
+}
+@keyframes pulse{
+  0%,100%{ transform:scale(0.92); opacity:0.75; }
+  50%{ transform:scale(1.22); opacity:1; }
+}
+@keyframes gradientShift{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes heroAvatarIn{
+  0%{opacity:0;transform:scale(0.82) translateX(24px) rotate(-4deg)}
+  100%{opacity:1;transform:scale(1) translateX(0) rotate(0deg)}
+}
+@keyframes cardFilterEnter{
+  0%{opacity:0;transform:translateY(20px) scale(0.95)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes cardFilterExit{
+  0%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(0.92) translateY(10px)}
+}
+@keyframes faqSlideDown{
+  0%{opacity:0;transform:translateY(-8px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+@keyframes iconSpinSpring{
+  0%{transform:rotate(-140deg) scale(0.5);opacity:0}
+  100%{transform:rotate(0deg) scale(1);opacity:1}
+}
+@keyframes timelineDotPulse{
+  0%{box-shadow:0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent)}
+  70%{box-shadow:0 0 0 10px transparent}
+  100%{box-shadow:0 0 0 0 transparent}
+}
+
+/* Gradiente vivo na Logo e no Nome do Hero */
+.logo, h1 span.name{
+  background:linear-gradient(90deg, var(--accent), var(--accent-secondary, #0D9488), #3b82f6, var(--accent));
+  background-size:250% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:gradientShift 6s ease infinite;
+}
+
+/* Entrada escalonada do Hero */
+.hero-main > *{
+  animation:up .75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.hero-main > *:nth-child(1){animation-delay:.05s}
+.hero-main > *:nth-child(2){animation-delay:.16s}
+.hero-main > *:nth-child(3){animation-delay:.27s}
+.hero-main > *:nth-child(4){animation-delay:.38s}
+.hero-main > *:nth-child(5){animation-delay:.48s}
+
+.hero-avatar-wrap{
+  animation:heroAvatarIn .9s cubic-bezier(0.22, 1, 0.36, 1) .2s both;
+}
+.hero-avatar{
+  animation:heroFloat 5.5s ease-in-out infinite;
+  transform:translateZ(0);
+}
+.hero-avatar::before{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:50%;
+  background:linear-gradient(135deg, var(--accent), var(--accent-secondary, #0D9488));
+  filter:blur(10px);
+  z-index:-1;
+  opacity:0.4;
+  animation:avatarGlow 3.5s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+
+/* Transição suave ao alternar tema (Claro <-> Escuro) */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after{
+  transition:background-color .45s cubic-bezier(0.22, 1, 0.36, 1),
+             border-color .45s cubic-bezier(0.22, 1, 0.36, 1),
+             color .35s ease,
+             box-shadow .45s ease !important;
+}
+::view-transition-old(root),
+::view-transition-new(root){
+  animation:none;
+  mix-blend-mode:normal;
+}
+.theme-toggle svg{
+  animation:iconSpinSpring .45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Link ativo na navegação (Scroll Spy) */
+.nav-links a.active-section{
+  color:var(--accent);
+  font-weight:600;
+}
+.nav-links a.active-section::after{
+  width:100%;
+  background:linear-gradient(90deg, var(--accent), var(--accent-secondary, #0D9488));
+}
+
+/* Efeito Shimmer (Feixe de luz) e Micro-interações nos Botões */
+.btn{
+  position:relative;
+  overflow:hidden;
+  transition:transform .28s cubic-bezier(0.34, 1.56, 0.64, 1),
+             box-shadow .28s ease,
+             background-color .25s ease,
+             border-color .25s ease,
+             color .25s ease;
+}
+.btn.p::after, button.btn::after, .btn.btn-whatsapp::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:65%;
+  height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.32), transparent);
+  transform:skewX(-20deg);
+  transition:left .6s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events:none;
+}
+.btn.p:hover::after, button.btn:hover::after, .btn.btn-whatsapp:hover::after{
+  left:140%;
+}
+.btn svg{
+  transition:transform .28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.btn:hover svg{
+  transform:scale(1.14) translateX(1px);
+}
+
+/* Micro-interação nos ícones de título de seção */
+h2 .heading-icon{
+  transition:transform .35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .3s ease, color .3s ease, box-shadow .3s ease;
+}
+section:hover h2 .heading-icon{
+  transform:scale(1.12) rotate(-6deg);
+  background:var(--accent);
+  color:var(--accent-text);
+  box-shadow:0 6px 16px color-mix(in srgb, var(--accent) 32%, transparent);
+}
+
+/* Spotlight Radial Glow nos Cards + Barra Superior Animada */
+.card, .focus-card, .award-card{
+  position:relative;
+  overflow:hidden;
+}
+.card::after, .focus-card::after, .award-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(360px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%);
+  opacity:0;
+  transition:opacity .35s ease;
+  pointer-events:none;
+  z-index:0;
+}
+.card:hover::after, .focus-card:hover::after, .award-card:hover::after{
+  opacity:1;
+}
+.card > *, .focus-card > *, .award-card > *{
+  position:relative;
+  z-index:1;
+}
+.card::before{
+  transition:height .25s ease, background .35s ease;
+}
+.card:hover::before{
+  height:5px;
+  background:linear-gradient(90deg, var(--accent), var(--accent-secondary, #0D9488));
+}
+.focus-card:hover .focus-icon{
+  transform:scale(1.1) rotate(5deg);
+  background:var(--accent);
+  color:var(--accent-text);
+}
+.focus-icon{
+  transition:transform .3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .25s ease, color .25s ease;
+}
+
+/* Chips / Tags interativos */
+.chip{
+  transition:transform .22s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.chip:hover{
+  transform:translateY(-2px) scale(1.04);
+  border-color:var(--accent-secondary, #0D9488);
+  box-shadow:0 4px 10px color-mix(in srgb, var(--accent-secondary, #0D9488) 18%, transparent);
+}
+
+/* ===== Sistema de Scroll-Reveal Otimizado (100% GPU Compositor, Zero Blur Lag) ===== */
+.reveal{
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .55s cubic-bezier(0.22, 1, 0.36, 1),
+             transform .55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay:calc(var(--stagger, 0) * 60ms);
+}
+/* Variação 1: Slide da Esquerda */
+.reveal.reveal-left{
+  transform:translateX(-28px);
+}
+/* Variação 2: Slide da Direita */
+.reveal.reveal-right{
+  transform:translateX(28px);
+}
+/* Variação 3: Pop Suave (Cards de Skills e Projetos) */
+.reveal.reveal-pop{
+  transform:translateY(24px) scale(0.96);
+}
+/* Variação 4: Flip Suave (Cards de Conquistas) */
+.reveal.reveal-flip{
+  transform:translateY(20px) scale(0.97);
+}
+/* Variação 5: Zoom Suave (FAQ / Mural) */
+.reveal.reveal-zoom{
+  transform:scale(0.96) translateY(14px);
+}
+
+.reveal.in{
+  opacity:1;
+  transform:none;
+}
+
+/* Timeline Animada */
+.timeline > div::before{
+  transition:transform .4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .3s ease;
+}
+.timeline > div.in::before{
+  animation:timelineDotPulse 1.8s ease-out 0.3s 2;
+}
+.timeline > div:hover::before{
+  transform:scale(1.3);
+  background:var(--accent-secondary, #0D9488);
+}
+
+/* Animação de Filtragem dos Cards de Projetos */
+.novo{
+  animation:cardFilterEnter .55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay:calc(var(--stagger, 0) * 75ms);
+}
+#projetos-grid.filtering .card{
+  animation:cardFilterExit .18s ease forwards;
+}
+
+/* Animação do Acordeão FAQ */
+.faq-item[open] .faq-answer{
+  animation:faqSlideDown .32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.faq-question{
+  transition:background-color .2s ease, color .2s ease;
+}
+.faq-question:hover{
+  background:color-mix(in srgb, var(--accent) 4%, transparent);
+}
+
+/* Animação em Camadas do Modal de Estudo de Caso */
+.modal-backdrop .modal-section,
+.modal-backdrop .modal-footer{
+  opacity:0;
+  transform:translateY(14px);
+  transition:opacity .38s ease, transform .38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.modal-backdrop.open .modal-section,
+.modal-backdrop.open .modal-footer{
+  opacity:1;
+  transform:translateY(0);
+}
+.modal-backdrop.open .modal-section:nth-of-type(1){transition-delay:.08s}
+.modal-backdrop.open .modal-section:nth-of-type(2){transition-delay:.16s}
+.modal-backdrop.open .modal-section:nth-of-type(3){transition-delay:.24s}
+.modal-backdrop.open .modal-footer{transition-delay:.30s}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1!important;transform:none!important;filter:none!important}
+  .card{transform:none!important}
+  .modal-backdrop .modal-section, .modal-backdrop .modal-footer{opacity:1!important;transform:none!important}
+}
+::selection{background:var(--accent);color:var(--accent-text)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+
+/* Botão WhatsApp suave (sem forçar a vista) */
+.btn.btn-whatsapp{
+  background: color-mix(in srgb, #16a34a 14%, var(--surface));
+  color: #166534;
+  border-color: color-mix(in srgb, #16a34a 38%, var(--line));
+  box-shadow: 0 2px 8px rgba(22, 101, 52, 0.08);
+}
+.btn.btn-whatsapp svg{
+  color: #16a34a;
+}
+.btn.btn-whatsapp:hover{
+  background: color-mix(in srgb, #16a34a 24%, var(--surface));
+  border-color: #16a34a;
+  color: #14532d;
+  box-shadow: 0 4px 14px rgba(22, 101, 52, 0.16);
+  transform: translateY(-2px);
+}
+:root:not([data-theme="light"]) .btn.btn-whatsapp,
+:root[data-theme="dark"] .btn.btn-whatsapp{
+  background: color-mix(in srgb, #22c55e 12%, var(--surface));
+  color: #4ade80;
+  border-color: color-mix(in srgb, #22c55e 28%, var(--line));
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+:root:not([data-theme="light"]) .btn.btn-whatsapp svg,
+:root[data-theme="dark"] .btn.btn-whatsapp svg{
+  color: #4ade80;
+}
+:root:not([data-theme="light"]) .btn.btn-whatsapp:hover,
+:root[data-theme="dark"] .btn.btn-whatsapp:hover{
+  background: color-mix(in srgb, #22c55e 22%, var(--surface));
+  border-color: #4ade80;
+  color: #86efac;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.22);
+}
+
+/* Mockup Visual do Projeto */
+.project-preview{
+  background:color-mix(in srgb,var(--surface) 60%,#000);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:9px 12px;
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.76rem;
+  color:var(--muted);
+}
+.project-preview .dots{display:flex;gap:5px;align-items:center}
+.project-preview .dots span{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.project-preview .dots span:nth-child(1){background:#f87171}
+.project-preview .dots span:nth-child(2){background:#fbbf24}
+.project-preview .dots span:nth-child(3){background:#4ade80}
+.project-preview .preview-url{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  direction:rtl;
+  text-align:left;
+  max-width:100%;
+  flex:1;
+  min-width:0;
+}
+.project-badge-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.74rem;
+  font-weight:700;
+  padding:3px 10px;
+  border-radius:999px;
+  background:color-mix(in srgb,var(--accent) 15%,transparent);
+  color:var(--accent);
+  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+  margin-bottom:10px;
+  align-self:flex-start;
+}
+.project-badge-tag.hackathon{
+  background:color-mix(in srgb,#f59e0b 16%,transparent);
+  color:#f59e0b;
+  border-color:color-mix(in srgb,#f59e0b 35%,transparent);
+}
+.project-badge-tag.swagger{
+  background:color-mix(in srgb,#0ea5e9 16%,transparent);
+  color:#0ea5e9;
+  border-color:color-mix(in srgb,#0ea5e9 35%,transparent);
+}
+
+.rodape a.swagger-link{
+  background:color-mix(in srgb,#0ea5e9 16%,transparent);
+  color:#0ea5e9;
+  padding:6px 14px;
+  border-radius:10px;
+  border:1px solid color-mix(in srgb,#0ea5e9 35%,transparent);
+}
+.rodape a.swagger-link:hover{text-decoration:none;filter:brightness(1.15)}
+
+.rodape a.pdf-link{
+  background:color-mix(in srgb,#8b5cf6 16%,transparent);
+  color:var(--accent-purple, #7C4DFF);
+  padding:6px 14px;
+  border-radius:10px;
+  border:1px solid color-mix(in srgb,#8b5cf6 35%,transparent);
+  font-size:.84rem;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all .2s ease;
+}
+:root[data-theme="light"] .rodape a.pdf-link{
+  background:color-mix(in srgb,#7c3aed 12%,transparent);
+  color:#6d28d9;
+  border-color:color-mix(in srgb,#7c3aed 30%,transparent);
+}
+.rodape a.pdf-link:hover{text-decoration:none;filter:brightness(1.15);transform:translateY(-1px)}
+
+.btn-case{
+  background:transparent;
+  border:1px dashed color-mix(in srgb,var(--accent) 55%,transparent);
+  color:var(--accent);
+  font-size:.84rem;
+  font-weight:600;
+  padding:6px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all .2s ease;
+  font-family:inherit;
+  min-height:36px;
+}
+.btn-case:hover{
+  background:var(--accent-soft);
+  border-style:solid;
+  border-color:var(--accent);
+}
+
+/* Modal de Estudo de Caso */
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(10, 15, 29, 0.78);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .25s ease, visibility .25s ease;
+}
+.modal-backdrop.open{
+  opacity:1;
+  visibility:visible;
+}
+.modal-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:20px;
+  width:min(680px, 100%);
+  max-height:90vh;
+  overflow-y:auto;
+  padding:clamp(20px, 5vw, 36px);
+  box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);
+  transform:translateY(16px) scale(.98);
+  transition:transform .25s cubic-bezier(.2,.8,.2,1);
+}
+.modal-backdrop.open .modal-card{
+  transform:translateY(0) scale(1);
+}
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+  gap:12px;
+}
+.modal-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.76rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  padding:4px 10px;
+  border-radius:999px;
+  background:var(--accent-secondary-soft, rgba(13, 148, 136, 0.10));
+  color:var(--accent-secondary, #0D9488);
+  border:1px solid color-mix(in srgb,var(--accent-secondary, #0D9488) 30%,transparent);
+}
+.modal-close{
+  background:none;
+  border:none;
+  font-size:1.8rem;
+  line-height:1;
+  color:var(--muted);
+  cursor:pointer;
+  padding:2px 8px;
+  border-radius:8px;
+  transition:color .2s;
+}
+.modal-close:hover{color:var(--text)}
+.modal-title{
+  margin:4px 0 16px;
+  font-size:clamp(1.25rem, 3.8vw, 1.55rem);
+  letter-spacing:-.02em;
+}
+.modal-section{margin-top:16px}
+.modal-section h4{
+  margin:0 0 6px;
+  font-size:.92rem;
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.modal-section p{margin:0;color:var(--muted);font-size:.94rem;line-height:1.65}
+.modal-footer{
+  margin-top:24px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+/* Layout Hero com Avatar */
+.hero-grid{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:clamp(20px, 4vw, 44px);
+  margin-bottom:28px;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+}
+.hero-main{
+  flex:1;
+  min-width:0;
+  max-width:100%;
+}
+.hero-avatar-wrap{
+  flex-shrink:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  isolation:isolate;
+}
+.hero-avatar-wrap::before{
+  content:"";
+  position:absolute;
+  inset:-36px;
+  border-radius:50%;
+  background:radial-gradient(circle, color-mix(in srgb, var(--accent) 26%, transparent) 0%, color-mix(in srgb, var(--accent) 8%, transparent) 48%, transparent 72%);
+  z-index:-1;
+  pointer-events:none;
+}
+.hero-avatar{
+  position:relative;
+  width:clamp(124px, 18vw, 168px);
+  height:clamp(124px, 18vw, 168px);
+  border-radius:50%;
+  padding:4px;
+  background:linear-gradient(135deg, var(--accent), var(--accent-purple, #7C4DFF));
+  box-shadow:0 0 24px color-mix(in srgb, var(--accent) 35%, transparent);
+  animation:avatarGlow 4s ease-in-out infinite alternate;
+}
+.hero-avatar img{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+  display:block;
+  background:var(--surface);
+  border:3px solid var(--surface);
+}
+.hero-avatar-status{
+  position:absolute;
+  bottom:6px;
+  right:6px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#10b981;
+  border:3px solid var(--surface);
+  box-shadow:0 0 0 2px rgba(16,185,129,.35);
+}
+@keyframes avatarGlow{
+  from{ opacity:0.3; transform:scale(0.98); }
+  to{ opacity:0.65; transform:scale(1.02); }
+}
+@media (max-width:720px){
+  .hero-grid{
+    flex-direction:column-reverse;
+    align-items:flex-start;
+    gap:22px;
+  }
+  .hero-avatar-wrap{
+    align-self:center;
+  }
+}
+
+/* Botão Voltar ao Topo Flutuante */
+.back-to-top{
+  position:fixed;
+  bottom:calc(20px + env(safe-area-inset-bottom, 0px));
+  right:calc(20px + env(safe-area-inset-right, 0px));
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--line);
+  box-shadow:0 4px 16px rgba(0,0,0,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(12px);
+  transition:opacity .25s ease, transform .25s ease, background-color .2s ease, border-color .2s ease;
+  z-index:70;
+}
+.back-to-top.visible{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+.back-to-top:hover{
+  background:var(--accent);
+  color:var(--accent-text);
+  border-color:var(--accent);
+}
+
+/* Resposta do Autor no Mural de Recados */
+.msg-reply{
+  margin-top:10px;
+  padding:10px 14px;
+  background:color-mix(in srgb, var(--accent) 8%, var(--surface));
+  border-left:3px solid var(--accent);
+  border-radius:0 8px 8px 0;
+  font-size:.9rem;
+}
+.msg-reply-header{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:4px;
+}
+.reply-badge{
+  font-weight:700;
+  font-size:.78rem;
+  color:var(--accent-secondary, #0D9488);
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.reply-date{
+  font-size:.78rem;
+  color:var(--muted);
+}
+.msg-reply-text{
+  margin:0;
+  color:var(--text);
+  line-height:1.45;
+  word-break:break-word;
+}
+
+
+/* Refinamento Visual Premium (Clean Corporate & Editorial UI) */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background-image:
+    radial-gradient(color-mix(in srgb, var(--accent) 16%, transparent) 1px, transparent 1px),
+    radial-gradient(46rem 28rem at 85% -5%, color-mix(in srgb, var(--accent) 9%, transparent), transparent),
+    radial-gradient(40rem 26rem at 10% 35%, color-mix(in srgb, var(--accent-secondary, #0D9488) 7%, transparent), transparent);
+  background-size:28px 28px, 100% 100%, 100% 100%;
+  -webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 25%, #000 35%, transparent 100%);
+  mask-image:radial-gradient(ellipse 90% 80% at 50% 25%, #000 35%, transparent 100%);
+}
+
+/* ===== Header Flutuante Glassmorphic (Dock Premium) ===== */
+header.nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  width:100%;
+  background:transparent;
+  border-bottom:none;
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
+  z-index:60;
+  padding:calc(10px + env(safe-area-inset-top, 0px)) clamp(12px, 3vw, 24px) 0;
+  transition:padding .3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+header.nav.scrolled{
+  background:transparent;
+  box-shadow:none;
+  padding-top:calc(6px + env(safe-area-inset-top, 0px));
+}
+.nav .wrap{
+  max-width:1040px;
+  margin:0 auto;
+  padding:7px 10px 7px 12px;
+  min-height:56px;
+  border-radius:999px;
+  background:color-mix(in srgb, var(--surface) 84%, transparent);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  backdrop-filter:blur(20px) saturate(160%);
+  border:1px solid color-mix(in srgb, var(--accent) 18%, var(--line));
+  box-shadow:0 8px 28px -8px rgba(15, 23, 42, 0.10), inset 0 1px 0 color-mix(in srgb, #ffffff 35%, transparent);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  transition:background-color .3s ease, border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+}
+:root[data-theme="dark"] .nav .wrap{
+  background:color-mix(in srgb, var(--surface) 82%, transparent);
+  box-shadow:0 12px 34px -8px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+header.nav.scrolled .wrap{
+  background:color-mix(in srgb, var(--surface) 94%, transparent);
+  border-color:color-mix(in srgb, var(--accent) 32%, var(--line));
+  box-shadow:0 14px 36px -10px color-mix(in srgb, var(--accent) 16%, rgba(15, 23, 42, 0.16));
+}
+main.wrap{
+  padding-top:calc(82px + env(safe-area-inset-top, 0px));
+}
+
+/* Identidade Visual da Logo */
+.logo{
+  order:1;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  min-height:40px;
+  padding:2px 6px 2px 2px;
+  border-radius:999px;
+  background:none;
+  -webkit-background-clip:initial;
+  background-clip:initial;
+  color:var(--text);
+  animation:none;
+  transition:transform .2s ease;
+}
+.logo:hover{
+  transform:translateY(-1px);
+}
+.logo-mark{
+  position:relative;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:linear-gradient(135deg, var(--accent), var(--accent-secondary, #0F766E));
+  color:#F8FAFC;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 12px color-mix(in srgb, var(--accent) 32%, transparent);
+  flex-shrink:0;
+}
+.logo-mark svg{
+  width:17px;
+  height:17px;
+  stroke:#F8FAFC;
+  stroke-width:2.3;
+}
+.logo-dot{
+  position:absolute;
+  bottom:0;
+  right:0;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#10b981;
+  border:2px solid var(--surface);
+}
+.logo-brand{
+  display:flex;
+  flex-direction:column;
+  line-height:1.15;
+}
+.logo-name{
+  font-size:1.02rem;
+  font-weight:800;
+  letter-spacing:-.02em;
+  color:var(--text);
+}
+.logo-tld{
+  background:linear-gradient(90deg, var(--accent), var(--accent-secondary, #0F766E));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.logo-sub{
+  font-size:.68rem;
+  font-weight:600;
+  color:var(--muted);
+  letter-spacing:.02em;
+}
+
+/* Botão rápido de CV no Header Desktop */
+.nav-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 13px;
+  border-radius:999px;
+  font-size:.82rem;
+  font-weight:700;
+  text-decoration:none;
+  color:var(--accent);
+  background:var(--accent-soft);
+  border:1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  transition:all .2s ease;
+  white-space:nowrap;
+}
+.nav-cta:hover{
+  background:var(--accent);
+  color:var(--accent-text);
+  border-color:var(--accent);
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+@media (min-width: 769px){
+  .nav-links{
+    order:2;
+    gap:2px;
+    background:color-mix(in srgb, var(--bg) 65%, var(--surface));
+    padding:4px 5px;
+    border-radius:999px;
+    border:1px solid color-mix(in srgb, var(--line) 85%, transparent);
+  }
+  .nav-actions{
+    order:3;
+    gap:8px;
+  }
+  .nav-links a{
+    padding:6px 11px;
+    min-height:34px;
+    border-radius:999px;
+    font-size:.84rem;
+    font-weight:600;
+    transition:color .2s ease, background-color .2s ease, box-shadow .2s ease;
+  }
+  .nav-links a svg{
+    display:none;
+  }
+  .nav-links a::after{
+    display:none;
+  }
+  .nav-links a:hover{
+    color:var(--accent);
+    background:color-mix(in srgb, var(--accent) 9%, transparent);
+  }
+  .nav-links a.active-section{
+    color:var(--accent-text);
+    background:linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 72%, var(--accent-secondary, #0F766E)));
+    box-shadow:0 3px 10px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+}
+@media (max-width: 920px) and (min-width: 769px){
+  .logo-sub, .nav-cta span{
+    display:none;
+  }
+  .nav-cta{
+    padding:8px;
+  }
+  .nav-links a{
+    padding:6px 8px;
+    font-size:.8rem;
+  }
+}
+@media (max-width: 768px){
+  .nav-cta{
+    display:none;
+  }
+}
+
+/* Tipografia e Destaques de Seção */
+h1{
+  font-weight:800;
+  letter-spacing:-.035em;
+}
+h2{
+  font-weight:800;
+  letter-spacing:-.025em;
+  position:relative;
+}
+h2 .heading-icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  border:1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  box-shadow:0 4px 12px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+/* Card Editorial para a seção Sobre Mim */
+.sobre-conteudo{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:4px solid var(--accent);
+  border-radius:18px;
+  padding:clamp(20px, 4vw, 28px);
+  box-shadow:var(--card-shadow);
+  margin-top:18px !important;
+}
+.sobre-conteudo strong{
+  color:var(--text);
+  font-weight:700;
+}
+
+/* Refinamento dos Cards de Projetos, Skills, Foco e Conquistas */
+.card, .focus-card, .award-card{
+  border-radius:18px;
+  border:1px solid var(--line);
+  box-shadow:0 1px 2px rgba(15, 23, 42, 0.03), 0 10px 26px -6px rgba(15, 23, 42, 0.05);
+}
+@media (hover: hover){
+  .card:hover, .focus-card:hover, .award-card:hover{
+    border-color:color-mix(in srgb, var(--accent) 45%, var(--line));
+    box-shadow:0 20px 38px -12px color-mix(in srgb, var(--accent) 16%, rgba(15, 23, 42, 0.08));
+  }
+}
+
+/* Abas de Filtro em Cápsula Elegante */
+.filter-tabs{
+  display:inline-flex;
+  background:color-mix(in srgb, var(--bg) 65%, var(--surface));
+  padding:5px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  gap:4px;
+  margin-bottom:26px;
+}
+.filter-btn{
+  border:none;
+  background:transparent;
+  padding:8px 18px;
+  border-radius:999px;
+}
+.filter-btn:hover{
+  color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 6%, transparent);
+}
+.filter-btn.active{
+  background:linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 80%, #1d4ed8));
+  color:var(--accent-text);
+  box-shadow:0 4px 14px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+/* Timeline de Formação em Cards Conectados */
+.timeline{
+  border-left:3px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  padding-left:26px;
+  gap:18px;
+}
+.timeline > div{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 22px;
+  box-shadow:var(--card-shadow);
+  transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.timeline > div:hover{
+  transform:translateX(4px);
+  border-color:color-mix(in srgb, var(--accent) 45%, var(--line));
+}
+.timeline > div::before{
+  left:-35px;
+  top:22px;
+  border:3px solid var(--bg);
+}
+
+/* Recados estilizados no Mural */
+#lista{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+.msg{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px 18px;
+}
+
+/* Badges do Hero (Disponibilidade & Localização) */
+.hero-badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  margin-bottom:8px;
+}
+.tag-location{
+  background:color-mix(in srgb, var(--surface) 90%, transparent);
+  color:var(--text);
+  border:1px solid var(--line);
+  font-weight:500;
+}
+.tag-location::before{
+  display:none;
+}
+.tag-location svg{
+  color:var(--accent);
+  margin-right:4px;
+}
+
+/* FAQ Accordion */
+.faq-accordion{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:20px;
+}
+.faq-item{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.faq-item[open]{
+  border-color:color-mix(in srgb, var(--accent) 45%, var(--line));
+  box-shadow:var(--card-shadow);
+}
+.faq-question{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:16px 20px;
+  font-weight:600;
+  font-size:1.02rem;
+  color:var(--text);
+  cursor:pointer;
+  user-select:none;
+  list-style:none;
+}
+.faq-question::-webkit-details-marker{
+  display:none;
+}
+.faq-arrow{
+  transition:transform .25s ease;
+  flex-shrink:0;
+  color:var(--muted);
+}
+.faq-item[open] .faq-arrow{
+  transform:rotate(180deg);
+  color:var(--accent);
+}
+.faq-answer{
+  padding:0 20px 18px 20px;
+  color:var(--muted);
+  font-size:.95rem;
+  line-height:1.6;
+  border-top:1px solid color-mix(in srgb, var(--line) 40%, transparent);
+  padding-top:12px;
+}
+.faq-answer p{margin:0}
+.faq-answer strong{color:var(--text)}
+
+/* Badge de Status da API no Rodapé */
+.api-status-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 14px;
+  background:color-mix(in srgb, var(--surface) 85%, transparent);
+  border:1px solid var(--line);
+  border-radius:999px;
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--text);
+  text-decoration:none;
+  transition:border-color .2s ease, background-color .2s ease, transform .15s ease;
+}
+.api-status-badge:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+  transform:translateY(-1px);
+}
+.status-pulse-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#10b981;
+  box-shadow:0 0 0 0 rgba(16,185,129,.7);
+  animation:statusPulse 2s infinite;
+}
+@keyframes statusPulse{
+  0%{ box-shadow:0 0 0 0 rgba(16,185,129,.7); }
+  70%{ box-shadow:0 0 0 8px rgba(16,185,129,0); }
+  100%{ box-shadow:0 0 0 0 rgba(16,185,129,0); }
+}
+
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+
+<header class="nav">
+  <div class="wrap">
+    <a href="#" class="logo" aria-label="Início — Higor do Amaral Fritz">
+      <span class="logo-mark" aria-hidden="true">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <span class="logo-dot"></span>
+      </span>
+      <span class="logo-brand">
+        <span class="logo-name">higor<span class="logo-tld">.fritz</span></span>
+        <span class="logo-sub">Full Stack &amp; Backend</span>
+      </span>
+    </a>
+    
+    <div class="nav-actions">
+      <a class="nav-cta" href="/static/curriculo-higor.pdf" download="Curriculo-Higor-do-Amaral-Fritz.pdf" target="_blank" rel="noopener" title="Baixar Currículo em PDF">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Currículo</span>
+      </a>
+      <!-- Botão Instalar App (PWA): aparece só quando o navegador permite instalar -->
+      <button class="theme-toggle" id="btn-instalar" type="button" hidden aria-label="Instalar aplicativo" title="Instalar como aplicativo"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+      <!-- Botão de Alternar Tema (Dark/Light com ícone SVG) -->
+      <button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema" type="button" title="Alternar tema claro/escuro">
+        <svg class="icon" id="theme-icon-sun" style="display:none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon" id="theme-icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false" type="button">
+        <span class="nav-toggle-box">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </span>
+        <span>Menu</span>
+      </button>
+    </div>
+
+    <nav class="nav-links" id="nav-links">
+      <a href="#sobre">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Sobre
+      </a>
+      <a href="#foco">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        Foco
+      </a>
+      <a href="#skills">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Skills
+      </a>
+      <a href="#projetos">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg>
+        Projetos
+      </a>
+      <a href="#conquistas">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+        Conquistas
+      </a>
+      <a href="#formacao">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        Formação
+      </a>
+      <a href="#recados">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Recados
+      </a>
+      <a href="#contato">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contato
+      </a>
+    </nav>
+  </div>
+</header>
+<div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="hero-grid">
+      <div class="hero-main">
+        <div class="hero-badges">
+          <span class="tag">Disponível para estágio e novos projetos</span>
+          <span class="tag tag-location">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Araquari / Joinville · SC (Híbrido, Presencial ou Remoto)
+          </span>
+        </div>
+        <h1>Olá, eu sou <span class="name">Higor do Amaral Fritz</span>.</h1>
+        <div class="hero-role">
+          <span>Desenvolvedor focado em</span>
+          <span class="typing-wrap"><span class="typing-text" id="typewriter"></span><span class="typing-cursor">|</span></span>
+        </div>
+        <p class="lead">Graduando em Sistemas de Informação pelo Instituto Federal Catarinense com formação técnica integrada em Informática. Experiência no desenvolvimento web de ponta a ponta, APIs seguras com Django, prototipagem no Figma e soluções com IA.</p>
+        <div class="btns">
+      <a class="btn p" href="#projetos">
+        <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Ver projetos
+      </a>
+      <a class="btn btn-whatsapp" href="https://wa.me/5547996565013?text=Ol%C3%A1%20Higor!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20uma%20oportunidade." target="_blank" rel="noopener" title="Conversar no WhatsApp">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        WhatsApp
+      </a>
+      <!-- Link direto para download do currículo enviado pelo usuário -->
+      <a class="btn s" href="/static/curriculo-higor.pdf" download="Curriculo-Higor-do-Amaral-Fritz.pdf" target="_blank" rel="noopener" title="Baixar currículo completo em PDF">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Baixar Currículo (PDF)
+      </a>
+      <a class="btn s" href="#contato">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Falar comigo
+      </a>
+    </div>
+      </div>
+      <div class="hero-avatar-wrap">
+        <div class="hero-avatar">
+          <img src="https://github.com/HigorAmaral.png" alt="Foto de perfil de Higor do Amaral Fritz" width="168" height="168" loading="eager" fetchpriority="high" decoding="async">
+          <span class="hero-avatar-status" title="Disponível para novos projetos e estágio" aria-label="Online / Disponível"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="sobre">
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </span>
+      Sobre mim
+    </h2>
+    <p class="lead">Formado como Técnico em Informática para Internet e graduando em <strong>Bacharelado em Sistemas de Informação pelo Instituto Federal Catarinense (IFC – Araquari)</strong>, com sólida base prática em desenvolvimento de software, arquitetura de sistemas e tecnologia da informação.</p>
+    <div class="sobre-conteudo" style="display:flex; flex-direction:column; gap:14px; margin-top:14px; color:var(--text-sec); line-height:1.7;">
+      <p>Com experiência no ciclo completo de desenvolvimento (<strong>frontend e backend</strong>), atuo na construção de sistemas web modernos com <strong>JavaScript, React, Vue.js, Python, Django e SQL</strong>. Possuo vivência prática na criação de APIs RESTful estruturadas, modelagem de banco de dados, autenticação segura e interfaces responsivas, utilizando <strong>Git, GitHub e Figma</strong> para versionamento e prototipação.</p>
+      <p>Entre os projetos desenvolvidos, destaco a criação de um <strong>sistema de gestão de acervo em Hackathon</strong> e um <strong>e-commerce para pizzaria</strong>, participando desde a concepção e arquitetura até a entrega final. Essas vivências consolidaram tanto minha capacidade técnica quanto soft skills essenciais: comunicação assertiva, resolução de problemas e trabalho em equipe.</p>
+      <p>Atualmente, <strong>busco uma oportunidade como Desenvolvedor Júnior</strong>, focado em contribuir para o desenvolvimento de sistemas robustos, escaláveis e bem estruturados, aprendendo continuamente e colaborando em ambientes que valorizam inovação e boas práticas.</p>
+    </div>
+  </section>
+
+  <!-- Seção Foco Atual -->
+  <section id="foco">
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      </span>
+      Em foco agora
+    </h2>
+    <div class="focus-grid">
+      <div class="focus-card">
+        <div class="focus-icon">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div>
+          <h3>Back-end & Arquitetura Web</h3>
+          <p>Construção de APIs RESTful estruturadas com Python e Django, autenticação JWT, cookies seguros e modelagem em PostgreSQL.</p>
+        </div>
+      </div>
+      <div class="focus-card">
+        <div class="focus-icon">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <div>
+          <h3>Inteligência Artificial Aplicada</h3>
+          <p>Integração de LLMs em soluções de impacto social e educação inclusiva, como ferramentas para adaptação pedagógica.</p>
+        </div>
+      </div>
+      <div class="focus-card">
+        <div class="focus-icon">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+        </div>
+        <div>
+          <h3>UI/UX & Design Systems</h3>
+          <p>Prototipação no Figma, componentização e interfaces com foco em usabilidade, fluidez, contraste e acessibilidade.</p>
+        </div>
+      </div>
+      <div class="focus-card">
+        <div class="focus-icon">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div>
+          <h3>Formação Superior no IFC</h3>
+          <p>Bacharelado em Sistemas de Informação, aprofundando engenharia de software, processos e governança de TI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </span>
+      Habilidades
+    </h2>
+    <div class="grid" id="skills-grid"></div>
+  </section>
+
+  <section id="projetos">
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg>
+      </span>
+      Projetos em Destaque
+    </h2>
+    <!-- Abas de Filtro por Categoria -->
+    <div class="filter-tabs" id="filter-tabs">
+      <button class="filter-btn active" data-filter="todos" type="button">Todos</button>
+      <button class="filter-btn" data-filter="backend" type="button">Back-end</button>
+      <button class="filter-btn" data-filter="frontend" type="button">Front-end</button>
+      <button class="filter-btn" data-filter="ia" type="button">IA & Inovação</button>
+    </div>
+    <div class="grid" id="projetos-grid"></div>
+  </section>
+
+  <!-- Seção Conquistas & Certificados -->
+  <section id="conquistas">
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+      </span>
+      Conquistas & Reconhecimentos
+    </h2>
+    <div class="awards-grid">
+      <div class="award-card">
+        <span class="award-badge">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          Maratona 24 Horas · Destaque
+        </span>
+        <h3>Hackathon Fábrica de Software 2k26</h3>
+        <p>Desenvolvimento em equipe de uma plataforma com IA construída em uma maratona intensiva de 24 horas ininterruptas para auxiliar professores na adaptação personalizada de atividades e detecção precoce de sinais de autismo, TEA e TDAH em crianças de 6 a 9 anos no IFC Câmpus Araquari.</p>
+        <div style="margin-top:12px">
+          <a class="btn s" href="https://delta.fabricadesoftware.ifc.edu.br/login?redirect=/turmas" target="_blank" rel="noopener" style="display:inline-flex;font-size:.82rem;padding:6px 12px;border-radius:8px">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Acessar Sistema ao Vivo ↗
+          </a>
+        </div>
+      </div>
+      <div class="award-card">
+        <span class="award-badge">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          4 Anos de Formação
+        </span>
+        <h3>Inglês Intermediário · KNN Idiomas</h3>
+        <p>Formação de 4 anos de curso com domínio para leitura técnica de documentações em inglês, escrita de código e comunicação em equipe.</p>
+      </div>
+      <div class="award-card">
+        <span class="award-badge">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          Curso Técnico Integrado
+        </span>
+        <h3>Técnico em Informática para Internet · IFC</h3>
+        <p>Formação técnica presencial integrada ao ensino médio com base em algoritmos, lógica de programação, HTML5/CSS3, JavaScript e bancos de dados.</p>
+      </div>
+      <div class="award-card">
+        <span class="award-badge">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Pesquisa Científica & BPMN
+        </span>
+        <h3>Microprocessos Acadêmicos BSI</h3>
+        <p>Monografia e mapeamento dos microprocessos discentes do IFC com modelagem formal em BPMN, avaliação pelo modelo PEMM (Michael Hammer), diretrizes 5W2H e engenharia de requisitos com conformidade LGPD.</p>
+        <div style="margin-top:12px">
+          <a class="btn s" href="/static/projeto-bsi-microprocessos.pdf" target="_blank" rel="noopener" style="font-size:0.8rem;padding:5px 12px;display:inline-flex;align-items:center;gap:6px">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Ver Monografia (PDF) ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção Formação e Experiência -->
+  <section id="formacao">
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </span>
+      Formação & Trajetória
+    </h2>
+    <div class="timeline">
+      <div>
+        <small>Graduação (2026 – 2029 / Em andamento)</small>
+        <h3>Bacharelado em Sistemas de Informação</h3>
+        <p>Instituto Federal Catarinense — Câmpus Araquari · Período Matutino (08:20 às 12:00)</p>
+      </div>
+      <div>
+        <small>Técnico Integrado (Concluído)</small>
+        <h3>Técnico em Informática para Internet</h3>
+        <p>Instituto Federal Catarinense — Câmpus Araquari</p>
+      </div>
+      <div>
+        <small>Experiência Prática (2022 – 2023)</small>
+        <h3>Jovem Aprendiz (Almoxarifado) · TAF Indústria de Plásticos Ltda.</h3>
+        <p>Controle, organização e conferência de insumos e matérias-primas no setor de estoque/almoxarifado. Apoio a processos logísticos internos, rotinas de registro e cumprimento de normas operacionais.</p>
+      </div>
+    </div>
+  </section>
+
+    <!-- Seção FAQ para Recrutadores & Gestores -->
+  <section id="faq">
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </span>
+      Dúvidas Frequentes de Recrutadores & Gestores
+    </h2>
+    <p class="lead">Perguntas comuns sobre minha disponibilidade, formação no IFC, perfil técnico e facilidade de adaptação em novas equipes.</p>
+
+    <div class="faq-accordion">
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span>Qual é a sua previsão de conclusão do Bacharelado em Sistemas de Informação?</span>
+          <svg class="icon faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-answer">
+          <p>Iniciei a graduação em <strong>2026</strong> no Instituto Federal Catarinense (Câmpus Araquari) e o curso tem duração regular de 4 anos, com previsão de formatura em <strong>2029</strong>. Minhas aulas acontecem no <strong>período da manhã (das 08:20 às 12:00)</strong>, deixando o período da tarde e noite <strong>100% livres</strong> para estágio.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span>Qual a sua disponibilidade de carga horária e formato de trabalho?</span>
+          <svg class="icon faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-answer">
+          <p>Como tenho aulas pela manhã (08:20 às 12:00), tenho total disponibilidade para cumprir jornadas de <strong>4h a 6h diárias (20h a 30h semanais)</strong> no <strong>período da tarde</strong> (a partir das 13:00 / 13:30). Resido em Santa Catarina e atendo com facilidade aos formatos <strong>presencial ou híbrido</strong> em Araquari, Joinville e região norte de SC, além de disponibilidade integral para atuação <strong>100% remota</strong> para empresas de todo o Brasil.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span>Quais tecnologias você tem maior domínio e quais está aprofundando?</span>
+          <svg class="icon faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-answer">
+          <p>Foco consistente em <strong>Back-end com Python e Django</strong>, modelagem de dados relacional (PostgreSQL e MySQL), documentação interativa (Swagger / OpenAPI 3.0), testes automatizados e segurança (CSP, rate limiting, sanitização). No <strong>Front-end</strong>, domino JavaScript (ES6+), ecossistema Vue 3 (Vite), React e prototipagem no Figma. Atualmente aprofundo estudos em arquiteturas resilientes e integração de modelos de IA aplicados a produtos reais.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span>Você tem facilidade para aprender uma nova stack exigida pela empresa?</span>
+          <svg class="icon faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="faq-answer">
+          <p>Sim, com certeza! Minha formação técnica em Informática integrada ao Ensino Médio somada à graduação no IFC me deu uma sólida base de <strong>lógica, estruturas de dados, orientação a objetos e modelagem de processos (BPMN)</strong>. Isso me permite absorver novas linguagens (como Java/Spring, Go, TypeScript/Node) e ferramentas da esteira DevOps com muita rapidez e autonomia.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="recados">
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </span>
+      Mural de recados
+    </h2>
+    <p class="lead">Deixe uma mensagem para mim! Seu recado fica gravado no banco de dados e aparece aqui no mural.</p>
+    <div class="card" id="mural" style="margin-top:20px">
+      <div id="form">
+        <input id="nome" maxlength="40" placeholder="Seu nome" autocomplete="name">
+        <input id="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:0;top:0;opacity:0;pointer-events:none;width:1px;height:1px;z-index:-1">
+        <textarea id="texto" maxlength="280" rows="3" placeholder="Escreva seu recado"></textarea>
+        <button class="btn" id="enviar" type="button">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Enviar recado
+        </button>
+      </div>
+      <p id="status" class="muted" style="margin-top:14px">Carregando recados…</p>
+      <div id="lista"></div>
+    </div>
+  </section>
+
+  <section id="contato">
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </span>
+      Vamos conversar?
+    </h2>
+    <p class="lead">Procurando um estagiário ou desenvolvedor dedicado para somar no seu time? Fale comigo:</p>
+    <div class="btns">
+      <a class="btn btn-whatsapp" href="https://wa.me/5547996565013?text=Ol%C3%A1%20Higor!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20uma%20oportunidade." target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        Conversar no WhatsApp
+      </a>
+      <a class="btn p" href="mailto:amarahigor@gmail.com">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        amarahigor@gmail.com
+      </a>
+      <button class="btn s" id="btn-copy-email" type="button" title="Copiar e-mail para a área de transferência">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copiar e-mail
+      </button>
+      <a class="btn s" href="/static/curriculo-higor.pdf" download="Curriculo-Higor-do-Amaral-Fritz.pdf" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Baixar CV (PDF)
+      </a>
+      <a class="btn s" href="https://github.com/HigorAmaral" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+      <a class="btn s" href="https://www.linkedin.com/in/higor-do-amaral-fritz-727869298/" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a class="btn s" href="http://lattes.cnpq.br/8038071079841565" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Lattes
+      </a>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast">
+  <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toast-msg">Mensagem</span>
+</div>
+
+<!-- Modal de Estudo de Caso -->
+<div id="modal-case" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span class="modal-tag" id="modal-tag">Estudo de Caso</span>
+        <span class="chip" id="modal-badge">Hackathon 24H</span>
+      </div>
+      <button type="button" class="modal-close" id="modal-close" aria-label="Fechar modal">&times;</button>
+    </div>
+    <h3 class="modal-title" id="modal-title">Título do Projeto</h3>
+    <div class="modal-section">
+      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> O Desafio</h4>
+      <p id="modal-desafio"></p>
+    </div>
+    <div class="modal-section">
+      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> A Solução Técnica & Arquitetura</h4>
+      <p id="modal-solucao"></p>
+    </div>
+    <div class="modal-section">
+      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Resultados & Aprendizados</h4>
+      <p id="modal-aprendizados"></p>
+    </div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<footer>
+  <div style="margin-bottom:14px; display:flex; justify-content:center;">
+    <a class="api-status-badge" href="/api/docs/" target="_blank" rel="noopener" title="Documentação interativa Swagger e Health Check em tempo real">
+      <span class="status-pulse-dot"></span>
+      <span>API REST Operational · 100% Uptime</span>
+    </a>
+  </div>
+  <p>© 2026 Higor do Amaral Fritz · Araquari, SC · Telefone: (47) 99656-5013</p>
+  <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
+</footer>
+
+<script src="/static/js/app.js?v=20261103-v3"></script>
+<!-- Botão Voltar ao Topo Flutuante -->
+<button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
+  <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+</body>
+</html>
