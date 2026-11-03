@@ -1303,7 +1303,7 @@ initReveal();
 
   updateScrollEffects();
 })();
-// Fundo Interativo com o Mouse: Blueprint de Código Vivo (Live Typing IDE + Caderno BSI + Lente Raio-X no Mouse)
+// Fundo Animado Autônomo: Blueprint de Código Vivo (Live Typing IDE + Caderno BSI, sem interação com o mouse)
 (function(){
   var canvas = document.getElementById('bg-interactive-canvas');
   if(!canvas) return;
@@ -1375,15 +1375,11 @@ initReveal();
     }
   ];
 
-  var TRAIL_GLYPHS = ['</>', '{ }', 'def', 'SQL', '01', 'λ', '∑', '=>', 'py', 'BSI', 'API', '&&'];
   var STREAM_CHARS = ['0', '1', '{', '}', ';', 'λ', '∑', '/', '*', '=>', '()', '[]'];
 
   var width = 0, height = 0, dpr = 1;
   var terminals = [];
   var streams = [];
-  var trail = [];
-  var ripples = [];
-  var mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999, lastTrailX: -9999, lastTrailY: -9999, active: false };
   var rafId = null;
   var tick = 0;
 
@@ -1395,10 +1391,8 @@ initReveal();
         db: '20, 184, 166',        // #14B8A6
         study: '168, 85, 247',     // #A855F7
         cardBg: '15, 23, 42',
-        baseAlpha: 0.30,
-        activeAlpha: 0.95,
-        crosshairAlpha: 0.50,
-        streamAlpha: 0.20
+        baseAlpha: 0.36,
+        streamAlpha: 0.18
       };
     }
     return {
@@ -1406,10 +1400,8 @@ initReveal();
       db: '15, 118, 110',          // #0F766E
       study: '126, 34, 206',       // #7E22CE
       cardBg: '237, 242, 247',
-      baseAlpha: 0.28,
-      activeAlpha: 0.92,
-      crosshairAlpha: 0.42,
-      streamAlpha: 0.18
+      baseAlpha: 0.32,
+      streamAlpha: 0.16
     };
   }
 
@@ -1443,8 +1435,6 @@ initReveal();
       var snip = SNIPPETS[s.snipIdx % SNIPPETS.length];
       var fullText = snip.lines.join('\n');
       terminals.push({
-        baseX: s.rx * width,
-        baseY: s.ry * height,
         x: s.rx * width,
         y: s.ry * height,
         snipIdx: s.snipIdx,
@@ -1454,8 +1444,7 @@ initReveal();
         totalChars: fullText.length,
         typedChars: Math.floor(Math.random() * fullText.length),
         speed: 0.30 + (i % 3) * 0.08,
-        pauseTicks: 0,
-        glow: 0
+        pauseTicks: 0
       });
     }
 
@@ -1466,7 +1455,7 @@ initReveal();
       streams.push({
         x: colX,
         y: Math.random() * height,
-        vy: 0.7 + Math.random() * 0.8,
+        vy: 0.65 + Math.random() * 0.75,
         chars: [
           STREAM_CHARS[(c * 3) % STREAM_CHARS.length],
           STREAM_CHARS[(c * 3 + 1) % STREAM_CHARS.length],
@@ -1491,59 +1480,6 @@ initReveal();
   resize();
   window.addEventListener('resize', resize, { passive: true });
 
-  window.addEventListener('pointermove', function(e){
-    var nx = e.clientX;
-    var ny = e.clientY;
-    if(!mouse.active){
-      mouse.x = nx;
-      mouse.y = ny;
-      mouse.lastTrailX = nx;
-      mouse.lastTrailY = ny;
-      mouse.active = true;
-    }
-    mouse.tx = nx;
-    mouse.ty = ny;
-
-    var dx = nx - mouse.lastTrailX;
-    var dy = ny - mouse.lastTrailY;
-    if(dx * dx + dy * dy > 1400){
-      mouse.lastTrailX = nx;
-      mouse.lastTrailY = ny;
-      var glyph = TRAIL_GLYPHS[Math.floor(Math.random() * TRAIL_GLYPHS.length)];
-      var cats = ['code', 'db', 'study'];
-      trail.push({
-        x: nx + (Math.random() - 0.5) * 16,
-        y: ny + (Math.random() - 0.5) * 16,
-        vx: dx * 0.04 + (Math.random() - 0.5) * 0.4,
-        vy: -0.6 - Math.random() * 0.5,
-        text: glyph,
-        cat: cats[trail.length % 3],
-        alpha: 0.88,
-        scale: 1
-      });
-      if(trail.length > 22) trail.shift();
-    }
-  }, { passive: true });
-
-  document.addEventListener('mouseleave', function(){
-    mouse.active = false;
-  }, { passive: true });
-
-  window.addEventListener('pointerdown', function(e){
-    var x = e.clientX, y = e.clientY;
-    ripples.push({ x: x, y: y, r: 10, maxR: 260, alpha: 0.85 });
-    for(var i = 0; i < terminals.length; i++){
-      var t = terminals[i];
-      var dx = (t.x + 124) - x;
-      var dy = (t.y + 49) - y;
-      if(dx * dx + dy * dy < 340 * 340){
-        t.glow = 1;
-        t.typedChars = t.totalChars;
-        t.pauseTicks = 60;
-      }
-    }
-  }, { passive: true });
-
   function drawRoundedRect(x, y, w, h, r){
     ctx.beginPath();
     ctx.moveTo(x + r, y);
@@ -1566,44 +1502,7 @@ initReveal();
     tick += 1;
     ctx.clearRect(0, 0, width, height);
 
-    if(mouse.active){
-      mouse.x += (mouse.tx - mouse.x) * 0.2;
-      mouse.y += (mouse.ty - mouse.y) * 0.2;
-    }
-
-    // 1. Interseções da Malha Blueprint que acendem perto do Mouse (Cruzetas "+" Técnicas)
-    if(mouse.active){
-      var gridStep = 56;
-      var radius = 210;
-      var startX = Math.max(0, Math.floor((mouse.x - radius) / gridStep) * gridStep);
-      var endX = Math.min(width, Math.ceil((mouse.x + radius) / gridStep) * gridStep);
-      var startY = Math.max(0, Math.floor((mouse.y - radius) / gridStep) * gridStep);
-      var endY = Math.min(height, Math.ceil((mouse.y + radius) / gridStep) * gridStep);
-
-      for(var gx = startX; gx <= endX; gx += gridStep){
-        for(var gy = startY; gy <= endY; gy += gridStep){
-          var dx = gx - mouse.x;
-          var dy = gy - mouse.y;
-          var distSq = dx * dx + dy * dy;
-          if(distSq < radius * radius){
-            var prox = 1 - Math.sqrt(distSq) / radius;
-            var wx = gx + (dx / (Math.sqrt(distSq) || 1)) * prox * 5;
-            var wy = gy + (dy / (Math.sqrt(distSq) || 1)) * prox * 5;
-            var cAlpha = (prox * palette.crosshairAlpha).toFixed(3);
-            ctx.strokeStyle = 'rgba(' + palette.code + ',' + cAlpha + ')';
-            ctx.lineWidth = 1.2;
-            ctx.beginPath();
-            ctx.moveTo(wx - 4.5, wy);
-            ctx.lineTo(wx + 4.5, wy);
-            ctx.moveTo(wx, wy - 4.5);
-            ctx.lineTo(wx, wy + 4.5);
-            ctx.stroke();
-          }
-        }
-      }
-    }
-
-    // 2. Fluxo Vertical de Sintaxe / Dados (Data Streams)
+    // 1. Fluxo Vertical de Sintaxe / Dados (Data Streams)
     ctx.font = '600 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
     ctx.textAlign = 'center';
     for(var s = 0; s < streams.length; s++){
@@ -1612,25 +1511,15 @@ initReveal();
       if(st.y > height + 90) st.y = -90;
 
       var sRgb = colorForCat(st.cat);
-      var sBoost = 0;
-      if(mouse.active){
-        var sdx = st.x - mouse.x;
-        var sdy = st.y - mouse.y;
-        var sDistSq = sdx * sdx + sdy * sdy;
-        if(sDistSq < 220 * 220){
-          sBoost = (1 - Math.sqrt(sDistSq) / 220) * 0.45;
-        }
-      }
-
       for(var ch = 0; ch < st.chars.length; ch++){
         var cy = st.y - ch * 20;
-        var charAlpha = (palette.streamAlpha + sBoost) * (1 - ch * 0.22);
+        var charAlpha = palette.streamAlpha * (1 - ch * 0.22);
         ctx.fillStyle = 'rgba(' + sRgb + ',' + Math.max(0.04, charAlpha).toFixed(3) + ')';
         ctx.fillText(st.chars[ch], st.x, cy);
       }
     }
 
-    // 3. Blocos de Código & Estudo Autodigitáveis (Live Typing IDE Cards)
+    // 2. Blocos de Código & Estudo Autodigitáveis (Live Typing IDE Cards)
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
     for(var i = 0; i < terminals.length; i++){
@@ -1655,36 +1544,16 @@ initReveal();
         }
       }
 
-      t.glow *= 0.94;
       var cardW = 248;
       var cardH = 98;
-      var centerX = t.baseX + cardW * 0.5;
-      var centerY = t.baseY + cardH * 0.5;
-
-      var prox = 0;
-      if(mouse.active){
-        var mdx = mouse.x - centerX;
-        var mdy = mouse.y - centerY;
-        var mDist = Math.sqrt(mdx * mdx + mdy * mdy);
-        if(mDist < 320){
-          prox = 1 - mDist / 320;
-          t.glow = Math.max(t.glow, prox);
-        }
-        t.x += ((t.baseX + (mouse.x - width * 0.5) * -0.018) - t.x) * 0.1;
-        t.y += ((t.baseY + (mouse.y - height * 0.5) * -0.018) - t.y) * 0.1;
-      } else {
-        t.x += (t.baseX - t.x) * 0.08;
-        t.y += (t.baseY - t.y) * 0.08;
-      }
-
-      var vis = palette.baseAlpha + (palette.activeAlpha - palette.baseAlpha) * t.glow;
+      var vis = palette.baseAlpha;
       var rgb = colorForCat(t.cat);
 
       drawRoundedRect(t.x, t.y, cardW, cardH, 10);
-      ctx.fillStyle = 'rgba(' + palette.cardBg + ',' + (0.42 + t.glow * 0.48).toFixed(3) + ')';
+      ctx.fillStyle = 'rgba(' + palette.cardBg + ', 0.46)';
       ctx.fill();
-      ctx.strokeStyle = 'rgba(' + rgb + ',' + (0.24 + t.glow * 0.58).toFixed(3) + ')';
-      ctx.lineWidth = 1.1 + t.glow * 0.8;
+      ctx.strokeStyle = 'rgba(' + rgb + ', 0.28)';
+      ctx.lineWidth = 1.1;
       ctx.stroke();
 
       ctx.beginPath();
@@ -1715,47 +1584,6 @@ initReveal();
           ctx.fillRect(t.x + 14 + cw, lineY + 1, 5.5, 11);
         }
         lineY += 16;
-      }
-    }
-
-    // 4. Rastro de Símbolos de Programação & Matemática que segue o Mouse
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    for(var tr = trail.length - 1; tr >= 0; tr--){
-      var item = trail[tr];
-      item.x += item.vx;
-      item.y += item.vy;
-      item.alpha *= 0.95;
-      item.scale += 0.008;
-      if(item.alpha < 0.03){
-        trail.splice(tr, 1);
-        continue;
-      }
-      var tRgb = colorForCat(item.cat);
-      ctx.font = '700 ' + Math.round(11 * item.scale) + 'px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
-      ctx.fillStyle = 'rgba(' + tRgb + ',' + item.alpha.toFixed(3) + ')';
-      ctx.fillText(item.text, item.x, item.y);
-    }
-
-    // 5. Ondas de Execução ao Clicar
-    for(var r = ripples.length - 1; r >= 0; r--){
-      var rp = ripples[r];
-      rp.r += 5.5;
-      rp.alpha *= 0.93;
-      if(rp.r >= rp.maxR || rp.alpha < 0.02){
-        ripples.splice(r, 1);
-        continue;
-      }
-      ctx.beginPath();
-      ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(' + palette.db + ',' + rp.alpha.toFixed(3) + ')';
-      ctx.lineWidth = 1.6;
-      ctx.stroke();
-
-      if(rp.r < 95){
-        ctx.font = '700 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
-        ctx.fillStyle = 'rgba(' + palette.db + ',' + rp.alpha.toFixed(3) + ')';
-        ctx.fillText('[RUN · 200 OK]', rp.x, rp.y - rp.r - 8);
       }
     }
 
