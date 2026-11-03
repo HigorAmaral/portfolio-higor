@@ -2568,9 +2568,38 @@ body::before{
   0%{ transform:translate3d(0, 0, 0) scale(0.85); opacity:.18; }
   100%{ transform:translate3d(0, -14px, 0) scale(1.35); opacity:.55; }
 }
+#bg-interactive-canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  pointer-events:none;
+}
+.bg-cursor-glow{
+  position:absolute;
+  top:0;
+  left:0;
+  width:520px;
+  height:520px;
+  margin-left:-260px;
+  margin-top:-260px;
+  border-radius:50%;
+  background:radial-gradient(circle, color-mix(in srgb, var(--accent) 16%, transparent) 0%, color-mix(in srgb, var(--accent-secondary, #14B8A6) 8%, transparent) 42%, transparent 70%);
+  pointer-events:none;
+  will-change:transform, opacity;
+  opacity:0;
+  transition:opacity .4s ease;
+}
+:root[data-theme="dark"] .bg-cursor-glow{
+  background:radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent) 0%, color-mix(in srgb, var(--accent-secondary, #14B8A6) 11%, transparent) 42%, transparent 70%);
+}
 @media (prefers-reduced-motion: reduce){
   .bg-grid, .bg-orb, .bg-beam, .bg-node{
     animation:none !important;
+  }
+  #bg-interactive-canvas, .bg-cursor-glow{
+    display:none !important;
   }
 }
 </style>
@@ -2581,14 +2610,12 @@ body::before{
   <div class="bg-orb orb-2"></div>
   <div class="bg-orb orb-3"></div>
   <div class="bg-grid"></div>
+  <div class="bg-cursor-glow" id="bg-cursor-glow"></div>
+  <canvas id="bg-interactive-canvas"></canvas>
   <div class="bg-beam beam-h1"></div>
   <div class="bg-beam beam-h2"></div>
   <div class="bg-beam beam-v1"></div>
   <div class="bg-beam beam-v2"></div>
-  <div class="bg-node n1"></div>
-  <div class="bg-node n2"></div>
-  <div class="bg-node n3"></div>
-  <div class="bg-node n4"></div>
 </div>
 <canvas id="confetti-canvas"></canvas>
 
