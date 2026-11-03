@@ -1341,7 +1341,7 @@ initReveal();
         '# BSI · IFC — Estrutura de Dados',
         'complexidade = "O(n log n)"',
         'loss = sum((y - y_hat) ** 2)',
-        ' status: convergencia_atingida'
+        'status = "convergencia_atingida"'
       ]
     },
     {
@@ -1358,7 +1358,7 @@ initReveal();
       title: 'security.py · WAF & LGPD',
       cat: 'code',
       lines: [
-        'CSP = "script-src 'self'"',
+        'CSP = "default-src self"',
         'ip_hash = sha256(ip + salt)',
         'rate_limit(max_req=5, window=60)',
         'return ShieldStatus.PROTECTED'
@@ -1396,10 +1396,10 @@ initReveal();
         db: '20, 184, 166',        // #14B8A6
         study: '168, 85, 247',     // #A855F7
         cardBg: '15, 23, 42',
-        baseAlpha: 0.24,
-        activeAlpha: 0.92,
-        crosshairAlpha: 0.45,
-        streamAlpha: 0.16
+        baseAlpha: 0.30,
+        activeAlpha: 0.95,
+        crosshairAlpha: 0.50,
+        streamAlpha: 0.20
       };
     }
     return {
@@ -1407,10 +1407,10 @@ initReveal();
       db: '15, 118, 110',          // #0F766E
       study: '126, 34, 206',       // #7E22CE
       cardBg: '237, 242, 247',
-      baseAlpha: 0.22,
-      activeAlpha: 0.88,
-      crosshairAlpha: 0.38,
-      streamAlpha: 0.14
+      baseAlpha: 0.28,
+      activeAlpha: 0.92,
+      crosshairAlpha: 0.42,
+      streamAlpha: 0.18
     };
   }
 
@@ -1426,25 +1426,23 @@ initReveal();
 
   function layoutWorkspace(){
     terminals = [];
-    // Posiciona os blocos de código/estudo nas laterais e cantos para emoldurar o conteúdo
     var slots = width < 760 ? [
-      { rx: 0.06, ry: 0.12, snipIdx: 0 },
-      { rx: 0.52, ry: 0.46, snipIdx: 2 },
-      { rx: 0.08, ry: 0.76, snipIdx: 1 }
+      { rx: 0.05, ry: 0.12, snipIdx: 0 },
+      { rx: 0.46, ry: 0.46, snipIdx: 2 },
+      { rx: 0.06, ry: 0.76, snipIdx: 1 }
     ] : [
       { rx: 0.03, ry: 0.13, snipIdx: 0 },
-      { rx: 0.74, ry: 0.16, snipIdx: 2 },
-      { rx: 0.04, ry: 0.48, snipIdx: 1 },
-      { rx: 0.73, ry: 0.52, snipIdx: 3 },
-      { rx: 0.05, ry: 0.80, snipIdx: 5 },
-      { rx: 0.72, ry: 0.82, snipIdx: 4 }
+      { rx: 0.73, ry: 0.15, snipIdx: 2 },
+      { rx: 0.03, ry: 0.47, snipIdx: 1 },
+      { rx: 0.72, ry: 0.50, snipIdx: 3 },
+      { rx: 0.04, ry: 0.79, snipIdx: 5 },
+      { rx: 0.71, ry: 0.81, snipIdx: 4 }
     ];
 
     for(var i = 0; i < slots.length; i++){
       var s = slots[i];
       var snip = SNIPPETS[s.snipIdx % SNIPPETS.length];
-      var fullText = snip.lines.join('
-');
+      var fullText = snip.lines.join('\n');
       terminals.push({
         baseX: s.rx * width,
         baseY: s.ry * height,
@@ -1456,13 +1454,12 @@ initReveal();
         lines: snip.lines,
         totalChars: fullText.length,
         typedChars: Math.floor(Math.random() * fullText.length),
-        speed: 0.28 + (i % 3) * 0.07,
+        speed: 0.30 + (i % 3) * 0.08,
         pauseTicks: 0,
         glow: 0
       });
     }
 
-    // Colunas verticais sutis de fluxo binário/sintaxe alinhadas à grade de 56px
     streams = [];
     var cols = Math.max(6, Math.floor(width / 140));
     for(var c = 0; c < cols; c++){
@@ -1470,7 +1467,7 @@ initReveal();
       streams.push({
         x: colX,
         y: Math.random() * height,
-        vy: 0.65 + Math.random() * 0.75,
+        vy: 0.7 + Math.random() * 0.8,
         chars: [
           STREAM_CHARS[(c * 3) % STREAM_CHARS.length],
           STREAM_CHARS[(c * 3 + 1) % STREAM_CHARS.length],
@@ -1509,7 +1506,6 @@ initReveal();
     mouse.tx = nx;
     mouse.ty = ny;
 
-    // Rastro de sintaxe que nasce ao mover o mouse
     var dx = nx - mouse.lastTrailX;
     var dy = ny - mouse.lastTrailY;
     if(dx * dx + dy * dy > 1400){
@@ -1524,7 +1520,7 @@ initReveal();
         vy: -0.6 - Math.random() * 0.5,
         text: glyph,
         cat: cats[trail.length % 3],
-        alpha: 0.85,
+        alpha: 0.88,
         scale: 1
       });
       if(trail.length > 22) trail.shift();
@@ -1539,15 +1535,14 @@ initReveal();
   window.addEventListener('pointerdown', function(e){
     var x = e.clientX, y = e.clientY;
     ripples.push({ x: x, y: y, r: 10, maxR: 260, alpha: 0.85 });
-    // Ao clicar, avança/ilumina os terminais próximos
     for(var i = 0; i < terminals.length; i++){
       var t = terminals[i];
-      var dx = (t.x + 110) - x;
-      var dy = (t.y + 42) - y;
-      if(dx * dx + dy * dy < 320 * 320){
+      var dx = (t.x + 124) - x;
+      var dy = (t.y + 49) - y;
+      if(dx * dx + dy * dy < 340 * 340){
         t.glow = 1;
         t.typedChars = t.totalChars;
-        t.pauseTicks = 50;
+        t.pauseTicks = 60;
       }
     }
   }, { passive: true });
@@ -1598,12 +1593,11 @@ initReveal();
           var distSq = dx * dx + dy * dy;
           if(distSq < radius * radius){
             var prox = 1 - Math.sqrt(distSq) / radius;
-            // Leve deslocamento magnético dos cruzamentos da grade
             var wx = gx + (dx / (Math.sqrt(distSq) || 1)) * prox * 5;
             var wy = gy + (dy / (Math.sqrt(distSq) || 1)) * prox * 5;
             var cAlpha = (prox * palette.crosshairAlpha).toFixed(3);
             ctx.strokeStyle = 'rgba(' + palette.code + ',' + cAlpha + ')';
-            ctx.lineWidth = 1.1;
+            ctx.lineWidth = 1.2;
             ctx.beginPath();
             ctx.moveTo(wx - 4.5, wy);
             ctx.lineTo(wx + 4.5, wy);
@@ -1637,7 +1631,7 @@ initReveal();
       for(var ch = 0; ch < st.chars.length; ch++){
         var cy = st.y - ch * 20;
         var charAlpha = (palette.streamAlpha + sBoost) * (1 - ch * 0.22);
-        ctx.fillStyle = 'rgba(' + sRgb + ',' + Math.max(0.03, charAlpha).toFixed(3) + ')';
+        ctx.fillStyle = 'rgba(' + sRgb + ',' + Math.max(0.04, charAlpha).toFixed(3) + ')';
         ctx.fillText(st.chars[ch], st.x, cy);
       }
     }
@@ -1648,18 +1642,15 @@ initReveal();
     for(var i = 0; i < terminals.length; i++){
       var t = terminals[i];
 
-      // Avança digitação ao vivo
       if(t.pauseTicks > 0){
         t.pauseTicks -= 1;
         if(t.pauseTicks === 0){
-          // Troca para o próximo snippet do ciclo
           t.snipIdx = (t.snipIdx + 1) % SNIPPETS.length;
           var nextSnip = SNIPPETS[t.snipIdx];
           t.title = nextSnip.title;
           t.cat = nextSnip.cat;
           t.lines = nextSnip.lines;
-          t.totalChars = nextSnip.lines.join('
-').length;
+          t.totalChars = nextSnip.lines.join('\n').length;
           t.typedChars = 0;
         }
       } else {
@@ -1676,17 +1667,15 @@ initReveal();
       var centerX = t.baseX + cardW * 0.5;
       var centerY = t.baseY + cardH * 0.5;
 
-      // Efeito Lente Raio-X e Parallax quando o mouse se aproxima do bloco de código
       var prox = 0;
       if(mouse.active){
         var mdx = mouse.x - centerX;
         var mdy = mouse.y - centerY;
         var mDist = Math.sqrt(mdx * mdx + mdy * mdy);
-        if(mDist < 310){
-          prox = 1 - mDist / 310;
+        if(mDist < 320){
+          prox = 1 - mDist / 320;
           t.glow = Math.max(t.glow, prox);
         }
-        // Parallax suave em relação ao cursor
         t.x += ((t.baseX + (mouse.x - width * 0.5) * -0.018) - t.x) * 0.1;
         t.y += ((t.baseY + (mouse.y - height * 0.5) * -0.018) - t.y) * 0.1;
       } else {
@@ -1697,15 +1686,13 @@ initReveal();
       var vis = palette.baseAlpha + (palette.activeAlpha - palette.baseAlpha) * t.glow;
       var rgb = colorForCat(t.cat);
 
-      // Moldura do mini-terminal / nota de estudo
       drawRoundedRect(t.x, t.y, cardW, cardH, 10);
-      ctx.fillStyle = 'rgba(' + palette.cardBg + ',' + (0.35 + t.glow * 0.48).toFixed(3) + ')';
+      ctx.fillStyle = 'rgba(' + palette.cardBg + ',' + (0.42 + t.glow * 0.48).toFixed(3) + ')';
       ctx.fill();
-      ctx.strokeStyle = 'rgba(' + rgb + ',' + (0.18 + t.glow * 0.55).toFixed(3) + ')';
-      ctx.lineWidth = 1 + t.glow * 0.8;
+      ctx.strokeStyle = 'rgba(' + rgb + ',' + (0.24 + t.glow * 0.58).toFixed(3) + ')';
+      ctx.lineWidth = 1.1 + t.glow * 0.8;
       ctx.stroke();
 
-      // Barra de título da janela de código
       ctx.beginPath();
       ctx.arc(t.x + 12, t.y + 12, 2.6, 0, Math.PI * 2);
       ctx.arc(t.x + 21, t.y + 12, 2.6, 0, Math.PI * 2);
@@ -1717,7 +1704,6 @@ initReveal();
       ctx.fillStyle = 'rgba(' + rgb + ',' + (vis * 0.95).toFixed(3) + ')';
       ctx.fillText(t.title, t.x + 40, t.y + 7);
 
-      // Linhas sendo digitadas com cursor piscante
       ctx.font = '500 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
       var rem = Math.floor(t.typedChars);
       var lineY = t.y + 26;
@@ -1730,7 +1716,6 @@ initReveal();
         ctx.fillStyle = 'rgba(' + rgb + ',' + vis.toFixed(3) + ')';
         ctx.fillText(slice, t.x + 12, lineY);
 
-        // Desenha o cursor de digitação no final da linha ativa
         if(rem <= 0 && (Math.floor(tick / 18) % 2 === 0)){
           var cw = ctx.measureText(slice).width;
           ctx.fillRect(t.x + 14 + cw, lineY + 1, 5.5, 11);
