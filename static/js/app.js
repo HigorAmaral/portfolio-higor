@@ -1303,7 +1303,7 @@ initReveal();
 
   updateScrollEffects();
 })();
-// Fundo Interativo com o Mouse: Ecossistema de Programação, Arquitetura & Estudos BSI (60fps)
+// Fundo Interativo com o Mouse: Blueprint de Código Vivo (Live Typing IDE + Caderno BSI + Lente Raio-X no Mouse)
 (function(){
   var canvas = document.getElementById('bg-interactive-canvas');
   var glow = document.getElementById('bg-cursor-glow');
@@ -1312,38 +1312,79 @@ initReveal();
   var ctx = canvas.getContext('2d');
   if(!ctx) return;
 
-  // Tokens reais de Programação (Python, Django, SQL, Web) + Estudos Acadêmicos (BSI, Algoritmos, IA)
-  var TOKENS = [
-    { text: '</>', cat: 'code', pill: true },
-    { text: 'def api():', cat: 'code', pill: true },
-    { text: 'Python 3', cat: 'code', pill: true },
-    { text: 'Django REST', cat: 'code', pill: true },
-    { text: 'SELECT * FROM', cat: 'db', pill: true },
-    { text: 'PostgreSQL', cat: 'db', pill: true },
-    { text: '{ status: 200 }', cat: 'code', pill: true },
-    { text: 'O(n log n)', cat: 'study', pill: true },
-    { text: 'BSI · IFC', cat: 'study', pill: true },
-    { text: 'IA & NLP', cat: 'study', pill: true },
-    { text: 'async / await', cat: 'code', pill: false },
-    { text: 'git commit', cat: 'code', pill: false },
-    { text: 'Vue.js', cat: 'code', pill: true },
-    { text: 'Docker', cat: 'db', pill: false },
-    { text: 'Swagger UI', cat: 'code', pill: false },
-    { text: '∑ f(x)', cat: 'study', pill: false },
-    { text: 'λ', cat: 'study', pill: false },
-    { text: '{ }', cat: 'code', pill: false },
-    { text: '[200 OK]', cat: 'db', pill: false },
-    { text: '=>', cat: 'code', pill: false },
-    { text: '0101', cat: 'study', pill: false },
-    { text: 'Graph(V,E)', cat: 'study', pill: false },
-    { text: '@require_GET', cat: 'code', pill: false },
-    { text: 'JWT · CSRF', cat: 'db', pill: false }
+  // Blocos de código e estudo que são digitados ao vivo no fundo (como terminais/cadernos em execução)
+  var SNIPPETS = [
+    {
+      title: 'views.py · Django REST',
+      cat: 'code',
+      lines: [
+        '@require_GET',
+        'def api_projetos(request):',
+        '    qs = Projeto.objects.filter(visivel=True)',
+        '    return JsonResponse({"status": 200})'
+      ]
+    },
+    {
+      title: 'query.sql · PostgreSQL',
+      cat: 'db',
+      lines: [
+        'SELECT nome, categoria, stack',
+        'FROM recados_projeto',
+        'WHERE visivel = TRUE',
+        'ORDER BY ordem ASC;'
+      ]
+    },
+    {
+      title: 'estudos_bsi.py · Algoritmos & IA',
+      cat: 'study',
+      lines: [
+        '# BSI · IFC — Estrutura de Dados',
+        'complexidade = "O(n log n)"',
+        'loss = sum((y - y_hat) ** 2)',
+        ' status: convergencia_atingida'
+      ]
+    },
+    {
+      title: 'deploy.sh · CI/CD Pipeline',
+      cat: 'db',
+      lines: [
+        '$ python manage.py test recados',
+        'Ran 41 tests in 4.5s -> OK',
+        '$ git push origin main',
+        '[render] build & healthz: 200 OK'
+      ]
+    },
+    {
+      title: 'security.py · WAF & LGPD',
+      cat: 'code',
+      lines: [
+        'CSP = "script-src 'self'"',
+        'ip_hash = sha256(ip + salt)',
+        'rate_limit(max_req=5, window=60)',
+        'return ShieldStatus.PROTECTED'
+      ]
+    },
+    {
+      title: 'calculo_grafos.md · Notas BSI',
+      cat: 'study',
+      lines: [
+        'G = (V, E) · Busca em Largura',
+        'f(x) = ∫ e^(-x²) dx',
+        'λx. transform(x) => estado_otimo',
+        '[IFC · Sistemas de Informação]'
+      ]
+    }
   ];
 
+  var TRAIL_GLYPHS = ['</>', '{ }', 'def', 'SQL', '01', 'λ', '∑', '=>', 'py', 'BSI', 'API', '&&'];
+  var STREAM_CHARS = ['0', '1', '{', '}', ';', 'λ', '∑', '/', '*', '=>', '()', '[]'];
+
   var width = 0, height = 0, dpr = 1;
-  var items = [];
-  var pulses = [];
-  var mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999, vx: 0, vy: 0, active: false };
+  var terminals = [];
+  var streams = [];
+  var trail = [];
+  var ripples = [];
+  var mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999, lastTrailX: -9999, lastTrailY: -9999, active: false };
   var rafId = null;
   var tick = 0;
 
@@ -1351,27 +1392,25 @@ initReveal();
     var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     if(isDark){
       return {
-        code: '59, 130, 246',      // #3B82F6 (Azul Dev)
-        db: '20, 184, 166',        // #14B8A6 (Teal Dados/Arquitetura)
-        study: '139, 92, 246',     // #8B5CF6 (Violeta Acadêmico/IA/Matemática)
-        pillBg: 'rgba(30, 41, 59, 0.72)',
-        pillBorder: 0.34,
-        textBaseAlpha: 0.46,
-        textActiveAlpha: 0.96,
-        lineAlpha: 0.18,
-        mouseLineAlpha: 0.62
+        code: '59, 130, 246',      // #3B82F6
+        db: '20, 184, 166',        // #14B8A6
+        study: '168, 85, 247',     // #A855F7
+        cardBg: '15, 23, 42',
+        baseAlpha: 0.24,
+        activeAlpha: 0.92,
+        crosshairAlpha: 0.45,
+        streamAlpha: 0.16
       };
     }
     return {
-      code: '29, 78, 216',         // #1D4ED8 (Azul Royal)
-      db: '15, 118, 110',          // #0F766E (Teal Escuro)
-      study: '109, 40, 217',       // #6D28D9 (Roxo Acadêmico/BSI)
-      pillBg: 'rgba(237, 242, 247, 0.78)',
-      pillBorder: 0.28,
-      textBaseAlpha: 0.42,
-      textActiveAlpha: 0.94,
-      lineAlpha: 0.15,
-      mouseLineAlpha: 0.55
+      code: '29, 78, 216',         // #1D4ED8
+      db: '15, 118, 110',          // #0F766E
+      study: '126, 34, 206',       // #7E22CE
+      cardBg: '237, 242, 247',
+      baseAlpha: 0.22,
+      activeAlpha: 0.88,
+      crosshairAlpha: 0.38,
+      streamAlpha: 0.14
     };
   }
 
@@ -1385,6 +1424,64 @@ initReveal();
     return palette.code;
   }
 
+  function layoutWorkspace(){
+    terminals = [];
+    // Posiciona os blocos de código/estudo nas laterais e cantos para emoldurar o conteúdo
+    var slots = width < 760 ? [
+      { rx: 0.06, ry: 0.12, snipIdx: 0 },
+      { rx: 0.52, ry: 0.46, snipIdx: 2 },
+      { rx: 0.08, ry: 0.76, snipIdx: 1 }
+    ] : [
+      { rx: 0.03, ry: 0.13, snipIdx: 0 },
+      { rx: 0.74, ry: 0.16, snipIdx: 2 },
+      { rx: 0.04, ry: 0.48, snipIdx: 1 },
+      { rx: 0.73, ry: 0.52, snipIdx: 3 },
+      { rx: 0.05, ry: 0.80, snipIdx: 5 },
+      { rx: 0.72, ry: 0.82, snipIdx: 4 }
+    ];
+
+    for(var i = 0; i < slots.length; i++){
+      var s = slots[i];
+      var snip = SNIPPETS[s.snipIdx % SNIPPETS.length];
+      var fullText = snip.lines.join('
+');
+      terminals.push({
+        baseX: s.rx * width,
+        baseY: s.ry * height,
+        x: s.rx * width,
+        y: s.ry * height,
+        snipIdx: s.snipIdx,
+        title: snip.title,
+        cat: snip.cat,
+        lines: snip.lines,
+        totalChars: fullText.length,
+        typedChars: Math.floor(Math.random() * fullText.length),
+        speed: 0.28 + (i % 3) * 0.07,
+        pauseTicks: 0,
+        glow: 0
+      });
+    }
+
+    // Colunas verticais sutis de fluxo binário/sintaxe alinhadas à grade de 56px
+    streams = [];
+    var cols = Math.max(6, Math.floor(width / 140));
+    for(var c = 0; c < cols; c++){
+      var colX = Math.round(((c + 0.5) * (width / cols)) / 56) * 56;
+      streams.push({
+        x: colX,
+        y: Math.random() * height,
+        vy: 0.65 + Math.random() * 0.75,
+        chars: [
+          STREAM_CHARS[(c * 3) % STREAM_CHARS.length],
+          STREAM_CHARS[(c * 3 + 1) % STREAM_CHARS.length],
+          STREAM_CHARS[(c * 3 + 2) % STREAM_CHARS.length],
+          STREAM_CHARS[(c * 3 + 3) % STREAM_CHARS.length]
+        ],
+        cat: c % 3 === 0 ? 'code' : (c % 3 === 1 ? 'db' : 'study')
+      });
+    }
+  }
+
   function resize(){
     width = window.innerWidth || document.documentElement.clientWidth;
     height = window.innerHeight || document.documentElement.clientHeight;
@@ -1392,29 +1489,7 @@ initReveal();
     canvas.width = Math.floor(width * dpr);
     canvas.height = Math.floor(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    var targetCount = width < 720 ? 18 : Math.min(36, Math.floor((width * height) / 34000) + 16);
-    if(items.length > targetCount){
-      items.length = targetCount;
-    } else {
-      while(items.length < targetCount){
-        var idx = items.length % TOKENS.length;
-        var tok = TOKENS[idx];
-        var depth = 0.65 + (idx % 4) * 0.15; // Camadas de profundidade (parallax)
-        items.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.55 * depth,
-          vy: (Math.random() - 0.5) * 0.55 * depth,
-          text: tok.text,
-          cat: tok.cat,
-          pill: tok.pill && (width >= 600 || idx % 2 === 0),
-          depth: depth,
-          phase: Math.random() * Math.PI * 2,
-          highlight: 0
-        });
-      }
-    }
+    layoutWorkspace();
   }
 
   resize();
@@ -1423,17 +1498,37 @@ initReveal();
   window.addEventListener('pointermove', function(e){
     var nx = e.clientX;
     var ny = e.clientY;
-    if(mouse.active){
-      mouse.vx = (nx - mouse.tx) * 0.14;
-      mouse.vy = (ny - mouse.ty) * 0.14;
-    } else {
+    if(!mouse.active){
       mouse.x = nx;
       mouse.y = ny;
+      mouse.lastTrailX = nx;
+      mouse.lastTrailY = ny;
       mouse.active = true;
       if(glow) glow.style.opacity = '1';
     }
     mouse.tx = nx;
     mouse.ty = ny;
+
+    // Rastro de sintaxe que nasce ao mover o mouse
+    var dx = nx - mouse.lastTrailX;
+    var dy = ny - mouse.lastTrailY;
+    if(dx * dx + dy * dy > 1400){
+      mouse.lastTrailX = nx;
+      mouse.lastTrailY = ny;
+      var glyph = TRAIL_GLYPHS[Math.floor(Math.random() * TRAIL_GLYPHS.length)];
+      var cats = ['code', 'db', 'study'];
+      trail.push({
+        x: nx + (Math.random() - 0.5) * 16,
+        y: ny + (Math.random() - 0.5) * 16,
+        vx: dx * 0.04 + (Math.random() - 0.5) * 0.4,
+        vy: -0.6 - Math.random() * 0.5,
+        text: glyph,
+        cat: cats[trail.length % 3],
+        alpha: 0.85,
+        scale: 1
+      });
+      if(trail.length > 22) trail.shift();
+    }
   }, { passive: true });
 
   document.addEventListener('mouseleave', function(){
@@ -1443,17 +1538,16 @@ initReveal();
 
   window.addEventListener('pointerdown', function(e){
     var x = e.clientX, y = e.clientY;
-    pulses.push({ x: x, y: y, r: 8, maxR: 250, alpha: 0.75, label: 'compile()' });
-    for(var i = 0; i < items.length; i++){
-      var it = items[i];
-      var dx = it.x - x;
-      var dy = it.y - y;
-      var dist = Math.sqrt(dx * dx + dy * dy) || 1;
-      if(dist < 240){
-        var force = (1 - dist / 240) * 2.2;
-        it.vx += (dx / dist) * force;
-        it.vy += (dy / dist) * force;
-        it.highlight = 1;
+    ripples.push({ x: x, y: y, r: 10, maxR: 260, alpha: 0.85 });
+    // Ao clicar, avança/ilumina os terminais próximos
+    for(var i = 0; i < terminals.length; i++){
+      var t = terminals[i];
+      var dx = (t.x + 110) - x;
+      var dy = (t.y + 42) - y;
+      if(dx * dx + dy * dy < 320 * 320){
+        t.glow = 1;
+        t.typedChars = t.totalChars;
+        t.pauseTicks = 50;
       }
     }
   }, { passive: true });
@@ -1477,177 +1571,213 @@ initReveal();
       rafId = null;
       return;
     }
-    tick += 0.02;
+    tick += 1;
     ctx.clearRect(0, 0, width, height);
 
     if(mouse.active){
-      mouse.x += (mouse.tx - mouse.x) * 0.18;
-      mouse.y += (mouse.ty - mouse.y) * 0.18;
-      mouse.vx *= 0.9;
-      mouse.vy *= 0.9;
+      mouse.x += (mouse.tx - mouse.x) * 0.2;
+      mouse.y += (mouse.ty - mouse.y) * 0.2;
       if(glow){
         glow.style.transform = 'translate3d(' + mouse.x.toFixed(1) + 'px,' + mouse.y.toFixed(1) + 'px,0)';
       }
     }
 
-    var linkDist = width < 720 ? 145 : 195;
-    var linkDistSq = linkDist * linkDist;
-    var mouseDist = 240;
-    var mouseDistSq = mouseDist * mouseDist;
+    // 1. Interseções da Malha Blueprint que acendem perto do Mouse (Cruzetas "+" Técnicas)
+    if(mouse.active){
+      var gridStep = 56;
+      var radius = 210;
+      var startX = Math.max(0, Math.floor((mouse.x - radius) / gridStep) * gridStep);
+      var endX = Math.min(width, Math.ceil((mouse.x + radius) / gridStep) * gridStep);
+      var startY = Math.max(0, Math.floor((mouse.y - radius) / gridStep) * gridStep);
+      var endY = Math.min(height, Math.ceil((mouse.y + radius) / gridStep) * gridStep);
 
-    // 1. Conexões de Grafo / AST entre tokens próximos
-    for(var i = 0; i < items.length; i++){
-      var a = items[i];
-      for(var j = i + 1; j < items.length; j++){
-        var b = items[j];
-        var dx = a.x - b.x;
-        var dy = a.y - b.y;
-        var dSq = dx * dx + dy * dy;
-        if(dSq < linkDistSq){
-          var factor = 1 - dSq / linkDistSq;
-          var boost = Math.max(a.highlight, b.highlight) * 0.25;
-          var alpha = factor * palette.lineAlpha + boost * factor;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = 'rgba(' + colorForCat(a.cat) + ',' + alpha.toFixed(3) + ')';
-          ctx.lineWidth = 0.9;
-          ctx.stroke();
+      for(var gx = startX; gx <= endX; gx += gridStep){
+        for(var gy = startY; gy <= endY; gy += gridStep){
+          var dx = gx - mouse.x;
+          var dy = gy - mouse.y;
+          var distSq = dx * dx + dy * dy;
+          if(distSq < radius * radius){
+            var prox = 1 - Math.sqrt(distSq) / radius;
+            // Leve deslocamento magnético dos cruzamentos da grade
+            var wx = gx + (dx / (Math.sqrt(distSq) || 1)) * prox * 5;
+            var wy = gy + (dy / (Math.sqrt(distSq) || 1)) * prox * 5;
+            var cAlpha = (prox * palette.crosshairAlpha).toFixed(3);
+            ctx.strokeStyle = 'rgba(' + palette.code + ',' + cAlpha + ')';
+            ctx.lineWidth = 1.1;
+            ctx.beginPath();
+            ctx.moveTo(wx - 4.5, wy);
+            ctx.lineTo(wx + 4.5, wy);
+            ctx.moveTo(wx, wy - 4.5);
+            ctx.lineTo(wx, wy + 4.5);
+            ctx.stroke();
+          }
         }
       }
     }
 
-    // 2. Ondas de compilação / execução ao clicar
-    for(var k = pulses.length - 1; k >= 0; k--){
-      var pulse = pulses[k];
-      pulse.r += 5.2;
-      pulse.alpha *= 0.94;
-      if(pulse.r >= pulse.maxR || pulse.alpha < 0.02){
-        pulses.splice(k, 1);
+    // 2. Fluxo Vertical de Sintaxe / Dados (Data Streams)
+    ctx.font = '600 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+    ctx.textAlign = 'center';
+    for(var s = 0; s < streams.length; s++){
+      var st = streams[s];
+      st.y += st.vy;
+      if(st.y > height + 90) st.y = -90;
+
+      var sRgb = colorForCat(st.cat);
+      var sBoost = 0;
+      if(mouse.active){
+        var sdx = st.x - mouse.x;
+        var sdy = st.y - mouse.y;
+        var sDistSq = sdx * sdx + sdy * sdy;
+        if(sDistSq < 220 * 220){
+          sBoost = (1 - Math.sqrt(sDistSq) / 220) * 0.45;
+        }
+      }
+
+      for(var ch = 0; ch < st.chars.length; ch++){
+        var cy = st.y - ch * 20;
+        var charAlpha = (palette.streamAlpha + sBoost) * (1 - ch * 0.22);
+        ctx.fillStyle = 'rgba(' + sRgb + ',' + Math.max(0.03, charAlpha).toFixed(3) + ')';
+        ctx.fillText(st.chars[ch], st.x, cy);
+      }
+    }
+
+    // 3. Blocos de Código & Estudo Autodigitáveis (Live Typing IDE Cards)
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+    for(var i = 0; i < terminals.length; i++){
+      var t = terminals[i];
+
+      // Avança digitação ao vivo
+      if(t.pauseTicks > 0){
+        t.pauseTicks -= 1;
+        if(t.pauseTicks === 0){
+          // Troca para o próximo snippet do ciclo
+          t.snipIdx = (t.snipIdx + 1) % SNIPPETS.length;
+          var nextSnip = SNIPPETS[t.snipIdx];
+          t.title = nextSnip.title;
+          t.cat = nextSnip.cat;
+          t.lines = nextSnip.lines;
+          t.totalChars = nextSnip.lines.join('
+').length;
+          t.typedChars = 0;
+        }
+      } else {
+        t.typedChars += t.speed;
+        if(t.typedChars >= t.totalChars){
+          t.typedChars = t.totalChars;
+          t.pauseTicks = 150;
+        }
+      }
+
+      t.glow *= 0.94;
+      var cardW = 248;
+      var cardH = 98;
+      var centerX = t.baseX + cardW * 0.5;
+      var centerY = t.baseY + cardH * 0.5;
+
+      // Efeito Lente Raio-X e Parallax quando o mouse se aproxima do bloco de código
+      var prox = 0;
+      if(mouse.active){
+        var mdx = mouse.x - centerX;
+        var mdy = mouse.y - centerY;
+        var mDist = Math.sqrt(mdx * mdx + mdy * mdy);
+        if(mDist < 310){
+          prox = 1 - mDist / 310;
+          t.glow = Math.max(t.glow, prox);
+        }
+        // Parallax suave em relação ao cursor
+        t.x += ((t.baseX + (mouse.x - width * 0.5) * -0.018) - t.x) * 0.1;
+        t.y += ((t.baseY + (mouse.y - height * 0.5) * -0.018) - t.y) * 0.1;
+      } else {
+        t.x += (t.baseX - t.x) * 0.08;
+        t.y += (t.baseY - t.y) * 0.08;
+      }
+
+      var vis = palette.baseAlpha + (palette.activeAlpha - palette.baseAlpha) * t.glow;
+      var rgb = colorForCat(t.cat);
+
+      // Moldura do mini-terminal / nota de estudo
+      drawRoundedRect(t.x, t.y, cardW, cardH, 10);
+      ctx.fillStyle = 'rgba(' + palette.cardBg + ',' + (0.35 + t.glow * 0.48).toFixed(3) + ')';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(' + rgb + ',' + (0.18 + t.glow * 0.55).toFixed(3) + ')';
+      ctx.lineWidth = 1 + t.glow * 0.8;
+      ctx.stroke();
+
+      // Barra de título da janela de código
+      ctx.beginPath();
+      ctx.arc(t.x + 12, t.y + 12, 2.6, 0, Math.PI * 2);
+      ctx.arc(t.x + 21, t.y + 12, 2.6, 0, Math.PI * 2);
+      ctx.arc(t.x + 30, t.y + 12, 2.6, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + rgb + ',' + (vis * 0.85).toFixed(3) + ')';
+      ctx.fill();
+
+      ctx.font = '700 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+      ctx.fillStyle = 'rgba(' + rgb + ',' + (vis * 0.95).toFixed(3) + ')';
+      ctx.fillText(t.title, t.x + 40, t.y + 7);
+
+      // Linhas sendo digitadas com cursor piscante
+      ctx.font = '500 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+      var rem = Math.floor(t.typedChars);
+      var lineY = t.y + 26;
+      for(var ln = 0; ln < t.lines.length; ln++){
+        if(rem <= 0) break;
+        var fullLine = t.lines[ln];
+        var slice = fullLine.slice(0, rem);
+        rem -= fullLine.length + 1;
+
+        ctx.fillStyle = 'rgba(' + rgb + ',' + vis.toFixed(3) + ')';
+        ctx.fillText(slice, t.x + 12, lineY);
+
+        // Desenha o cursor de digitação no final da linha ativa
+        if(rem <= 0 && (Math.floor(tick / 18) % 2 === 0)){
+          var cw = ctx.measureText(slice).width;
+          ctx.fillRect(t.x + 14 + cw, lineY + 1, 5.5, 11);
+        }
+        lineY += 16;
+      }
+    }
+
+    // 4. Rastro de Símbolos de Programação & Matemática que segue o Mouse
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for(var tr = trail.length - 1; tr >= 0; tr--){
+      var item = trail[tr];
+      item.x += item.vx;
+      item.y += item.vy;
+      item.alpha *= 0.95;
+      item.scale += 0.008;
+      if(item.alpha < 0.03){
+        trail.splice(tr, 1);
+        continue;
+      }
+      var tRgb = colorForCat(item.cat);
+      ctx.font = '700 ' + Math.round(11 * item.scale) + 'px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+      ctx.fillStyle = 'rgba(' + tRgb + ',' + item.alpha.toFixed(3) + ')';
+      ctx.fillText(item.text, item.x, item.y);
+    }
+
+    // 5. Ondas de Execução ao Clicar
+    for(var r = ripples.length - 1; r >= 0; r--){
+      var rp = ripples[r];
+      rp.r += 5.5;
+      rp.alpha *= 0.93;
+      if(rp.r >= rp.maxR || rp.alpha < 0.02){
+        ripples.splice(r, 1);
         continue;
       }
       ctx.beginPath();
-      ctx.arc(pulse.x, pulse.y, pulse.r, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(' + palette.code + ',' + pulse.alpha.toFixed(3) + ')';
+      ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(' + palette.db + ',' + rp.alpha.toFixed(3) + ')';
       ctx.lineWidth = 1.6;
       ctx.stroke();
-    }
 
-    // 3. Atualiza e desenha os tokens de Código & Estudo
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-
-    for(var m = 0; m < items.length; m++){
-      var it = items[m];
-      it.x += it.vx;
-      it.y += it.vy + Math.sin(tick + it.phase) * 0.12;
-      it.highlight *= 0.93;
-
-      var speed = Math.sqrt(it.vx * it.vx + it.vy * it.vy);
-      var maxSpeed = 0.75 * it.depth;
-      if(speed > maxSpeed){
-        it.vx *= 0.95;
-        it.vy *= 0.95;
+      if(rp.r < 95){
+        ctx.font = '700 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+        ctx.fillStyle = 'rgba(' + palette.db + ',' + rp.alpha.toFixed(3) + ')';
+        ctx.fillText('[RUN · 200 OK]', rp.x, rp.y - rp.r - 8);
       }
-
-      if(it.x < -60) it.x = width + 60;
-      else if(it.x > width + 60) it.x = -60;
-      if(it.y < -40) it.y = height + 40;
-      else if(it.y > height + 40) it.y = -40;
-
-      var rgb = colorForCat(it.cat);
-      var prox = 0;
-
-      // Interação direta com o mouse (Code Lens / AST Inspector)
-      if(mouse.active){
-        var mdx = mouse.x - it.x;
-        var mdy = mouse.y - it.y;
-        var mSq = mdx * mdx + mdy * mdy;
-        if(mSq < mouseDistSq){
-          var mDist = Math.sqrt(mSq) || 1;
-          prox = 1 - mDist / mouseDist;
-          it.highlight = Math.max(it.highlight, prox);
-
-          // Atração magnética suave na borda e leve afastamento no centro do cursor (para leitura limpa)
-          if(mDist > 68){
-            it.x += (mdx / mDist) * prox * 0.65 + mouse.vx * prox * 0.12;
-            it.y += (mdy / mDist) * prox * 0.65 + mouse.vy * prox * 0.12;
-          } else {
-            it.x -= (mdx / mDist) * 0.85;
-            it.y -= (mdy / mDist) * 0.85;
-          }
-
-          // Linha de conexão sintática entre o cursor e o token
-          ctx.beginPath();
-          ctx.moveTo(it.x, it.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = 'rgba(' + rgb + ',' + (prox * palette.mouseLineAlpha).toFixed(3) + ')';
-          ctx.lineWidth = 1.0 + prox * 1.2;
-          ctx.stroke();
-
-          // Pacote de dados viajando pela linha em direção ao token
-          var pktT = (tick * 1.4 + m * 0.23) % 1;
-          var px = mouse.x + (it.x - mouse.x) * pktT;
-          var py = mouse.y + (it.y - mouse.y) * pktT;
-          ctx.beginPath();
-          ctx.arc(px, py, 2.2, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(' + rgb + ',' + (prox * 0.9).toFixed(3) + ')';
-          ctx.fill();
-        }
-      }
-
-      var activeFactor = Math.min(1, it.highlight);
-      var fontSize = Math.round((11 + it.depth * 2.2) + activeFactor * 2);
-      ctx.font = (activeFactor > 0.35 ? '700 ' : '600 ') + fontSize + 'px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
-
-      var textAlpha = palette.textBaseAlpha + (palette.textActiveAlpha - palette.textBaseAlpha) * activeFactor;
-
-      if(it.pill){
-        var metrics = ctx.measureText(it.text);
-        var pw = metrics.width + 18;
-        var ph = fontSize + 11;
-        var rx = it.x - pw / 2;
-        var ry = it.y - ph / 2;
-
-        drawRoundedRect(rx, ry, pw, ph, 7);
-        ctx.fillStyle = palette.pillBg;
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(' + rgb + ',' + (palette.pillBorder + activeFactor * 0.5).toFixed(3) + ')';
-        ctx.lineWidth = 1 + activeFactor * 0.8;
-        ctx.stroke();
-
-        // Ponto indicador de sintaxe à esquerda da pílula
-        ctx.beginPath();
-        ctx.arc(rx + 6.5, it.y, 2.2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(' + rgb + ',' + (textAlpha * 0.95).toFixed(3) + ')';
-        ctx.fill();
-
-        ctx.fillStyle = 'rgba(' + rgb + ',' + textAlpha.toFixed(3) + ')';
-        ctx.fillText(it.text, it.x + 3, it.y + 0.5);
-      } else {
-        // Símbolo de código / matemática com pequeno nó conector
-        ctx.beginPath();
-        ctx.arc(it.x, it.y - fontSize * 0.72, 2.0 + activeFactor * 1.2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(' + rgb + ',' + (textAlpha * 0.85).toFixed(3) + ')';
-        ctx.fill();
-
-        ctx.fillStyle = 'rgba(' + rgb + ',' + textAlpha.toFixed(3) + ')';
-        ctx.fillText(it.text, it.x, it.y);
-      }
-    }
-
-    // 4. Retícula / Code Lens no cursor do mouse
-    if(mouse.active){
-      ctx.beginPath();
-      ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(' + palette.code + ', 0.75)';
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.arc(mouse.x, mouse.y, 18, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(' + palette.db + ', 0.42)';
-      ctx.lineWidth = 1.2;
-      ctx.stroke();
     }
 
     rafId = window.requestAnimationFrame(step);
