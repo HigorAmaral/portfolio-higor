@@ -1303,7 +1303,7 @@ initReveal();
 
   updateScrollEffects();
 })();
-// Fundo Interativo com o Mouse: Rede Neural / Constelação + Spotlight + Pulso ao Clicar (60fps)
+// Fundo Interativo com o Mouse: Ecossistema de Programação, Arquitetura & Estudos BSI (60fps)
 (function(){
   var canvas = document.getElementById('bg-interactive-canvas');
   var glow = document.getElementById('bg-cursor-glow');
@@ -1312,35 +1312,78 @@ initReveal();
   var ctx = canvas.getContext('2d');
   if(!ctx) return;
 
+  // Tokens reais de Programação (Python, Django, SQL, Web) + Estudos Acadêmicos (BSI, Algoritmos, IA)
+  var TOKENS = [
+    { text: '</>', cat: 'code', pill: true },
+    { text: 'def api():', cat: 'code', pill: true },
+    { text: 'Python 3', cat: 'code', pill: true },
+    { text: 'Django REST', cat: 'code', pill: true },
+    { text: 'SELECT * FROM', cat: 'db', pill: true },
+    { text: 'PostgreSQL', cat: 'db', pill: true },
+    { text: '{ status: 200 }', cat: 'code', pill: true },
+    { text: 'O(n log n)', cat: 'study', pill: true },
+    { text: 'BSI · IFC', cat: 'study', pill: true },
+    { text: 'IA & NLP', cat: 'study', pill: true },
+    { text: 'async / await', cat: 'code', pill: false },
+    { text: 'git commit', cat: 'code', pill: false },
+    { text: 'Vue.js', cat: 'code', pill: true },
+    { text: 'Docker', cat: 'db', pill: false },
+    { text: 'Swagger UI', cat: 'code', pill: false },
+    { text: '∑ f(x)', cat: 'study', pill: false },
+    { text: 'λ', cat: 'study', pill: false },
+    { text: '{ }', cat: 'code', pill: false },
+    { text: '[200 OK]', cat: 'db', pill: false },
+    { text: '=>', cat: 'code', pill: false },
+    { text: '0101', cat: 'study', pill: false },
+    { text: 'Graph(V,E)', cat: 'study', pill: false },
+    { text: '@require_GET', cat: 'code', pill: false },
+    { text: 'JWT · CSRF', cat: 'db', pill: false }
+  ];
+
   var width = 0, height = 0, dpr = 1;
-  var particles = [];
+  var items = [];
   var pulses = [];
   var mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999, vx: 0, vy: 0, active: false };
   var rafId = null;
+  var tick = 0;
 
   function getPalette(){
     var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     if(isDark){
       return {
-        nodePrimary: '59, 130, 246',   // #3B82F6
-        nodeSecondary: '20, 184, 166', // #14B8A6
-        lineAlpha: 0.34,
-        mouseLineAlpha: 0.72,
-        nodeAlpha: 0.85
+        code: '59, 130, 246',      // #3B82F6 (Azul Dev)
+        db: '20, 184, 166',        // #14B8A6 (Teal Dados/Arquitetura)
+        study: '139, 92, 246',     // #8B5CF6 (Violeta Acadêmico/IA/Matemática)
+        pillBg: 'rgba(30, 41, 59, 0.72)',
+        pillBorder: 0.34,
+        textBaseAlpha: 0.46,
+        textActiveAlpha: 0.96,
+        lineAlpha: 0.18,
+        mouseLineAlpha: 0.62
       };
     }
     return {
-      nodePrimary: '29, 78, 216',    // #1D4ED8
-      nodeSecondary: '15, 118, 110', // #0F766E
-      lineAlpha: 0.28,
-      mouseLineAlpha: 0.64,
-      nodeAlpha: 0.75
+      code: '29, 78, 216',         // #1D4ED8 (Azul Royal)
+      db: '15, 118, 110',          // #0F766E (Teal Escuro)
+      study: '109, 40, 217',       // #6D28D9 (Roxo Acadêmico/BSI)
+      pillBg: 'rgba(237, 242, 247, 0.78)',
+      pillBorder: 0.28,
+      textBaseAlpha: 0.42,
+      textActiveAlpha: 0.94,
+      lineAlpha: 0.15,
+      mouseLineAlpha: 0.55
     };
   }
 
   var palette = getPalette();
   var observer = new MutationObserver(function(){ palette = getPalette(); });
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  function colorForCat(cat){
+    if(cat === 'db') return palette.db;
+    if(cat === 'study') return palette.study;
+    return palette.code;
+  }
 
   function resize(){
     width = window.innerWidth || document.documentElement.clientWidth;
@@ -1350,18 +1393,25 @@ initReveal();
     canvas.height = Math.floor(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    var targetCount = width < 720 ? 36 : Math.min(82, Math.floor((width * height) / 16500));
-    if(particles.length > targetCount){
-      particles.length = targetCount;
+    var targetCount = width < 720 ? 18 : Math.min(36, Math.floor((width * height) / 34000) + 16);
+    if(items.length > targetCount){
+      items.length = targetCount;
     } else {
-      while(particles.length < targetCount){
-        particles.push({
+      while(items.length < targetCount){
+        var idx = items.length % TOKENS.length;
+        var tok = TOKENS[idx];
+        var depth = 0.65 + (idx % 4) * 0.15; // Camadas de profundidade (parallax)
+        items.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.85,
-          vy: (Math.random() - 0.5) * 0.85,
-          r: 2.0 + Math.random() * 2.2,
-          teal: Math.random() > 0.52
+          vx: (Math.random() - 0.5) * 0.55 * depth,
+          vy: (Math.random() - 0.5) * 0.55 * depth,
+          text: tok.text,
+          cat: tok.cat,
+          pill: tok.pill && (width >= 600 || idx % 2 === 0),
+          depth: depth,
+          phase: Math.random() * Math.PI * 2,
+          highlight: 0
         });
       }
     }
@@ -1393,25 +1443,41 @@ initReveal();
 
   window.addEventListener('pointerdown', function(e){
     var x = e.clientX, y = e.clientY;
-    pulses.push({ x: x, y: y, r: 6, maxR: 240, alpha: 0.75 });
-    for(var i = 0; i < particles.length; i++){
-      var p = particles[i];
-      var dx = p.x - x;
-      var dy = p.y - y;
+    pulses.push({ x: x, y: y, r: 8, maxR: 250, alpha: 0.75, label: 'compile()' });
+    for(var i = 0; i < items.length; i++){
+      var it = items[i];
+      var dx = it.x - x;
+      var dy = it.y - y;
       var dist = Math.sqrt(dx * dx + dy * dy) || 1;
-      if(dist < 220){
-        var force = (1 - dist / 220) * 2.8;
-        p.vx += (dx / dist) * force;
-        p.vy += (dy / dist) * force;
+      if(dist < 240){
+        var force = (1 - dist / 240) * 2.2;
+        it.vx += (dx / dist) * force;
+        it.vy += (dy / dist) * force;
+        it.highlight = 1;
       }
     }
   }, { passive: true });
+
+  function drawRoundedRect(x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
 
   function step(){
     if(document.hidden){
       rafId = null;
       return;
     }
+    tick += 0.02;
     ctx.clearRect(0, 0, width, height);
 
     if(mouse.active){
@@ -1424,15 +1490,37 @@ initReveal();
       }
     }
 
-    var linkDist = width < 720 ? 125 : 160;
+    var linkDist = width < 720 ? 145 : 195;
     var linkDistSq = linkDist * linkDist;
-    var mouseDist = 220;
+    var mouseDist = 240;
     var mouseDistSq = mouseDist * mouseDist;
 
-    // Ondas de choque ao clicar
+    // 1. Conexões de Grafo / AST entre tokens próximos
+    for(var i = 0; i < items.length; i++){
+      var a = items[i];
+      for(var j = i + 1; j < items.length; j++){
+        var b = items[j];
+        var dx = a.x - b.x;
+        var dy = a.y - b.y;
+        var dSq = dx * dx + dy * dy;
+        if(dSq < linkDistSq){
+          var factor = 1 - dSq / linkDistSq;
+          var boost = Math.max(a.highlight, b.highlight) * 0.25;
+          var alpha = factor * palette.lineAlpha + boost * factor;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = 'rgba(' + colorForCat(a.cat) + ',' + alpha.toFixed(3) + ')';
+          ctx.lineWidth = 0.9;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // 2. Ondas de compilação / execução ao clicar
     for(var k = pulses.length - 1; k >= 0; k--){
       var pulse = pulses[k];
-      pulse.r += 5.5;
+      pulse.r += 5.2;
       pulse.alpha *= 0.94;
       if(pulse.r >= pulse.maxR || pulse.alpha < 0.02){
         pulses.splice(k, 1);
@@ -1440,85 +1528,124 @@ initReveal();
       }
       ctx.beginPath();
       ctx.arc(pulse.x, pulse.y, pulse.r, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(' + palette.nodePrimary + ',' + pulse.alpha.toFixed(3) + ')';
-      ctx.lineWidth = 1.8;
+      ctx.strokeStyle = 'rgba(' + palette.code + ',' + pulse.alpha.toFixed(3) + ')';
+      ctx.lineWidth = 1.6;
       ctx.stroke();
     }
 
-    for(var i = 0; i < particles.length; i++){
-      var p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
+    // 3. Atualiza e desenha os tokens de Código & Estudo
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 
-      var speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      if(speed > 1.3){
-        p.vx *= 0.96;
-        p.vy *= 0.96;
+    for(var m = 0; m < items.length; m++){
+      var it = items[m];
+      it.x += it.vx;
+      it.y += it.vy + Math.sin(tick + it.phase) * 0.12;
+      it.highlight *= 0.93;
+
+      var speed = Math.sqrt(it.vx * it.vx + it.vy * it.vy);
+      var maxSpeed = 0.75 * it.depth;
+      if(speed > maxSpeed){
+        it.vx *= 0.95;
+        it.vy *= 0.95;
       }
 
-      if(p.x < -20) p.x = width + 20;
-      else if(p.x > width + 20) p.x = -20;
-      if(p.y < -20) p.y = height + 20;
-      else if(p.y > height + 20) p.y = -20;
+      if(it.x < -60) it.x = width + 60;
+      else if(it.x > width + 60) it.x = -60;
+      if(it.y < -40) it.y = height + 40;
+      else if(it.y > height + 40) it.y = -40;
 
-      var rgb = p.teal ? palette.nodeSecondary : palette.nodePrimary;
-      var radius = p.r;
+      var rgb = colorForCat(it.cat);
+      var prox = 0;
 
+      // Interação direta com o mouse (Code Lens / AST Inspector)
       if(mouse.active){
-        var mdx = mouse.x - p.x;
-        var mdy = mouse.y - p.y;
+        var mdx = mouse.x - it.x;
+        var mdy = mouse.y - it.y;
         var mSq = mdx * mdx + mdy * mdy;
         if(mSq < mouseDistSq){
           var mDist = Math.sqrt(mSq) || 1;
-          var factor = 1 - mDist / mouseDist;
-          if(mDist > 48){
-            p.x += (mdx / mDist) * factor * 0.72 + mouse.vx * factor * 0.1;
-            p.y += (mdy / mDist) * factor * 0.72 + mouse.vy * factor * 0.1;
-          } else {
-            p.x -= (mdx / mDist) * 0.75;
-            p.y -= (mdy / mDist) * 0.75;
-          }
-          radius = p.r + factor * 2.2;
+          prox = 1 - mDist / mouseDist;
+          it.highlight = Math.max(it.highlight, prox);
 
+          // Atração magnética suave na borda e leve afastamento no centro do cursor (para leitura limpa)
+          if(mDist > 68){
+            it.x += (mdx / mDist) * prox * 0.65 + mouse.vx * prox * 0.12;
+            it.y += (mdy / mDist) * prox * 0.65 + mouse.vy * prox * 0.12;
+          } else {
+            it.x -= (mdx / mDist) * 0.85;
+            it.y -= (mdy / mDist) * 0.85;
+          }
+
+          // Linha de conexão sintática entre o cursor e o token
           ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
+          ctx.moveTo(it.x, it.y);
           ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = 'rgba(' + rgb + ',' + (factor * palette.mouseLineAlpha).toFixed(3) + ')';
-          ctx.lineWidth = 1.0 + factor * 1.4;
+          ctx.strokeStyle = 'rgba(' + rgb + ',' + (prox * palette.mouseLineAlpha).toFixed(3) + ')';
+          ctx.lineWidth = 1.0 + prox * 1.2;
           ctx.stroke();
+
+          // Pacote de dados viajando pela linha em direção ao token
+          var pktT = (tick * 1.4 + m * 0.23) % 1;
+          var px = mouse.x + (it.x - mouse.x) * pktT;
+          var py = mouse.y + (it.y - mouse.y) * pktT;
+          ctx.beginPath();
+          ctx.arc(px, py, 2.2, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(' + rgb + ',' + (prox * 0.9).toFixed(3) + ')';
+          ctx.fill();
         }
       }
 
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(' + rgb + ',' + palette.nodeAlpha + ')';
-      ctx.fill();
+      var activeFactor = Math.min(1, it.highlight);
+      var fontSize = Math.round((11 + it.depth * 2.2) + activeFactor * 2);
+      ctx.font = (activeFactor > 0.35 ? '700 ' : '600 ') + fontSize + 'px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
 
-      for(var j = i + 1; j < particles.length; j++){
-        var p2 = particles[j];
-        var dx = p.x - p2.x;
-        var dy = p.y - p2.y;
-        var dSq = dx * dx + dy * dy;
-        if(dSq < linkDistSq){
-          var alpha = (1 - dSq / linkDistSq) * palette.lineAlpha;
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = 'rgba(' + palette.nodePrimary + ',' + alpha.toFixed(3) + ')';
-          ctx.lineWidth = 1.0;
-          ctx.stroke();
-        }
+      var textAlpha = palette.textBaseAlpha + (palette.textActiveAlpha - palette.textBaseAlpha) * activeFactor;
+
+      if(it.pill){
+        var metrics = ctx.measureText(it.text);
+        var pw = metrics.width + 18;
+        var ph = fontSize + 11;
+        var rx = it.x - pw / 2;
+        var ry = it.y - ph / 2;
+
+        drawRoundedRect(rx, ry, pw, ph, 7);
+        ctx.fillStyle = palette.pillBg;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(' + rgb + ',' + (palette.pillBorder + activeFactor * 0.5).toFixed(3) + ')';
+        ctx.lineWidth = 1 + activeFactor * 0.8;
+        ctx.stroke();
+
+        // Ponto indicador de sintaxe à esquerda da pílula
+        ctx.beginPath();
+        ctx.arc(rx + 6.5, it.y, 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + rgb + ',' + (textAlpha * 0.95).toFixed(3) + ')';
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(' + rgb + ',' + textAlpha.toFixed(3) + ')';
+        ctx.fillText(it.text, it.x + 3, it.y + 0.5);
+      } else {
+        // Símbolo de código / matemática com pequeno nó conector
+        ctx.beginPath();
+        ctx.arc(it.x, it.y - fontSize * 0.72, 2.0 + activeFactor * 1.2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + rgb + ',' + (textAlpha * 0.85).toFixed(3) + ')';
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(' + rgb + ',' + textAlpha.toFixed(3) + ')';
+        ctx.fillText(it.text, it.x, it.y);
       }
     }
 
+    // 4. Retícula / Code Lens no cursor do mouse
     if(mouse.active){
       ctx.beginPath();
-      ctx.arc(mouse.x, mouse.y, 4.5, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(' + palette.nodePrimary + ', 0.65)';
+      ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + palette.code + ', 0.75)';
       ctx.fill();
+
       ctx.beginPath();
-      ctx.arc(mouse.x, mouse.y, 16, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(' + palette.nodeSecondary + ', 0.35)';
+      ctx.arc(mouse.x, mouse.y, 18, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(' + palette.db + ', 0.42)';
       ctx.lineWidth = 1.2;
       ctx.stroke();
     }
