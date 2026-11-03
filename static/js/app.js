@@ -857,10 +857,9 @@ initReveal();
   });
 })();
 
-// Header fixo, Barra de Progresso no Topo & Scroll Spy de Seções Ativas
+// Header fixo & Scroll Spy de Seções Ativas
 (function(){
   var nav = document.querySelector('header.nav');
-  var progressBar = document.getElementById('scroll-progress');
   var navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
   var sections = [];
   navLinks.forEach(function(link){
@@ -878,11 +877,6 @@ initReveal();
       } else {
         nav.classList.remove('scrolled');
       }
-    }
-    if(progressBar){
-      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      var pct = docHeight > 0 ? Math.min(100, Math.max(0, (y / docHeight) * 100)) : 0;
-      progressBar.style.width = pct + '%';
     }
     if(sections.length){
       var currentId = '';

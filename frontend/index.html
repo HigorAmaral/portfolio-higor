@@ -1592,17 +1592,170 @@ section:hover h2 .heading-icon{
 }
 
 
-/* Barra de Progresso de Leitura no Topo */
-.scroll-progress-bar{
+/* Refinamento Visual Premium (Clean Corporate & Editorial UI) */
+body::before{
+  content:"";
   position:fixed;
-  top:0;
-  left:0;
-  height:3px;
-  width:0%;
-  background:linear-gradient(90deg, var(--accent), var(--accent-purple, #7C4DFF));
-  z-index:100;
+  inset:0;
+  z-index:-1;
   pointer-events:none;
-  transition:width .08s linear;
+  background-image:
+    radial-gradient(color-mix(in srgb, var(--accent) 16%, transparent) 1px, transparent 1px),
+    radial-gradient(46rem 28rem at 85% -5%, color-mix(in srgb, var(--accent) 9%, transparent), transparent),
+    radial-gradient(40rem 26rem at 10% 35%, color-mix(in srgb, var(--accent-secondary, #0D9488) 7%, transparent), transparent);
+  background-size:28px 28px, 100% 100%, 100% 100%;
+  -webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 25%, #000 35%, transparent 100%);
+  mask-image:radial-gradient(ellipse 90% 80% at 50% 25%, #000 35%, transparent 100%);
+}
+
+header.nav{
+  background:color-mix(in srgb, var(--surface) 80%, transparent);
+  border-bottom:1px solid color-mix(in srgb, var(--line) 85%, transparent);
+}
+header.nav.scrolled{
+  background:color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow:0 8px 30px -10px rgba(15, 23, 42, 0.08);
+  border-bottom-color:color-mix(in srgb, var(--accent) 18%, var(--line));
+}
+
+@media (min-width: 769px){
+  .nav-links{
+    gap:6px;
+    background:color-mix(in srgb, var(--bg) 70%, var(--surface));
+    padding:4px 6px;
+    border-radius:999px;
+    border:1px solid var(--line);
+  }
+  .nav-links a{
+    padding:6px 12px;
+    min-height:36px;
+    border-radius:999px;
+    font-size:.88rem;
+    font-weight:600;
+    transition:color .22s ease, background-color .22s ease, transform .2s ease;
+  }
+  .nav-links a::after{
+    display:none;
+  }
+  .nav-links a:hover{
+    color:var(--accent);
+    background:color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+  .nav-links a.active-section{
+    color:var(--accent-text);
+    background:linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 75%, var(--accent-secondary, #0D9488)));
+    box-shadow:0 4px 12px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+}
+
+/* Tipografia e Destaques de Seção */
+h1{
+  font-weight:800;
+  letter-spacing:-.035em;
+}
+h2{
+  font-weight:800;
+  letter-spacing:-.025em;
+  position:relative;
+}
+h2 .heading-icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  border:1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  box-shadow:0 4px 12px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+/* Card Editorial para a seção Sobre Mim */
+.sobre-conteudo{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:4px solid var(--accent);
+  border-radius:18px;
+  padding:clamp(20px, 4vw, 28px);
+  box-shadow:var(--card-shadow);
+  margin-top:18px !important;
+}
+.sobre-conteudo strong{
+  color:var(--text);
+  font-weight:700;
+}
+
+/* Refinamento dos Cards de Projetos, Skills, Foco e Conquistas */
+.card, .focus-card, .award-card{
+  border-radius:18px;
+  border:1px solid var(--line);
+  box-shadow:0 1px 2px rgba(15, 23, 42, 0.03), 0 10px 26px -6px rgba(15, 23, 42, 0.05);
+}
+@media (hover: hover){
+  .card:hover, .focus-card:hover, .award-card:hover{
+    border-color:color-mix(in srgb, var(--accent) 45%, var(--line));
+    box-shadow:0 20px 38px -12px color-mix(in srgb, var(--accent) 16%, rgba(15, 23, 42, 0.08));
+  }
+}
+
+/* Abas de Filtro em Cápsula Elegante */
+.filter-tabs{
+  display:inline-flex;
+  background:color-mix(in srgb, var(--bg) 65%, var(--surface));
+  padding:5px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  gap:4px;
+  margin-bottom:26px;
+}
+.filter-btn{
+  border:none;
+  background:transparent;
+  padding:8px 18px;
+  border-radius:999px;
+}
+.filter-btn:hover{
+  color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 6%, transparent);
+}
+.filter-btn.active{
+  background:linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 80%, #1d4ed8));
+  color:var(--accent-text);
+  box-shadow:0 4px 14px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+/* Timeline de Formação em Cards Conectados */
+.timeline{
+  border-left:3px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  padding-left:26px;
+  gap:18px;
+}
+.timeline > div{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 22px;
+  box-shadow:var(--card-shadow);
+  transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.timeline > div:hover{
+  transform:translateX(4px);
+  border-color:color-mix(in srgb, var(--accent) 45%, var(--line));
+}
+.timeline > div::before{
+  left:-35px;
+  top:22px;
+  border:3px solid var(--bg);
+}
+
+/* Recados estilizados no Mural */
+#lista{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+.msg{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px 18px;
 }
 
 /* Badges do Hero (Disponibilidade & Localização) */
@@ -1718,7 +1871,6 @@ section:hover h2 .heading-icon{
 </style>
 </head>
 <body>
-<div class="scroll-progress-bar" id="scroll-progress" aria-hidden="true"></div>
 <canvas id="confetti-canvas"></canvas>
 
 <header class="nav">
@@ -2160,7 +2312,7 @@ section:hover h2 .heading-icon{
   <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
-<script src="/static/js/app.js?v=20261103-animations"></script>
+<script src="/static/js/app.js?v=20261103-ui"></script>
 <!-- Botão Voltar ao Topo Flutuante -->
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
