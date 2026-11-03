@@ -2325,6 +2325,82 @@ h2 .heading-icon{
   border-color:color-mix(in srgb, var(--accent) 32%, transparent);
   font-weight:700;
 }
+
+/* ===== Barra de Busca de Projetos e Chips Clicáveis ===== */
+.projects-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:24px;
+}
+.projects-toolbar .filter-tabs{
+  margin-bottom:0;
+}
+.project-search-box{
+  position:relative;
+  flex:1;
+  min-width:240px;
+  max-width:340px;
+  display:flex;
+  align-items:center;
+}
+.project-search-box .search-icon{
+  position:absolute;
+  left:13px;
+  color:var(--muted);
+  pointer-events:none;
+}
+#project-search{
+  width:100%;
+  padding:8px 34px 8px 36px;
+  border-radius:999px;
+  font-size:.86rem;
+  background:color-mix(in srgb, var(--bg) 65%, var(--surface));
+  border:1px solid var(--line);
+  color:var(--text);
+  min-height:40px;
+}
+#project-search:focus{
+  border-color:var(--accent);
+  background:var(--surface);
+}
+.search-clear{
+  position:absolute;
+  right:8px;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  border:none;
+  background:color-mix(in srgb, var(--text) 10%, transparent);
+  color:var(--text);
+  font-size:1rem;
+  line-height:1;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.search-clear:hover{
+  background:var(--accent);
+  color:var(--accent-text);
+}
+#projetos-grid .chip{
+  cursor:pointer;
+  user-select:none;
+}
+#projetos-grid .chip.active-tech{
+  background:var(--accent);
+  color:var(--accent-text);
+  border-color:var(--accent);
+}
+@media (max-width: 720px){
+  .project-search-box{
+    max-width:100%;
+    width:100%;
+  }
+}
 </style>
 </head>
 <body>
@@ -2408,10 +2484,10 @@ h2 .heading-icon{
     <div class="hero-grid">
       <div class="hero-main">
         <div class="hero-badges">
-          <span class="tag">Disponível para estágio e novos projetos</span>
-          <span class="tag tag-location">
+          <span class="tag" id="hero-tag-disp">Disponível para estágio e novos projetos</span>
+          <span class="tag tag-location" id="hero-tag-loc">
             <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Araquari / Joinville · SC
+            <span id="hero-loc-text">Araquari / Joinville · SC</span>
           </span>
         </div>
 
@@ -2423,7 +2499,7 @@ h2 .heading-icon{
           <span class="typing-wrap"><span class="typing-text" id="typewriter"></span><span class="typing-cursor">|</span></span>
         </div>
 
-        <p class="lead">Graduando em Sistemas de Informação pelo Instituto Federal Catarinense (IFC) e Técnico em Informática. Desenvolvo aplicações web completas, APIs RESTful seguras com Python e Django, interfaces em Vue e React e soluções com IA.</p>
+        <p class="lead" id="hero-lead-text">Graduando em Sistemas de Informação pelo Instituto Federal Catarinense (IFC) e Técnico em Informática. Desenvolvo aplicações web completas, APIs RESTful seguras com Python e Django, interfaces em Vue e React e soluções com IA.</p>
 
         <div class="btns">
           <a class="btn p" href="#projetos">
@@ -2560,12 +2636,19 @@ h2 .heading-icon{
       </span>
       Projetos em Destaque
     </h2>
-    <!-- Abas de Filtro por Categoria com Contador Dinâmico -->
-    <div class="filter-tabs" id="filter-tabs">
-      <button class="filter-btn active" data-filter="todos" type="button">Todos <span class="filter-count" data-count="todos">8</span></button>
-      <button class="filter-btn" data-filter="backend" type="button">Back-end <span class="filter-count" data-count="backend">2</span></button>
-      <button class="filter-btn" data-filter="frontend" type="button">Front-end <span class="filter-count" data-count="frontend">4</span></button>
-      <button class="filter-btn" data-filter="ia" type="button">IA &amp; Inovação <span class="filter-count" data-count="ia">2</span></button>
+    <!-- Barra de Ferramentas de Projetos: Abas de Filtro + Busca por Tecnologia -->
+    <div class="projects-toolbar">
+      <div class="filter-tabs" id="filter-tabs">
+        <button class="filter-btn active" data-filter="todos" type="button">Todos <span class="filter-count" data-count="todos">8</span></button>
+        <button class="filter-btn" data-filter="backend" type="button">Back-end <span class="filter-count" data-count="backend">2</span></button>
+        <button class="filter-btn" data-filter="frontend" type="button">Front-end <span class="filter-count" data-count="frontend">4</span></button>
+        <button class="filter-btn" data-filter="ia" type="button">IA &amp; Inovação <span class="filter-count" data-count="ia">2</span></button>
+      </div>
+      <div class="project-search-box">
+        <svg class="icon icon-sm search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="project-search" type="search" placeholder="Filtrar por stack ou nome (ex: Vue 3, React, Django)..." aria-label="Filtrar projetos por tecnologia ou nome">
+        <button id="project-search-clear" class="search-clear" type="button" hidden aria-label="Limpar busca" title="Limpar filtro">&times;</button>
+      </div>
     </div>
     <div class="grid" id="projetos-grid"></div>
   </section>
@@ -2578,7 +2661,7 @@ h2 .heading-icon{
       </span>
       Conquistas & Reconhecimentos
     </h2>
-    <div class="awards-grid">
+    <div class="awards-grid" id="conquistas-grid">
       <div class="award-card">
         <span class="award-badge">
           <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
@@ -2634,7 +2717,7 @@ h2 .heading-icon{
       </span>
       Formação & Trajetória
     </h2>
-    <div class="timeline">
+    <div class="timeline" id="formacao-timeline">
       <div>
         <small>Graduação (2026 – 2029 / Em andamento)</small>
         <h3>Bacharelado em Sistemas de Informação</h3>
@@ -2786,6 +2869,7 @@ h2 .heading-icon{
       <button type="button" class="modal-close" id="modal-close" aria-label="Fechar modal">&times;</button>
     </div>
     <h3 class="modal-title" id="modal-title">Título do Projeto</h3>
+    <div class="chips" id="modal-chips" style="margin:0 0 14px"></div>
     <div class="modal-section">
       <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> O Desafio</h4>
       <p id="modal-desafio"></p>
@@ -2813,7 +2897,7 @@ h2 .heading-icon{
   <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
-<script src="/static/js/app.js?v=20261103-v4"></script>
+<script src="/static/js/app.js?v=20261103-v5"></script>
 <!-- Botão Voltar ao Topo Flutuante -->
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>

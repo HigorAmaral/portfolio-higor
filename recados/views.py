@@ -17,7 +17,7 @@ from django.utils.html import escape, strip_tags
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_http_methods
 
-from .models import Habilidade, LinkContato, MetricaAcesso, Projeto, Recado
+from .models import ConfiguracaoPerfil, Conquista, Experiencia, Habilidade, LinkContato, MetricaAcesso, Projeto, Recado
 from .notificacoes import notificar_novo_recado
 from .openapi import OPENAPI_SPEC
 from .protecao import ConteudoInvalido, validar_recado
@@ -278,4 +278,37 @@ def conteudo(request):
         {"chave": l.chave, "titulo": l.titulo, "url": l.url}
         for l in LinkContato.objects.filter(visivel=True)
     ]
-    return JsonResponse({"habilidades": habilidades, "projetos": projetos, "links": links})
+    experiencias = [
+        {"periodo": e.periodo, "titulo": e.titulo, "descricao": e.descricao}
+        for e in Experiencia.objects.filter(visivel=True)
+    ]
+    conquistas = [
+        {
+            "selo": c.selo,
+            "titulo": c.titulo,
+            "descricao": c.descricao,
+            "link_url": c.link_url,
+            "link_texto": c.link_texto or "Acessar Credencial ↗",
+        }
+        for c in Conquista.objects.filter(visivel=True)
+    ]
+    cfg = ConfiguracaoPerfil.objects.first()
+    perfil = (
+        {
+            "tag_disponibilidade": cfg.tag_disponibilidade,
+            "localizacao": cfg.localizacao,
+            "subtitulo_hero": cfg.subtitulo_hero,
+        }
+        if cfg
+        else None
+    )
+    return JsonResponse(
+        {
+            "habilidades": habilidades,
+            "projetos": projetos,
+            "links": links,
+            "experiencias": experiencias,
+            "conquistas": conquistas,
+            "perfil": perfil,
+        }
+    )

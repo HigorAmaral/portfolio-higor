@@ -5,10 +5,10 @@
   --accent: #0D9488;
   --primary-fg: #fff;
   --body-fg: #0F172A;
-  --body-bg: #F8FAFC;
+  --body-bg: #E2E8F0;
   --body-quiet-color: #64748B;
   --body-loud-color: #0F172A;
-  --card-bg: #ffffff;
+  --card-bg: #EDF2F7;
   --header-color: #e2e8f0;
   --header-branding-color: #ffffff;
   --header-bg: #1e3a8a;
@@ -19,9 +19,9 @@
   --link-fg: #2563EB;
   --link-hover-color: #1d4ed8;
   --link-selected-fg: #1d4ed8;
-  --hairline-color: #E2E8F0;
+  --hairline-color: #CBD5E1;
   --border-color: #cbd5e1;
-  --darkened-bg: #f1f5f9;
+  --darkened-bg: #DCE4EE;
   --selected-bg: #eff6ff;
   --selected-row: #fef9c3;
   --button-fg: #fff;

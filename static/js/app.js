@@ -597,13 +597,24 @@ initReveal();
   var base = (document.querySelector('meta[name="api-base"]') || {}).content || '';
   var api = base.replace(/\/$/, '') + '/api/conteudo/';
   var currentFilter = 'todos';
+  var currentSearch = '';
   var allProjects = DEFAULTS.projetos;
+  var deepLinkOpened = false;
 
-  // Gerenciamento do Modal de Estudo de Caso
+  function slugifyProjeto(nome){
+    return String(nome || '')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  // Gerenciamento do Modal de Estudo de Caso + Deep Linking (?projeto=slug)
   var modalBackdrop = document.getElementById('modal-case');
   var modalClose = document.getElementById('modal-close');
   var modalTitle = document.getElementById('modal-title');
   var modalBadge = document.getElementById('modal-badge');
+  var modalChips = document.getElementById('modal-chips');
   var modalDesafio = document.getElementById('modal-desafio');
   var modalSolucao = document.getElementById('modal-solucao');
   var modalAprendizados = document.getElementById('modal-aprendizados');
@@ -613,6 +624,11 @@ initReveal();
     if(modalBackdrop){
       modalBackdrop.classList.remove('open');
       modalBackdrop.setAttribute('aria-hidden', 'true');
+      try {
+        if(window.location.search.indexOf('projeto=') !== -1 && window.history.replaceState){
+          window.history.replaceState(null, '', window.location.pathname + window.location.hash);
+        }
+      } catch(e){}
     }
   }
 
@@ -620,13 +636,43 @@ initReveal();
     var ec = p.estudo_caso;
     if(!ec || !modalBackdrop) return;
 
+    var slug = slugifyProjeto(p.nome);
+    try {
+      if(slug && window.history.replaceState){
+        window.history.replaceState(null, '', '?projeto=' + encodeURIComponent(slug) + '#projetos');
+      }
+    } catch(e){}
+
     modalTitle.textContent = ec.titulo || p.nome;
     modalBadge.textContent = removerEmojis(ec.badge || p.badge || 'Estudo de Caso');
     modalDesafio.textContent = ec.desafio || 'Desafio técnico em produção.';
     modalSolucao.textContent = ec.solucao || 'Solução estruturada com boas práticas de engenharia de software.';
     modalAprendizados.textContent = ec.aprendizados || 'Evolução técnica e trabalho colaborativo.';
 
+    if(modalChips){
+      modalChips.textContent = '';
+      (p.tecnologias || []).forEach(function(t){
+        modalChips.appendChild(el('span', 'chip', String(t)));
+      });
+    }
+
     modalFooter.innerHTML = '';
+
+    // Botão Copiar Link Direto do Estudo de Caso
+    if(slug){
+      var btnShare = el('button', 'btn s', '');
+      btnShare.type = 'button';
+      btnShare.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Copiar Link';
+      btnShare.addEventListener('click', function(){
+        var shareUrl = window.location.origin + '/?projeto=' + encodeURIComponent(slug) + '#projetos';
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(shareUrl).then(function(){
+            showToast('Link direto do projeto copiado!');
+          }).catch(function(){});
+        }
+      });
+      modalFooter.appendChild(btnShare);
+    }
     if(p.demo){
       var aD = el('a', 'btn p', '');
       aD.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Acessar Projeto';
@@ -749,7 +795,24 @@ initReveal();
 
     if(p.tecnologias && p.tecnologias.length){
       var ch = el('div', 'chips');
-      p.tecnologias.forEach(function(t){ ch.appendChild(el('span', 'chip', String(t))); });
+      p.tecnologias.forEach(function(t){
+        var isMatch = currentSearch && String(t).toLowerCase() === currentSearch.toLowerCase();
+        var chipEl = el('span', isMatch ? 'chip active-tech' : 'chip', String(t));
+        chipEl.title = 'Filtrar projetos com ' + String(t);
+        chipEl.addEventListener('click', function(){
+          var sInput = document.getElementById('project-search');
+          var sClear = document.getElementById('project-search-clear');
+          if(currentSearch.toLowerCase() === String(t).toLowerCase()){
+            currentSearch = '';
+          } else {
+            currentSearch = String(t);
+          }
+          if(sInput) sInput.value = currentSearch;
+          if(sClear) sClear.hidden = !currentSearch;
+          renderProjetos();
+        });
+        ch.appendChild(chipEl);
+      });
       c.appendChild(ch);
     }
 
@@ -917,14 +980,76 @@ initReveal();
     });
   }
 
+  function renderConquistas(lista){
+    var cg = document.getElementById('conquistas-grid');
+    if(!cg || !lista || !lista.length) return;
+    cg.textContent = '';
+    lista.forEach(function(item){
+      var card = el('div', 'award-card');
+      var badge = el('span', 'award-badge');
+      badge.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg> ';
+      badge.appendChild(document.createTextNode(String(item.selo || 'Destaque')));
+      card.appendChild(badge);
+      card.appendChild(el('h3', '', String(item.titulo || '')));
+      card.appendChild(el('p', '', String(item.descricao || '')));
+      var linkSeg = urlSegura(item.link_url);
+      if(linkSeg){
+        var wrap = el('div', '');
+        wrap.style.marginTop = '12px';
+        var a = el('a', 'btn s', '');
+        a.style.cssText = 'display:inline-flex;font-size:.82rem;padding:6px 12px;border-radius:8px';
+        a.href = linkSeg;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> ';
+        a.appendChild(document.createTextNode(String(item.link_texto || 'Acessar Credencial ↗')));
+        wrap.appendChild(a);
+        card.appendChild(wrap);
+      }
+      cg.appendChild(card);
+    });
+  }
+
+  function renderExperiencias(lista){
+    var tl = document.getElementById('formacao-timeline');
+    if(!tl || !lista || !lista.length) return;
+    tl.textContent = '';
+    lista.forEach(function(item){
+      var row = el('div', '');
+      row.appendChild(el('small', '', String(item.periodo || '')));
+      row.appendChild(el('h3', '', String(item.titulo || '')));
+      row.appendChild(el('p', '', String(item.descricao || '')));
+      tl.appendChild(row);
+    });
+  }
+
+  function renderPerfil(perfil){
+    if(!perfil) return;
+    var tDisp = document.getElementById('hero-tag-disp');
+    var tLoc = document.getElementById('hero-loc-text');
+    var tLead = document.getElementById('hero-lead-text');
+    if(tDisp && perfil.tag_disponibilidade) tDisp.textContent = String(perfil.tag_disponibilidade);
+    if(tLoc && perfil.localizacao) tLoc.textContent = String(perfil.localizacao);
+    if(tLead && perfil.subtitulo_hero) tLead.textContent = String(perfil.subtitulo_hero);
+  }
+
   function renderProjetos(){
     var pg = document.getElementById('projetos-grid');
     if(!pg) return;
     pg.classList.remove('filtering');
     pg.textContent = '';
+    var q = currentSearch.trim().toLowerCase();
     var filtrados = allProjects.filter(function(p){
-      if(currentFilter === 'todos') return true;
-      return detectCategoria(p) === currentFilter;
+      var matchCat = (currentFilter === 'todos') || (detectCategoria(p) === currentFilter);
+      if(!matchCat) return false;
+      if(!q) return true;
+      var alvo = [
+        p.nome || '',
+        p.descricao || '',
+        p.badge || '',
+        (p.tecnologias || []).join(' ')
+      ].join(' ').toLowerCase();
+      return alvo.indexOf(q) !== -1;
     });
 
     var frag = document.createDocumentFragment();
@@ -936,9 +1061,25 @@ initReveal();
     pg.appendChild(frag);
 
     if(!filtrados.length){
-      pg.appendChild(el('p', 'muted', 'Nenhum projeto encontrado nesta categoria.'));
+      pg.appendChild(el('p', 'muted', 'Nenhum projeto encontrado para este filtro.'));
     }
     initTilt();
+  }
+
+  function verificarDeepLinkProjeto(){
+    if(deepLinkOpened) return;
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var slugAlvo = params.get('projeto');
+      if(!slugAlvo) return;
+      var encontrado = allProjects.find(function(p){
+        return slugifyProjeto(p.nome) === slugAlvo.toLowerCase();
+      });
+      if(encontrado){
+        deepLinkOpened = true;
+        abrirModalEstudo(encontrado);
+      }
+    } catch(e){}
   }
 
   function render(d){
@@ -966,11 +1107,21 @@ initReveal();
         return merged;
       });
     }
+    if(d.conquistas && d.conquistas.length){
+      renderConquistas(d.conquistas);
+    }
+    if(d.experiencias && d.experiencias.length){
+      renderExperiencias(d.experiencias);
+    }
+    if(d.perfil){
+      renderPerfil(d.perfil);
+    }
     atualizarContadoresFiltro();
     if(d.links && d.links.length){
       aplicarLinksContato(d.links);
     }
     renderProjetos();
+    verificarDeepLinkProjeto();
     initTilt();
     initReveal();
     window.dispatchEvent(new Event('resize'));
@@ -993,6 +1144,27 @@ initReveal();
       }
     });
   });
+
+  var searchInput = document.getElementById('project-search');
+  var searchClear = document.getElementById('project-search-clear');
+  if(searchInput){
+    searchInput.addEventListener('input', function(){
+      currentSearch = searchInput.value || '';
+      if(searchClear) searchClear.hidden = !currentSearch;
+      renderProjetos();
+    });
+  }
+  if(searchClear){
+    searchClear.addEventListener('click', function(){
+      currentSearch = '';
+      if(searchInput){
+        searchInput.value = '';
+        searchInput.focus();
+      }
+      searchClear.hidden = true;
+      renderProjetos();
+    });
+  }
 
   render(DEFAULTS);
   fetch(api).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(render).catch(function(){});

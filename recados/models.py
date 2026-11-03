@@ -170,3 +170,99 @@ class LinkContato(models.Model):
     def __str__(self):
         return f"{self.titulo} ({self.chave})"
 
+
+class Experiencia(models.Model):
+    """Itens da linha do tempo de Formação & Trajetória gerenciáveis pelo Admin."""
+
+    periodo = models.CharField(
+        max_length=80,
+        verbose_name="Período / Tipo",
+        help_text="Ex.: Graduação (2026 – 2029 / Em andamento)",
+    )
+    titulo = models.CharField(
+        max_length=120,
+        verbose_name="Curso ou Cargo",
+        help_text="Ex.: Bacharelado em Sistemas de Informação",
+    )
+    descricao = models.TextField(
+        verbose_name="Instituição / Descrição",
+        help_text="Ex.: Instituto Federal Catarinense — Câmpus Araquari",
+    )
+    ordem = models.PositiveSmallIntegerField(default=0, help_text="Menor número aparece primeiro.")
+    visivel = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["ordem", "id"]
+        verbose_name = "formação / experiência"
+        verbose_name_plural = "formações & experiências"
+
+    def __str__(self):
+        return f"{self.titulo} ({self.periodo})"
+
+
+class Conquista(models.Model):
+    """Cards da seção Conquistas & Reconhecimentos gerenciáveis pelo Admin."""
+
+    selo = models.CharField(
+        max_length=80,
+        verbose_name="Selo superior",
+        help_text="Ex.: Maratona 24 Horas · Destaque",
+    )
+    titulo = models.CharField(
+        max_length=120,
+        verbose_name="Título da conquista",
+        help_text="Ex.: Hackathon Fábrica de Software 2k26",
+    )
+    descricao = models.TextField(verbose_name="Descrição detalhada")
+    link_url = models.CharField(
+        max_length=300,
+        blank=True,
+        verbose_name="Link externo ou PDF (opcional)",
+        help_text="Ex.: https://... ou /static/arquivo.pdf",
+    )
+    link_texto = models.CharField(
+        max_length=80,
+        blank=True,
+        default="Acessar Credencial ↗",
+        verbose_name="Texto do botão de link",
+    )
+    ordem = models.PositiveSmallIntegerField(default=0, help_text="Menor número aparece primeiro.")
+    visivel = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["ordem", "id"]
+        verbose_name = "conquista / certificado"
+        verbose_name_plural = "conquistas & certificados"
+
+    def __str__(self):
+        return self.titulo
+
+
+class ConfiguracaoPerfil(models.Model):
+    """Configurações rápidas de disponibilidade e textos de destaque do Hero."""
+
+    tag_disponibilidade = models.CharField(
+        max_length=100,
+        default="Disponível para estágio e novos projetos",
+        verbose_name="Selo de disponibilidade (Hero)",
+    )
+    localizacao = models.CharField(
+        max_length=100,
+        default="Araquari / Joinville · SC",
+        verbose_name="Selo de localização (Hero)",
+    )
+    subtitulo_hero = models.TextField(
+        default=(
+            "Graduando em Sistemas de Informação pelo Instituto Federal Catarinense (IFC) e Técnico em Informática. "
+            "Desenvolvo aplicações web completas, APIs RESTful seguras com Python e Django, interfaces em Vue e React e soluções com IA."
+        ),
+        verbose_name="Texto de apresentação (Hero)",
+    )
+    atualizado_em = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "configuração do perfil (Hero)"
+        verbose_name_plural = "configurações do perfil (Hero)"
+
+    def __str__(self):
+        return f"Perfil Hero ({self.tag_disponibilidade})"

@@ -6,7 +6,7 @@ from django.core.cache import cache
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from .models import LinkContato, MetricaAcesso, Projeto, Recado
+from .models import ConfiguracaoPerfil, Conquista, Experiencia, LinkContato, MetricaAcesso, Projeto, Recado
 from .notificacoes import notificar_novo_recado
 
 
@@ -481,6 +481,55 @@ class MelhoriasPortfolioTestCase(TestCase):
         content_text = resp.content.decode("utf-8")
         self.assertIn("Data,Caminho,Visualizações,Downloads de Currículo", content_text)
         self.assertIn("/", content_text)
+
+
+
+    def test_novos_modelos_admin_e_acoes_projeto(self):
+        """Verifica se Experiencia, Conquista e ConfiguracaoPerfil são expostos na API e se as ações em lote de ProjetoAdmin funcionam."""
+        from django.contrib.admin import site
+        from .admin import ProjetoAdmin
+        from django.test import RequestFactory
+        from django.contrib.auth.models import User
+        from unittest.mock import MagicMock
+
+        Experiencia.objects.create(
+            periodo="2026",
+            titulo="Estágio Full Stack",
+            descricao="Atuação com Python e Vue",
+            ordem=1,
+            visivel=True,
+        )
+        Conquista.objects.create(
+            selo="Certificado",
+            titulo="Curso Avançado Django",
+            descricao="Arquitetura REST",
+            link_url="https://example.com/cert",
+            ordem=1,
+            visivel=True,
+        )
+        resp = self.client.get(reverse("conteudo"), secure=True)
+        self.assertEqual(resp.status_code, 200)
+        dados = resp.json()
+        self.assertIn("experiencias", dados)
+        self.assertIn("conquistas", dados)
+        self.assertIn("perfil", dados)
+        self.assertTrue(any(e["titulo"] == "Estágio Full Stack" for e in dados["experiencias"]))
+        self.assertTrue(any(c["titulo"] == "Curso Avançado Django" for c in dados["conquistas"]))
+
+        # Testa ações em lote de ProjetoAdmin (mover para IA e duplicar)
+        p = Projeto.objects.create(nome="Proj Lote", categoria="backend", visivel=True)
+        pa = ProjetoAdmin(Projeto, site)
+        rf = RequestFactory()
+        req = rf.get("/admin/recados/projeto/")
+        req.user = User.objects.create_superuser("adm_proj", "ap@test.com", "pass123")
+        setattr(req, "_messages", MagicMock())
+
+        pa.mover_para_ia(req, Projeto.objects.filter(id=p.id))
+        p.refresh_from_db()
+        self.assertEqual(p.categoria, "ia")
+
+        pa.duplicar_projeto(req, Projeto.objects.filter(id=p.id))
+        self.assertTrue(Projeto.objects.filter(nome="Proj Lote (Cópia)", visivel=False).exists())
 
 
 class ProtecoesAvancadasTestCase(TestCase):

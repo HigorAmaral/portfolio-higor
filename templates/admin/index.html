@@ -2,29 +2,96 @@
 {% load i18n static %}
 
 {% block content %}
-<div class="kpi-dashboard-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:16px; margin-bottom:28px;">
-  <div style="background:var(--card-bg, #fff); border:1px solid var(--border-color, #d6dbec); border-radius:12px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
-    <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #5b6379); margin-bottom:6px; font-weight:600;">Visitas Totais</div>
-    <div style="font-size:1.85rem; font-weight:700; color:var(--primary, #2563EB); line-height:1.1;">{{ kpi_views|default:"0" }}</div>
-    <div style="font-size:0.8rem; color:var(--body-quiet-color, #5b6379); margin-top:4px;">Acessos únicos agregados</div>
+<!-- Barra de Atalhos Rápidos do Portfólio -->
+<div class="admin-quick-actions" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px; padding:14px 18px; background:var(--card-bg, #EDF2F7); border:1px solid var(--hairline-color, #CBD5E1); border-radius:14px; align-items:center; justify-content:space-between;">
+  <div style="display:flex; align-items:center; gap:8px; font-weight:700; font-size:0.9rem; color:var(--body-loud-color, #1E293B);">
+    <span>Atalhos Rápidos:</span>
+  </div>
+  <div style="display:flex; flex-wrap:wrap; gap:8px;">
+    <a href="/admin/recados/projeto/add/" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:var(--primary, #1D4ED8); color:#fff; text-decoration:none;">+ Novo Projeto</a>
+    <a href="/admin/recados/conquista/add/" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#0F766E; color:#fff; text-decoration:none;">+ Nova Conquista</a>
+    <a href="/admin/recados/experiencia/add/" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#4338ca; color:#fff; text-decoration:none;">+ Nova Formação/Exp</a>
+    <a href="/admin/recados/recado/?respondido=pendente" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#d97706; color:#fff; text-decoration:none;">Recados Pendentes ({{ kpi_pendentes|default:"0" }})</a>
+    <a href="/api/docs/" target="_blank" rel="noopener" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#334155; color:#fff; text-decoration:none;">Swagger API ↗</a>
+    <a href="/" target="_blank" rel="noopener" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#059669; color:#fff; text-decoration:none;">Abrir Site ↗</a>
+  </div>
+</div>
+
+<!-- Cards de KPIs -->
+<div class="kpi-dashboard-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(185px, 1fr)); gap:16px; margin-bottom:24px;">
+  <div style="background:var(--card-bg, #EDF2F7); border:1px solid var(--border-color, #CBD5E1); border-radius:14px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
+    <div style="font-size:0.76rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #475569); margin-bottom:6px; font-weight:700;">Visitas Totais</div>
+    <div style="font-size:1.9rem; font-weight:800; color:var(--primary, #1D4ED8); line-height:1.1;">{{ kpi_views|default:"0" }}</div>
+    <div style="font-size:0.8rem; color:var(--body-quiet-color, #475569); margin-top:6px;">Acessos únicos (LGPD) · <a href="/admin/recados/metricaacesso/" style="font-weight:600;">Ver histórico</a></div>
   </div>
 
-  <div style="background:var(--card-bg, #fff); border:1px solid var(--border-color, #d6dbec); border-radius:12px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
-    <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #5b6379); margin-bottom:6px; font-weight:600;">Downloads de CV</div>
-    <div style="font-size:1.85rem; font-weight:700; color:#059669; line-height:1.1;">{{ kpi_downloads|default:"0" }}</div>
-    <div style="font-size:0.8rem; color:var(--body-quiet-color, #5b6379); margin-top:4px;">Currículos baixados</div>
+  <div style="background:var(--card-bg, #EDF2F7); border:1px solid var(--border-color, #CBD5E1); border-radius:14px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
+    <div style="font-size:0.76rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #475569); margin-bottom:6px; font-weight:700;">Downloads de CV</div>
+    <div style="font-size:1.9rem; font-weight:800; color:#059669; line-height:1.1;">{{ kpi_downloads|default:"0" }}</div>
+    <div style="font-size:0.8rem; color:var(--body-quiet-color, #475569); margin-top:6px;">Currículos em PDF baixados</div>
   </div>
 
-  <div style="background:var(--card-bg, #fff); border:1px solid var(--border-color, #d6dbec); border-radius:12px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
-    <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #5b6379); margin-bottom:6px; font-weight:600;">Recados no Mural</div>
-    <div style="font-size:1.85rem; font-weight:700; color:#d97706; line-height:1.1;">{{ kpi_recados|default:"0" }}</div>
-    <div style="font-size:0.8rem; color:var(--body-quiet-color, #5b6379); margin-top:4px;">{{ kpi_respostas|default:"0" }} respondido(s) · <a href="/admin/recados/recado/?respondido=pendente" style="color:#d97706; font-weight:600; text-decoration:underline;">{{ kpi_pendentes|default:"0" }} pendente(s)</a></div>
+  <div style="background:var(--card-bg, #EDF2F7); border:1px solid var(--border-color, #CBD5E1); border-radius:14px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
+    <div style="font-size:0.76rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #475569); margin-bottom:6px; font-weight:700;">Recados no Mural</div>
+    <div style="font-size:1.9rem; font-weight:800; color:#d97706; line-height:1.1;">{{ kpi_recados|default:"0" }}</div>
+    <div style="font-size:0.8rem; color:var(--body-quiet-color, #475569); margin-top:6px;">{{ kpi_respostas|default:"0" }} respondido(s) · <a href="/admin/recados/recado/?respondido=pendente" style="color:#d97706; font-weight:700; text-decoration:underline;">{{ kpi_pendentes|default:"0" }} pendente(s)</a></div>
   </div>
 
-  <div style="background:var(--card-bg, #fff); border:1px solid var(--border-color, #d6dbec); border-radius:12px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
-    <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #5b6379); margin-bottom:6px; font-weight:600;">Projetos Ativos</div>
-    <div style="font-size:1.85rem; font-weight:700; color:#7c3aed; line-height:1.1;">{{ kpi_projetos|default:"0" }}</div>
-    <div style="font-size:0.8rem; color:var(--body-quiet-color, #5b6379); margin-top:4px;">Com estudo de caso</div>
+  <div style="background:var(--card-bg, #EDF2F7); border:1px solid var(--border-color, #CBD5E1); border-radius:14px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
+    <div style="font-size:0.76rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #475569); margin-bottom:6px; font-weight:700;">Projetos Publicados</div>
+    <div style="font-size:1.9rem; font-weight:800; color:#7c3aed; line-height:1.1;">{{ kpi_projetos|default:"0" }}</div>
+    <div style="font-size:0.78rem; color:var(--body-quiet-color, #475569); margin-top:6px;">Back: <b>{{ kpi_cat_backend|default:"0" }}</b> · Front: <b>{{ kpi_cat_frontend|default:"0" }}</b> · IA: <b>{{ kpi_cat_ia|default:"0" }}</b></div>
+  </div>
+</div>
+
+<!-- Painel Gráfico de Acessos Recentes + Últimos Recados -->
+<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px; margin-bottom:28px;">
+  <div style="background:var(--card-bg, #EDF2F7); border:1px solid var(--border-color, #CBD5E1); border-radius:14px; padding:18px 20px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+      <strong style="font-size:0.9rem; color:var(--body-loud-color, #1E293B);">Evolução de Acessos &amp; Downloads (Últimos Dias)</strong>
+      <span style="font-size:0.75rem; color:var(--body-quiet-color, #475569);">Azul: Visitas · Verde: CV</span>
+    </div>
+    {% if kpi_chart_days %}
+      <div style="display:flex; align-items:flex-end; gap:12px; height:110px; padding-top:12px; border-bottom:1px solid var(--hairline-color, #CBD5E1);">
+        {% for d in kpi_chart_days %}
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; height:100%; justify-content:flex-end; gap:4px;">
+            <div style="font-size:0.7rem; font-weight:700; color:var(--body-quiet-color);">{{ d.views }}</div>
+            <div style="display:flex; align-items:flex-end; gap:3px; width:100%; justify-content:center; height:75px;">
+              <div title="{{ d.views }} visita(s)" style="width:12px; height:{{ d.pct_views }}%; background:var(--primary, #1D4ED8); border-radius:4px 4px 0 0;"></div>
+              {% if d.downloads %}
+                <div title="{{ d.downloads }} download(s) de CV" style="width:10px; height:{{ d.pct_downloads }}%; background:#059669; border-radius:4px 4px 0 0;"></div>
+              {% endif %}
+            </div>
+            <div style="font-size:0.7rem; color:var(--body-quiet-color); padding-top:4px;">{{ d.data_curta }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="color:var(--body-quiet-color); font-size:0.85rem; margin:16px 0;">Ainda não há métricas diárias registradas.</p>
+    {% endif %}
+  </div>
+
+  <div style="background:var(--card-bg, #EDF2F7); border:1px solid var(--border-color, #CBD5E1); border-radius:14px; padding:18px 20px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <strong style="font-size:0.9rem; color:var(--body-loud-color, #1E293B);">Últimos Recados Recebidos</strong>
+      <a href="/admin/recados/recado/" style="font-size:0.78rem; font-weight:600;">Ver todos →</a>
+    </div>
+    {% if ultimos_recados %}
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        {% for r in ultimos_recados %}
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; background:var(--body-bg, #E2E8F0); font-size:0.82rem;">
+            <div style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+              <strong>{{ r.nome }}:</strong> {{ r.texto|truncatechars:48 }}
+            </div>
+            <a href="/admin/recados/recado/{{ r.id }}/change/" style="flex-shrink:0; font-weight:700; font-size:0.75rem; color:{% if r.resposta %}#059669{% else %}#d97706{% endif %};">
+              {% if r.resposta %}Respondido{% else %}Responder{% endif %}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="color:var(--body-quiet-color); font-size:0.85rem; margin:16px 0;">Nenhum recado enviado ainda.</p>
+    {% endif %}
   </div>
 </div>
 
