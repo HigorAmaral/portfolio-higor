@@ -2418,7 +2418,7 @@ h2 .heading-icon{
   }
 }
 
-/* ===== Fundo Animado Interativo: Rede Neural / Constelação + Spotlight + Orbes Aurora (60fps) ===== */
+/* ===== Fundo Animado Otimizado: Blueprint IDE & Aurora (60/120fps GPU) ===== */
 body::before{
   display:none !important;
 }
@@ -2432,6 +2432,7 @@ main.wrap, footer{
   z-index:0;
   pointer-events:none;
   overflow:hidden;
+  contain:strict;
 }
 .bg-grid{
   position:absolute;
@@ -2456,78 +2457,36 @@ main.wrap, footer{
 .bg-orb{
   position:absolute;
   border-radius:50%;
-  filter:blur(68px);
-  opacity:.62;
+  filter:blur(60px);
+  opacity:.60;
   will-change:transform;
 }
 :root[data-theme="light"] .bg-orb{
-  opacity:.48;
+  opacity:.45;
 }
 .bg-orb.orb-1{
-  width:clamp(300px, 44vw, 580px);
-  height:clamp(300px, 44vw, 580px);
+  width:clamp(300px, 44vw, 560px);
+  height:clamp(300px, 44vw, 560px);
   top:-10%;
   right:-6%;
   background:radial-gradient(circle, color-mix(in srgb, var(--accent) 62%, transparent) 0%, transparent 70%);
   animation:auroraOrb1 18s ease-in-out infinite alternate;
 }
 .bg-orb.orb-2{
-  width:clamp(280px, 40vw, 520px);
-  height:clamp(280px, 40vw, 520px);
+  width:clamp(280px, 40vw, 500px);
+  height:clamp(280px, 40vw, 500px);
   top:28%;
   left:-8%;
   background:radial-gradient(circle, color-mix(in srgb, var(--accent-secondary, #0F766E) 58%, transparent) 0%, transparent 70%);
   animation:auroraOrb2 22s ease-in-out infinite alternate;
 }
 .bg-orb.orb-3{
-  width:clamp(260px, 36vw, 480px);
-  height:clamp(260px, 36vw, 480px);
+  width:clamp(260px, 36vw, 460px);
+  height:clamp(260px, 36vw, 460px);
   bottom:-12%;
   right:16%;
   background:radial-gradient(circle, color-mix(in srgb, var(--accent) 50%, var(--accent-secondary, #0F766E)) 0%, transparent 72%);
   animation:auroraOrb3 26s ease-in-out infinite alternate;
-}
-.bg-beam{
-  position:absolute;
-  border-radius:999px;
-  pointer-events:none;
-  will-change:transform, opacity;
-}
-.bg-beam.beam-h1{
-  top:22%;
-  left:0;
-  width:240px;
-  height:2px;
-  background:linear-gradient(90deg, transparent, var(--accent), var(--accent-secondary, #14B8A6), transparent);
-  box-shadow:0 0 14px color-mix(in srgb, var(--accent) 70%, transparent);
-  animation:beamHorizontal 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-.bg-beam.beam-h2{
-  top:68%;
-  left:0;
-  width:200px;
-  height:2px;
-  background:linear-gradient(90deg, transparent, var(--accent-secondary, #14B8A6), var(--accent), transparent);
-  box-shadow:0 0 12px color-mix(in srgb, var(--accent-secondary, #14B8A6) 65%, transparent);
-  animation:beamHorizontalRev 14s cubic-bezier(0.4, 0, 0.2, 1) infinite 2.5s;
-}
-.bg-beam.beam-v1{
-  top:0;
-  left:18%;
-  width:2px;
-  height:200px;
-  background:linear-gradient(180deg, transparent, var(--accent), transparent);
-  box-shadow:0 0 12px color-mix(in srgb, var(--accent) 65%, transparent);
-  animation:beamVertical 12s cubic-bezier(0.4, 0, 0.2, 1) infinite 1s;
-}
-.bg-beam.beam-v2{
-  top:0;
-  right:22%;
-  width:2px;
-  height:220px;
-  background:linear-gradient(180deg, transparent, var(--accent-secondary, #14B8A6), transparent);
-  box-shadow:0 0 12px color-mix(in srgb, var(--accent-secondary, #14B8A6) 65%, transparent);
-  animation:beamVertical 16s cubic-bezier(0.4, 0, 0.2, 1) infinite 5s;
 }
 @keyframes gridDrift{
   0%{ transform:translate3d(0, 0, 0); }
@@ -2535,36 +2494,18 @@ main.wrap, footer{
 }
 @keyframes auroraOrb1{
   0%{ transform:translate3d(0, 0, 0) scale(1); }
-  50%{ transform:translate3d(-7vw, 6vh, 0) scale(1.1); }
-  100%{ transform:translate3d(-3vw, 12vh, 0) scale(0.95); }
+  50%{ transform:translate3d(-6vw, 5vh, 0) scale(1.08); }
+  100%{ transform:translate3d(-3vw, 10vh, 0) scale(0.95); }
 }
 @keyframes auroraOrb2{
   0%{ transform:translate3d(0, 0, 0) scale(1); }
-  50%{ transform:translate3d(8vw, -6vh, 0) scale(1.12); }
-  100%{ transform:translate3d(4vw, 9vh, 0) scale(0.94); }
+  50%{ transform:translate3d(7vw, -5vh, 0) scale(1.1); }
+  100%{ transform:translate3d(4vw, 8vh, 0) scale(0.94); }
 }
 @keyframes auroraOrb3{
   0%{ transform:translate3d(0, 0, 0) scale(1); }
-  50%{ transform:translate3d(-8vw, -6vh, 0) scale(1.08); }
-  100%{ transform:translate3d(6vw, -9vh, 0) scale(0.96); }
-}
-@keyframes beamHorizontal{
-  0%{ transform:translate3d(-260px, 0, 0); opacity:0; }
-  15%{ opacity:.85; }
-  85%{ opacity:.85; }
-  100%{ transform:translate3d(110vw, 0, 0); opacity:0; }
-}
-@keyframes beamHorizontalRev{
-  0%{ transform:translate3d(110vw, 0, 0); opacity:0; }
-  15%{ opacity:.78; }
-  85%{ opacity:.78; }
-  100%{ transform:translate3d(-260px, 0, 0); opacity:0; }
-}
-@keyframes beamVertical{
-  0%{ transform:translate3d(0, -240px, 0); opacity:0; }
-  15%{ opacity:.8; }
-  85%{ opacity:.8; }
-  100%{ transform:translate3d(0, 110vh, 0); opacity:0; }
+  50%{ transform:translate3d(-7vw, -5vh, 0) scale(1.06); }
+  100%{ transform:translate3d(5vw, -8vh, 0) scale(0.96); }
 }
 #bg-interactive-canvas{
   position:absolute;
@@ -2573,6 +2514,27 @@ main.wrap, footer{
   height:100%;
   display:block;
   pointer-events:none;
+  contain:strict;
+}
+
+/* Otimização Ultra-Performance para Dispositivos Móveis (Zero Travamentos) */
+@media (max-width: 768px){
+  .bg-grid{
+    animation:none !important;
+    will-change:auto !important;
+  }
+  .bg-orb{
+    filter:none !important;
+    animation:none !important;
+    will-change:auto !important;
+    opacity:.35 !important;
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  .bg-grid, .bg-orb{
+    animation:none !important;
+    will-change:auto !important;
+  }
 }
 </style>
 </head>
@@ -3078,7 +3040,7 @@ main.wrap, footer{
   <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
-<script src="/static/js/app.js?v=20261103-v13"></script>
+<script src="/static/js/app.js?v=20261103-v14"></script>
 <!-- Botão Voltar ao Topo Flutuante -->
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>

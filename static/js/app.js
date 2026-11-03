@@ -1331,7 +1331,7 @@ initReveal();
 
   updateScrollEffects();
 })();
-// Fundo Animado Autônomo: Blueprint de Código Vivo (Live Typing IDE + Caderno BSI, sem interação com o mouse)
+// Fundo Animado Autônomo: Blueprint de Código Vivo (Otimizado para Mobile e Desktop 60/120fps)
 (function(){
   var canvas = document.getElementById('bg-interactive-canvas');
   if(!canvas) return;
@@ -1339,7 +1339,6 @@ initReveal();
   var ctx = canvas.getContext('2d');
   if(!ctx) return;
 
-  // Blocos de código e estudo que são digitados ao vivo no fundo (como terminais/cadernos em execução)
   var SNIPPETS = [
     {
       title: 'views.py · Django REST',
@@ -1406,6 +1405,9 @@ initReveal();
   var STREAM_CHARS = ['0', '1', '{', '}', ';', 'λ', '∑', '/', '*', '=>', '()', '[]'];
 
   var width = 0, height = 0, dpr = 1;
+  var isMobile = false;
+  var isScrolling = false;
+  var scrollTimer = null;
   var terminals = [];
   var streams = [];
   var rafId = null;
@@ -1443,12 +1445,23 @@ initReveal();
     return palette.code;
   }
 
+  // Detecta rolagem no celular para pausar o canvas e garantir rolagem a 60/120 FPS cravados
+  window.addEventListener('scroll', function(){
+    if(!isMobile) return;
+    isScrolling = true;
+    if(scrollTimer) clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function(){
+      isScrolling = false;
+    }, 100);
+  }, { passive: true });
+
   function layoutWorkspace(){
     terminals = [];
-    var slots = width < 760 ? [
-      { rx: 0.05, ry: 0.12, snipIdx: 0 },
-      { rx: 0.46, ry: 0.46, snipIdx: 2 },
-      { rx: 0.06, ry: 0.76, snipIdx: 1 }
+    isMobile = width < 768;
+
+    // No celular: apenas 1 card compacto posicionado no canto, sem poluir a CPU
+    var slots = isMobile ? [
+      { rx: 0.04, ry: 0.14, snipIdx: 0 }
     ] : [
       { rx: 0.03, ry: 0.13, snipIdx: 0 },
       { rx: 0.73, ry: 0.15, snipIdx: 2 },
@@ -1477,7 +1490,7 @@ initReveal();
     }
 
     streams = [];
-    var cols = Math.max(6, Math.floor(width / 140));
+    var cols = isMobile ? 3 : Math.max(6, Math.floor(width / 140));
     for(var c = 0; c < cols; c++){
       var colX = Math.round(((c + 0.5) * (width / cols)) / 56) * 56;
       streams.push({
@@ -1487,8 +1500,7 @@ initReveal();
         chars: [
           STREAM_CHARS[(c * 3) % STREAM_CHARS.length],
           STREAM_CHARS[(c * 3 + 1) % STREAM_CHARS.length],
-          STREAM_CHARS[(c * 3 + 2) % STREAM_CHARS.length],
-          STREAM_CHARS[(c * 3 + 3) % STREAM_CHARS.length]
+          STREAM_CHARS[(c * 3 + 2) % STREAM_CHARS.length]
         ],
         cat: c % 3 === 0 ? 'code' : (c % 3 === 1 ? 'db' : 'study')
       });
@@ -1498,7 +1510,9 @@ initReveal();
   function resize(){
     width = window.innerWidth || document.documentElement.clientWidth;
     height = window.innerHeight || document.documentElement.clientHeight;
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    isMobile = width < 768;
+    // No celular, limita DPR a 1 para reduzir a carga de pixels em até 4x/9x
+    dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.floor(width * dpr);
     canvas.height = Math.floor(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1527,7 +1541,21 @@ initReveal();
       rafId = null;
       return;
     }
+
     tick += 1;
+
+    // No celular, se estiver rolando a tela, economiza 100% da GPU para manter 60/120 FPS
+    if(isMobile && isScrolling){
+      rafId = window.requestAnimationFrame(step);
+      return;
+    }
+
+    // No celular, atualiza a cada 2 frames para reduzir pela metade o uso de processamento
+    if(isMobile && tick % 2 !== 0){
+      rafId = window.requestAnimationFrame(step);
+      return;
+    }
+
     ctx.clearRect(0, 0, width, height);
 
     // 1. Fluxo Vertical de Sintaxe / Dados (Data Streams)
@@ -1536,12 +1564,12 @@ initReveal();
     for(var s = 0; s < streams.length; s++){
       var st = streams[s];
       st.y += st.vy;
-      if(st.y > height + 90) st.y = -90;
+      if(st.y > height + 80) st.y = -80;
 
       var sRgb = colorForCat(st.cat);
       for(var ch = 0; ch < st.chars.length; ch++){
         var cy = st.y - ch * 20;
-        var charAlpha = palette.streamAlpha * (1 - ch * 0.22);
+        var charAlpha = palette.streamAlpha * (1 - ch * 0.25);
         ctx.fillStyle = 'rgba(' + sRgb + ',' + Math.max(0.04, charAlpha).toFixed(3) + ')';
         ctx.fillText(st.chars[ch], st.x, cy);
       }
@@ -1572,8 +1600,8 @@ initReveal();
         }
       }
 
-      var cardW = 248;
-      var cardH = 98;
+      var cardW = isMobile ? Math.min(230, width - 32) : 248;
+      var cardH = 96;
       var vis = palette.baseAlpha;
       var rgb = colorForCat(t.cat);
 
