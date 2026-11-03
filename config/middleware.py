@@ -91,13 +91,13 @@ class AdminBruteForceMiddleware:
         if not url_login or request.path != url_login or request.method != "POST":
             return self.get_response(request)
 
-        chave = f"admin-login-falhas-{ip_cliente(request)}"
+        chave = f"admin-login-falhas-v2-{ip_cliente(request)}"
         if (cache.get(chave) or 0) >= self.MAX_TENTATIVAS:
             from recados.erros import resposta_429
 
             return resposta_429(
                 request,
-                "Foram feitas muitas tentativas de login. Por segurança, aguarde 15 minutos antes de tentar novamente.",
+                "Acesso temporariamente bloqueado após muitas tentativas de login. Por segurança, aguarde 15 minutos antes de tentar novamente.",
             )
 
         response = self.get_response(request)
@@ -121,7 +121,9 @@ class BloqueioScannerMiddleware:
 
     - Rotas típicas de exploração e ferramentas de ataque conhecidas recebem 404 seco (sem
       renderizar template nem tocar no banco) e somam "strikes" para o IP.
-    - Ao atingir MAX_STRIKES, o IP fica banido temporariamente e recebe 403 em tudo.
+    - Ao atingir MAX_STRIKES, o IP fica banido temporariamente e recebe a página 403 estilizada.
+    - Quando ADMIN_URL é customizado (ex: painel-higor), acessar /admin retorna a página 404
+      estilizada sem banir o IP, e acessar a rota real do admin libera eventuais bloqueios de scanner.
     - O IP é usado só em memória (cache) e nunca é gravado no banco (LGPD).
     """
 
@@ -153,10 +155,25 @@ class BloqueioScannerMiddleware:
 
     def __call__(self, request):
         ip = ip_cliente(request)
-        chave_ban = f"scanner-ban-{ip}"
+        caminho = request.path
+        admin_slug = os.environ.get("ADMIN_URL", "painel-higor").strip("/") or "painel-higor"
+
+        chave_ban = f"scanner-ban-v2-{ip}"
+        chave_strikes = f"scanner-strikes-v2-{ip}"
+
+        # Se o administrador acessou a URL secreta do painel (ex.: /painel-higor),
+        # garante que nenhum falso-positivo de scanner ou tentativa anterior bloqueie o painel.
+        if caminho == f"/{admin_slug}" or caminho.startswith(f"/{admin_slug}/"):
+            cache.delete(chave_ban)
+            cache.delete(chave_strikes)
+            cache.delete(f"scanner-ban-{ip}")
+            cache.delete(f"scanner-strikes-{ip}")
+            return self.get_response(request)
 
         if cache.get(chave_ban):
-            return self._resposta(403, "Acesso temporariamente bloqueado.")
+            from recados.erros import resposta_bloqueado
+
+            return resposta_bloqueado(request)
 
         if request.method not in self.METODOS_PERMITIDOS:
             return self._resposta(405, "Método não permitido.")
@@ -165,11 +182,17 @@ class BloqueioScannerMiddleware:
         if len(caminho_completo) > self.MAX_TAMANHO_URL:
             return self._resposta(414, "URL muito longa.")
 
+        # Quando o painel foi movido para uma URL secreta (ex.: ADMIN_URL=painel-higor),
+        # a rota /admin fica desativada e exibe a página de erro 404 estilizada (sem banir o IP).
+        if admin_slug != "admin" and (caminho == "/admin" or caminho.startswith("/admin/")):
+            from recados.erros import erro_404
+
+            return erro_404(request)
+
         agente = request.META.get("HTTP_USER_AGENT", "")
-        caminho = request.path
 
         if self.AGENTES_ATAQUE.search(agente) or self._rota_suspeita(caminho, caminho_completo):
-            self._registrar_strike(ip, chave_ban)
+            self._registrar_strike(chave_strikes, chave_ban)
             return self._resposta(404, "Não encontrado.")
 
         return self.get_response(request)
@@ -180,19 +203,16 @@ class BloqueioScannerMiddleware:
             return False
         if self.ROTAS_SUSPEITAS.search(caminho_completo):
             return True
-        # Tentativa de achar o painel na URL padrão quando ele foi movido para uma URL secreta
-        admin_slug = os.environ.get("ADMIN_URL", "admin").strip("/") or "admin"
-        return admin_slug != "admin" and (caminho == "/admin" or caminho.startswith("/admin/"))
+        return False
 
-    def _registrar_strike(self, ip, chave_ban):
-        chave = f"scanner-strikes-{ip}"
-        if cache.add(chave, 1, self.JANELA_STRIKES):
+    def _registrar_strike(self, chave_strikes, chave_ban):
+        if cache.add(chave_strikes, 1, self.JANELA_STRIKES):
             total = 1
         else:
             try:
-                total = cache.incr(chave)
+                total = cache.incr(chave_strikes)
             except ValueError:
-                cache.set(chave, 1, self.JANELA_STRIKES)
+                cache.set(chave_strikes, 1, self.JANELA_STRIKES)
                 total = 1
         if total >= self.MAX_STRIKES:
             cache.set(chave_ban, 1, self.TEMPO_BANIMENTO)

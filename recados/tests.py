@@ -636,3 +636,17 @@ class ProtecoesAvancadasTestCase(TestCase):
         self.assertNotIn("script-src 'self' 'unsafe-inline'", csp)
         self.assertIn("script-src-attr 'none'", csp)
         self.assertIn("object-src 'none'", csp)
+
+
+    def test_admin_desativado_exibe_erro_404_estilizado_e_nao_bloqueia_painel_higor(self):
+        """Acessar /admin (desativado) retorna página 404 estilizada em HTML e não bloqueia /painel-higor/."""
+        ip = "198.51.100.99"
+        for _ in range(4):
+            resp = self.client.get("/admin", HTTP_TRUE_CLIENT_IP=ip, secure=True)
+            self.assertEqual(resp.status_code, 404)
+            self.assertIn("text/html", resp["Content-Type"])
+            self.assertIn("404", resp.content.decode("utf-8"))
+
+        # Acesso à rota secreta do painel continua liberado e desbloqueia eventuais strikes
+        resp_painel = self.client.get(reverse("admin:login"), HTTP_TRUE_CLIENT_IP=ip, secure=True)
+        self.assertEqual(resp_painel.status_code, 200)

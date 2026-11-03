@@ -1,0 +1,39 @@
+{% extends "erro_base.html" %}
+{% block codigo %}403{% endblock %}
+{% block titulo %}Acesso temporariamente bloqueado{% endblock %}
+{% block classe %}e-bloqueado{% endblock %}
+{% block selo %}Proteção Ativa · 403{% endblock %}
+{% block numero %}403{% endblock %}{% block numero2 %}403{% endblock %}
+{% block h1 %}Acesso temporariamente bloqueado{% endblock %}
+{% block texto %}{{ mensagem|default:"Por medida preventiva de segurança, o acesso a partir desta conexão foi suspenso temporariamente após múltiplas requisições suspeitas." }}{% endblock %}
+{% block terminal %}
+<div class="escudo-icone" aria-hidden="true">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    <rect x="9" y="11" width="6" height="5" rx="1"/>
+    <path d="M10 11V9a2 2 0 1 1 4 0v2"/>
+  </svg>
+</div>
+
+<div class="painel-bloqueio" role="status" aria-label="Status do bloqueio de segurança">
+  <div class="painel-bloqueio-item">
+    <span class="painel-bloqueio-rotulo">Status da Conexão</span>
+    <span class="painel-bloqueio-valor">BLOQUEIO TEMPORÁRIO (403)</span>
+  </div>
+  <div class="painel-bloqueio-item">
+    <span class="painel-bloqueio-rotulo">Camada de Proteção</span>
+    <span class="painel-bloqueio-valor">WAF / Anti-Scanner Shield</span>
+  </div>
+  <div class="painel-bloqueio-item">
+    <span class="painel-bloqueio-rotulo">Liberação Automática</span>
+    <span class="painel-bloqueio-valor">Em até 60 minutos</span>
+  </div>
+</div>
+
+<div class="terminal" aria-label="Detalhes da requisição">
+  <div class="barra" aria-hidden="true"><span></span><span></span><span></span></div>
+  <pre><span class="ok">$</span> shield verify --request {{ caminho|default:"/"|truncatechars:48 }}
+<span class="err">403 Forbidden</span> — Acesso temporariamente bloqueado.
+<span class="ok">$</span> <span class="cursor"></span></pre>
+</div>
+{% endblock %}

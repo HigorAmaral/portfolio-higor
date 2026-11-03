@@ -8,10 +8,10 @@
     <span>Atalhos Rápidos:</span>
   </div>
   <div style="display:flex; flex-wrap:wrap; gap:8px;">
-    <a href="/admin/recados/projeto/add/" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:var(--primary, #1D4ED8); color:#fff; text-decoration:none;">+ Novo Projeto</a>
-    <a href="/admin/recados/conquista/add/" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#0F766E; color:#fff; text-decoration:none;">+ Nova Conquista</a>
-    <a href="/admin/recados/experiencia/add/" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#4338ca; color:#fff; text-decoration:none;">+ Nova Formação/Exp</a>
-    <a href="/admin/recados/recado/?respondido=pendente" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#d97706; color:#fff; text-decoration:none;">Recados Pendentes ({{ kpi_pendentes|default:"0" }})</a>
+    <a href="{% url 'admin:recados_projeto_add' %}" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:var(--primary, #1D4ED8); color:#fff; text-decoration:none;">+ Novo Projeto</a>
+    <a href="{% url 'admin:recados_conquista_add' %}" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#0F766E; color:#fff; text-decoration:none;">+ Nova Conquista</a>
+    <a href="{% url 'admin:recados_experiencia_add' %}" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#4338ca; color:#fff; text-decoration:none;">+ Nova Formação/Exp</a>
+    <a href="{% url 'admin:recados_recado_changelist' %}?respondido=pendente" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#d97706; color:#fff; text-decoration:none;">Recados Pendentes ({{ kpi_pendentes|default:"0" }})</a>
     <a href="/api/docs/" target="_blank" rel="noopener" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#334155; color:#fff; text-decoration:none;">Swagger API ↗</a>
     <a href="/" target="_blank" rel="noopener" class="button" style="padding:7px 14px; font-size:0.82rem; border-radius:999px; background:#059669; color:#fff; text-decoration:none;">Abrir Site ↗</a>
   </div>
@@ -22,7 +22,7 @@
   <div style="background:var(--card-bg, #EDF2F7); border:1px solid var(--border-color, #CBD5E1); border-radius:14px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
     <div style="font-size:0.76rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #475569); margin-bottom:6px; font-weight:700;">Visitas Totais</div>
     <div style="font-size:1.9rem; font-weight:800; color:var(--primary, #1D4ED8); line-height:1.1;">{{ kpi_views|default:"0" }}</div>
-    <div style="font-size:0.8rem; color:var(--body-quiet-color, #475569); margin-top:6px;">Acessos únicos (LGPD) · <a href="/admin/recados/metricaacesso/" style="font-weight:600;">Ver histórico</a></div>
+    <div style="font-size:0.8rem; color:var(--body-quiet-color, #475569); margin-top:6px;">Acessos únicos (LGPD) · <a href="{% url 'admin:recados_metricaacesso_changelist' %}" style="font-weight:600;">Ver histórico</a></div>
   </div>
 
   <div style="background:var(--card-bg, #EDF2F7); border:1px solid var(--border-color, #CBD5E1); border-radius:14px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
@@ -34,7 +34,7 @@
   <div style="background:var(--card-bg, #EDF2F7); border:1px solid var(--border-color, #CBD5E1); border-radius:14px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
     <div style="font-size:0.76rem; text-transform:uppercase; letter-spacing:.05em; color:var(--body-quiet-color, #475569); margin-bottom:6px; font-weight:700;">Recados no Mural</div>
     <div style="font-size:1.9rem; font-weight:800; color:#d97706; line-height:1.1;">{{ kpi_recados|default:"0" }}</div>
-    <div style="font-size:0.8rem; color:var(--body-quiet-color, #475569); margin-top:6px;">{{ kpi_respostas|default:"0" }} respondido(s) · <a href="/admin/recados/recado/?respondido=pendente" style="color:#d97706; font-weight:700; text-decoration:underline;">{{ kpi_pendentes|default:"0" }} pendente(s)</a></div>
+    <div style="font-size:0.8rem; color:var(--body-quiet-color, #475569); margin-top:6px;">{{ kpi_respostas|default:"0" }} respondido(s) · <a href="{% url 'admin:recados_recado_changelist' %}?respondido=pendente" style="color:#d97706; font-weight:700; text-decoration:underline;">{{ kpi_pendentes|default:"0" }} pendente(s)</a></div>
   </div>
 
   <div style="background:var(--card-bg, #EDF2F7); border:1px solid var(--border-color, #CBD5E1); border-radius:14px; padding:18px 20px; box-shadow:0 2px 6px rgba(0,0,0,.04);">
@@ -74,7 +74,7 @@
   <div style="background:var(--card-bg, #EDF2F7); border:1px solid var(--border-color, #CBD5E1); border-radius:14px; padding:18px 20px;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
       <strong style="font-size:0.9rem; color:var(--body-loud-color, #1E293B);">Últimos Recados Recebidos</strong>
-      <a href="/admin/recados/recado/" style="font-size:0.78rem; font-weight:600;">Ver todos →</a>
+      <a href="{% url 'admin:recados_recado_changelist' %}" style="font-size:0.78rem; font-weight:600;">Ver todos →</a>
     </div>
     {% if ultimos_recados %}
       <div style="display:flex; flex-direction:column; gap:8px;">
@@ -83,7 +83,7 @@
             <div style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
               <strong>{{ r.nome }}:</strong> {{ r.texto|truncatechars:48 }}
             </div>
-            <a href="/admin/recados/recado/{{ r.id }}/change/" style="flex-shrink:0; font-weight:700; font-size:0.75rem; color:{% if r.resposta %}#059669{% else %}#d97706{% endif %};">
+            <a href="{% url 'admin:recados_recado_change' r.id %}" style="flex-shrink:0; font-weight:700; font-size:0.75rem; color:{% if r.resposta %}#059669{% else %}#d97706{% endif %};">
               {% if r.resposta %}Respondido{% else %}Responder{% endif %}
             </a>
           </div>

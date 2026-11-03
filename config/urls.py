@@ -4,8 +4,8 @@ from django.urls import path
 
 from recados import views
 
-# Rota do painel de administração configurável por variável de ambiente para segurança avançada
-admin_slug = os.environ.get("ADMIN_URL", "admin").strip("/") or "admin"
+# Rota do painel de administração configurável por variável de ambiente (padrão seguro: painel-higor)
+admin_slug = os.environ.get("ADMIN_URL", "painel-higor").strip("/") or "painel-higor"
 
 urlpatterns = [
     path(f"{admin_slug}/", admin.site.urls),

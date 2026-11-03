@@ -1,16 +1,39 @@
 {% extends "erro_base.html" %}
 {% block codigo %}429{% endblock %}
-{% block titulo %}Muitas tentativas{% endblock %}
+{% block titulo %}Acesso temporariamente bloqueado{% endblock %}
 {% block classe %}e-429{% endblock %}
-{% block selo %}Erro 429{% endblock %}
+{% block selo %}Limite de Segurança · 429{% endblock %}
 {% block numero %}429{% endblock %}{% block numero2 %}429{% endblock %}
 {% block h1 %}Calma, respira um pouco{% endblock %}
 {% block texto %}{{ mensagem|default:"Foram feitas muitas tentativas em pouco tempo. Por segurança, aguarde alguns minutos antes de tentar novamente." }}{% endblock %}
 {% block terminal %}
+<div class="escudo-icone" aria-hidden="true">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M12 10v2l1.5 1"/>
+  </svg>
+</div>
+
+<div class="painel-bloqueio" role="status" aria-label="Status do limite de requisições">
+  <div class="painel-bloqueio-item">
+    <span class="painel-bloqueio-rotulo">Status da Conexão</span>
+    <span class="painel-bloqueio-valor">PAUSA TEMPORÁRIA (429)</span>
+  </div>
+  <div class="painel-bloqueio-item">
+    <span class="painel-bloqueio-rotulo">Camada de Proteção</span>
+    <span class="painel-bloqueio-valor">Anti-Brute Force / Rate Limit</span>
+  </div>
+  <div class="painel-bloqueio-item">
+    <span class="painel-bloqueio-rotulo">Tempo de Espera</span>
+    <span class="painel-bloqueio-valor">15 minutos</span>
+  </div>
+</div>
+
 <div class="terminal" aria-label="Detalhes da requisição">
   <div class="barra" aria-hidden="true"><span></span><span></span><span></span></div>
   <pre><span class="ok">$</span> sleep 900
-<span class="err">429 Too Many Requests</span> — limite atingido
+<span class="err">429 Too Many Requests</span> — Acesso temporariamente bloqueado
 <span class="ok">$</span> <span class="cursor"></span></pre>
 </div>
 {% endblock %}
