@@ -40,7 +40,9 @@ def index(request):
     """Entrega o front-end (frontend/index.html)."""
     if not FRONTEND.exists():
         raise Http404("frontend/index.html não encontrado")
-    return FileResponse(open(FRONTEND, "rb"), content_type="text/html; charset=utf-8")
+    resp = FileResponse(open(FRONTEND, "rb"), content_type="text/html; charset=utf-8")
+    resp["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return resp
 
 
 @require_GET

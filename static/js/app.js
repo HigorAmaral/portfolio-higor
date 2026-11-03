@@ -1197,7 +1197,7 @@ initReveal();
 (function(){
   if('serviceWorker' in navigator){
     window.addEventListener('load', function(){
-      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function(){});
+      navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' }).then(function(reg){ try{ reg.update(); }catch(e){} }).catch(function(){});
     });
   }
 
@@ -1308,7 +1308,6 @@ initReveal();
   var canvas = document.getElementById('bg-interactive-canvas');
   var glow = document.getElementById('bg-cursor-glow');
   if(!canvas) return;
-  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   var ctx = canvas.getContext('2d');
   if(!ctx) return;
@@ -1325,17 +1324,17 @@ initReveal();
       return {
         nodePrimary: '59, 130, 246',   // #3B82F6
         nodeSecondary: '20, 184, 166', // #14B8A6
-        lineAlpha: 0.22,
-        mouseLineAlpha: 0.52,
-        nodeAlpha: 0.65
+        lineAlpha: 0.34,
+        mouseLineAlpha: 0.72,
+        nodeAlpha: 0.85
       };
     }
     return {
       nodePrimary: '29, 78, 216',    // #1D4ED8
       nodeSecondary: '15, 118, 110', // #0F766E
-      lineAlpha: 0.18,
-      mouseLineAlpha: 0.44,
-      nodeAlpha: 0.55
+      lineAlpha: 0.28,
+      mouseLineAlpha: 0.64,
+      nodeAlpha: 0.75
     };
   }
 
@@ -1351,7 +1350,7 @@ initReveal();
     canvas.height = Math.floor(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    var targetCount = width < 720 ? 28 : Math.min(68, Math.floor((width * height) / 21000));
+    var targetCount = width < 720 ? 36 : Math.min(82, Math.floor((width * height) / 16500));
     if(particles.length > targetCount){
       particles.length = targetCount;
     } else {
@@ -1359,10 +1358,10 @@ initReveal();
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.65,
-          vy: (Math.random() - 0.5) * 0.65,
-          r: 1.6 + Math.random() * 1.8,
-          teal: Math.random() > 0.55
+          vx: (Math.random() - 0.5) * 0.85,
+          vy: (Math.random() - 0.5) * 0.85,
+          r: 2.0 + Math.random() * 2.2,
+          teal: Math.random() > 0.52
         });
       }
     }
@@ -1375,8 +1374,8 @@ initReveal();
     var nx = e.clientX;
     var ny = e.clientY;
     if(mouse.active){
-      mouse.vx = (nx - mouse.tx) * 0.12;
-      mouse.vy = (ny - mouse.ty) * 0.12;
+      mouse.vx = (nx - mouse.tx) * 0.14;
+      mouse.vy = (ny - mouse.ty) * 0.14;
     } else {
       mouse.x = nx;
       mouse.y = ny;
@@ -1387,11 +1386,6 @@ initReveal();
     mouse.ty = ny;
   }, { passive: true });
 
-  window.addEventListener('pointerleave', function(){
-    mouse.active = false;
-    if(glow) glow.style.opacity = '0';
-  }, { passive: true });
-
   document.addEventListener('mouseleave', function(){
     mouse.active = false;
     if(glow) glow.style.opacity = '0';
@@ -1399,15 +1393,14 @@ initReveal();
 
   window.addEventListener('pointerdown', function(e){
     var x = e.clientX, y = e.clientY;
-    pulses.push({ x: x, y: y, r: 4, maxR: 210, alpha: 0.65 });
-    // Impulso suave nas partículas próximas ao clique
+    pulses.push({ x: x, y: y, r: 6, maxR: 240, alpha: 0.75 });
     for(var i = 0; i < particles.length; i++){
       var p = particles[i];
       var dx = p.x - x;
       var dy = p.y - y;
       var dist = Math.sqrt(dx * dx + dy * dy) || 1;
-      if(dist < 200){
-        var force = (1 - dist / 200) * 2.4;
+      if(dist < 220){
+        var force = (1 - dist / 220) * 2.8;
         p.vx += (dx / dist) * force;
         p.vy += (dy / dist) * force;
       }
@@ -1422,8 +1415,8 @@ initReveal();
     ctx.clearRect(0, 0, width, height);
 
     if(mouse.active){
-      mouse.x += (mouse.tx - mouse.x) * 0.16;
-      mouse.y += (mouse.ty - mouse.y) * 0.16;
+      mouse.x += (mouse.tx - mouse.x) * 0.18;
+      mouse.y += (mouse.ty - mouse.y) * 0.18;
       mouse.vx *= 0.9;
       mouse.vy *= 0.9;
       if(glow){
@@ -1431,15 +1424,15 @@ initReveal();
       }
     }
 
-    var linkDist = width < 720 ? 115 : 145;
+    var linkDist = width < 720 ? 125 : 160;
     var linkDistSq = linkDist * linkDist;
-    var mouseDist = 195;
+    var mouseDist = 220;
     var mouseDistSq = mouseDist * mouseDist;
 
-    // Atualiza e desenha ondas de clique
+    // Ondas de choque ao clicar
     for(var k = pulses.length - 1; k >= 0; k--){
       var pulse = pulses[k];
-      pulse.r += 5.2;
+      pulse.r += 5.5;
       pulse.alpha *= 0.94;
       if(pulse.r >= pulse.maxR || pulse.alpha < 0.02){
         pulses.splice(k, 1);
@@ -1448,19 +1441,17 @@ initReveal();
       ctx.beginPath();
       ctx.arc(pulse.x, pulse.y, pulse.r, 0, Math.PI * 2);
       ctx.strokeStyle = 'rgba(' + palette.nodePrimary + ',' + pulse.alpha.toFixed(3) + ')';
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 1.8;
       ctx.stroke();
     }
 
-    // Atualiza partículas
     for(var i = 0; i < particles.length; i++){
       var p = particles[i];
       p.x += p.vx;
       p.y += p.vy;
 
-      // Amortecimento suave de velocidade extra
       var speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      if(speed > 1.1){
+      if(speed > 1.3){
         p.vx *= 0.96;
         p.vy *= 0.96;
       }
@@ -1473,7 +1464,6 @@ initReveal();
       var rgb = p.teal ? palette.nodeSecondary : palette.nodePrimary;
       var radius = p.r;
 
-      // Interação com o cursor do mouse
       if(mouse.active){
         var mdx = mouse.x - p.x;
         var mdy = mouse.y - p.y;
@@ -1481,34 +1471,29 @@ initReveal();
         if(mSq < mouseDistSq){
           var mDist = Math.sqrt(mSq) || 1;
           var factor = 1 - mDist / mouseDist;
-          // Atração magnética sutil + reação ao movimento do mouse
-          if(mDist > 42){
-            p.x += (mdx / mDist) * factor * 0.55 + mouse.vx * factor * 0.08;
-            p.y += (mdy / mDist) * factor * 0.55 + mouse.vy * factor * 0.08;
+          if(mDist > 48){
+            p.x += (mdx / mDist) * factor * 0.72 + mouse.vx * factor * 0.1;
+            p.y += (mdy / mDist) * factor * 0.72 + mouse.vy * factor * 0.1;
           } else {
-            // Leve repulsão muito perto do centro do cursor para não acumular
-            p.x -= (mdx / mDist) * 0.6;
-            p.y -= (mdy / mDist) * 0.6;
+            p.x -= (mdx / mDist) * 0.75;
+            p.y -= (mdy / mDist) * 0.75;
           }
-          radius = p.r + factor * 1.6;
+          radius = p.r + factor * 2.2;
 
-          // Linha luminosa conectando o nó ao mouse
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(mouse.x, mouse.y);
           ctx.strokeStyle = 'rgba(' + rgb + ',' + (factor * palette.mouseLineAlpha).toFixed(3) + ')';
-          ctx.lineWidth = 0.8 + factor * 1.1;
+          ctx.lineWidth = 1.0 + factor * 1.4;
           ctx.stroke();
         }
       }
 
-      // Desenha o nó
       ctx.beginPath();
       ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(' + rgb + ',' + palette.nodeAlpha + ')';
       ctx.fill();
 
-      // Conexões entre partículas próximas
       for(var j = i + 1; j < particles.length; j++){
         var p2 = particles[j];
         var dx = p.x - p2.x;
@@ -1520,18 +1505,22 @@ initReveal();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(p2.x, p2.y);
           ctx.strokeStyle = 'rgba(' + palette.nodePrimary + ',' + alpha.toFixed(3) + ')';
-          ctx.lineWidth = 0.8;
+          ctx.lineWidth = 1.0;
           ctx.stroke();
         }
       }
     }
 
-    // Ponto focal sutil no cursor
     if(mouse.active){
       ctx.beginPath();
-      ctx.arc(mouse.x, mouse.y, 3.2, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(' + palette.nodePrimary + ', 0.45)';
+      ctx.arc(mouse.x, mouse.y, 4.5, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + palette.nodePrimary + ', 0.65)';
       ctx.fill();
+      ctx.beginPath();
+      ctx.arc(mouse.x, mouse.y, 16, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(' + palette.nodeSecondary + ', 0.35)';
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
     }
 
     rafId = window.requestAnimationFrame(step);

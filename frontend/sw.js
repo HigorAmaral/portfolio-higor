@@ -5,7 +5,7 @@
  *  - /api/conteudo/: stale-while-revalidate (cards aparecem offline).
  *  - Demais rotas (/api/*, painel, POSTs): nunca são interceptadas nem cacheadas.
  */
-const VERSAO = 'v4';
+const VERSAO = 'v7';
 const CACHE_PAGINAS = 'higor-paginas-' + VERSAO;
 const CACHE_ESTATICOS = 'higor-estaticos-' + VERSAO;
 const CACHE_API = 'higor-api-' + VERSAO;
@@ -14,7 +14,7 @@ const CACHES_ATUAIS = [CACHE_PAGINAS, CACHE_ESTATICOS, CACHE_API];
 const PRECACHE = [
   '/',
   '/manifest.webmanifest',
-  '/static/js/app.js',
+  '/static/js/app.js?v=20261103-v7',
   '/static/pwa/icon-192.png',
   '/static/pwa/icon-512.png',
   '/static/pwa/apple-touch-icon.png',
@@ -46,7 +46,7 @@ function respostaCacheavel(resp) {
 async function networkFirst(request) {
   const cache = await caches.open(CACHE_PAGINAS);
   try {
-    const resp = await fetch(request);
+    const resp = await fetch(request, { cache: 'no-store' });
     if (respostaCacheavel(resp)) cache.put('/', resp.clone());
     return resp;
   } catch (e) {
