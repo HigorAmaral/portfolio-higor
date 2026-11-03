@@ -146,7 +146,7 @@ function showToast(msg){
   }
 
   btn.addEventListener('click', function(){
-    var email = 'amarahigor@gmail.com';
+    var email = window.__portfolioEmail || 'amarahigor@gmail.com';
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(email).then(function(){
         showToast('E-mail ' + email + ' copiado!');
@@ -430,11 +430,11 @@ initReveal();
 (function(){
   var DEFAULTS = {
     "habilidades": [
-      {"titulo": "Front-end & Web", "descricao": "Interfaces rápidas, responsivas e organizadas em componentes.", "tecnologias": ["JavaScript", "HTML5", "CSS3", "React", "Vue"]},
-      {"titulo": "Back-end & APIs", "descricao": "APIs RESTful, autenticação, segurança e painéis administrativos.", "tecnologias": ["Python", "Django", "Gunicorn", "PostgreSQL"]},
-      {"titulo": "Dados & Ferramentas", "descricao": "Modelagem relacional, Git, GitHub e ambientes de desenvolvimento.", "tecnologias": ["PostgreSQL", "MySQL", "Git", "VS Code", "Linux/Windows"]},
-      {"titulo": "Design & UI/UX", "descricao": "Protótipos navegáveis no Figma e design systems pensados no usuário.", "tecnologias": ["Figma", "UI/UX", "Prototipagem"]},
-      {"titulo": "Idiomas & Comunicação", "descricao": "Inglês intermediário para documentação técnica e comunicação.", "tecnologias": ["Inglês (4 anos KNN)", "Boa comunicação"]}
+      {"titulo": "Front-end & Web", "descricao": "Interfaces rápidas, responsivas, acessíveis e organizadas em componentes.", "tecnologias": ["JavaScript", "React", "Vue 3", "Vite", "Pinia", "HTML5", "CSS3"]},
+      {"titulo": "Back-end & APIs REST", "descricao": "APIs RESTful documentadas, autenticação JWT, segurança e painéis administrativos.", "tecnologias": ["Python", "Django", "Django REST", "Swagger / OpenAPI", "JWT", "Gunicorn"]},
+      {"titulo": "Dados & DevOps", "descricao": "Modelagem relacional, versionamento com Git/GitHub, testes e deploy em nuvem.", "tecnologias": ["PostgreSQL", "MySQL", "Git", "GitHub Actions", "Vercel", "Render"]},
+      {"titulo": "Design & UI/UX", "descricao": "Protótipos navegáveis no Figma, arquitetura da informação e design systems.", "tecnologias": ["Figma", "UI/UX", "Prototipagem", "Design Systems", "Responsividade"]},
+      {"titulo": "Idiomas & Soft Skills", "descricao": "Inglês intermediário (4 anos KNN) para documentação técnica e comunicação em equipe.", "tecnologias": ["Inglês (4 anos KNN)", "Trabalho em Equipe", "BPMN", "Metodologias Ágeis"]}
     ],
     "projetos": [
       {
@@ -709,10 +709,30 @@ initReveal();
     }
   }
 
+  function extrairDominioPreview(p){
+    if(p.dominio) return p.dominio;
+    var raw = p.demo || p.github || p.pdf || '';
+    if(!raw) return 'portfolio-higor.onrender.com';
+    return String(raw).replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, '');
+  }
+
   function cardProjeto(p){
     var c = el('div', 'card novo');
 
-    // Selo de destaque (Hackathon 24h, Swagger OpenAPI, etc)
+    // 1. Barra Visual Estilo Navegador (Preview do Domínio/Repositório + Status Online)
+    var prev = el('div', 'project-preview');
+    var dots = el('div', 'dots');
+    dots.innerHTML = '<span></span><span></span><span></span>';
+    var pUrl = el('span', 'preview-url', extrairDominioPreview(p));
+    var envTxt = (p.demo && /^https?:\/\//.test(p.demo)) ? 'Ao Vivo' : (p.pdf ? 'Monografia' : 'GitHub');
+    var envCls = 'preview-env' + ((p.demo && /^https?:\/\//.test(p.demo)) ? ' live' : '');
+    var pEnv = el('span', envCls, envTxt);
+    prev.appendChild(dots);
+    prev.appendChild(pUrl);
+    prev.appendChild(pEnv);
+    c.appendChild(prev);
+
+    // 2. Selo de destaque (Hackathon 24h, Swagger OpenAPI, etc)
     var bText = removerEmojis(p.badge || (p.nome.includes('Hackathon') ? 'Hackathon 24h' : (p.nome.includes('Portfólio') ? 'API REST ao vivo' : '')));
     if(bText){
       var bCls = 'project-badge-tag' + (bText.includes('24h') || bText.includes('Hackathon') ? ' hackathon' : (bText.includes('API') || bText.includes('Swagger') ? ' swagger' : ''));
@@ -792,17 +812,109 @@ initReveal();
     return c;
   }
 
+  function metaSkillPorTitulo(titulo){
+    var t = String(titulo || '').toLowerCase();
+    if(t.includes('front')){
+      return {
+        sub: 'Interfaces & SPA',
+        svg: '<svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>'
+      };
+    }
+    if(t.includes('back') || t.includes('api')){
+      return {
+        sub: 'Arquitetura & Segurança',
+        svg: '<svg class="icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>'
+      };
+    }
+    if(t.includes('dado') || t.includes('banco') || t.includes('ferramenta')){
+      return {
+        sub: 'SQL, Git & Cloud',
+        svg: '<svg class="icon" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>'
+      };
+    }
+    if(t.includes('design') || t.includes('ui')){
+      return {
+        sub: 'Figma & Usabilidade',
+        svg: '<svg class="icon" viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><circle cx="11" cy="11" r="2"/></svg>'
+      };
+    }
+    return {
+      sub: 'Comunicação & Processos',
+      svg: '<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+    };
+  }
+
+  var CORE_STACK = ['python', 'django', 'django rest', 'javascript', 'react', 'vue', 'vue 3', 'postgresql', 'mysql', 'git', 'figma', 'swagger / openapi'];
+
   function cardSkill(h){
-    var c = el('div', 'card novo'), top = el('div', 'topo');
-    top.appendChild(el('h3', '', String(h.titulo)));
-    c.appendChild(top);
+    var c = el('div', 'card novo');
+    var info = metaSkillPorTitulo(h.titulo);
+    var head = el('div', 'skill-head');
+    var iconBox = el('span', 'skill-icon-box');
+    iconBox.innerHTML = info.svg;
+    var meta = el('div', 'skill-meta');
+    meta.appendChild(el('small', '', info.sub));
+    meta.appendChild(el('h3', '', String(h.titulo)));
+    head.appendChild(iconBox);
+    head.appendChild(meta);
+    c.appendChild(head);
+
     c.appendChild(el('p', '', String(h.descricao || '')));
     if(h.tecnologias && h.tecnologias.length){
       var ch = el('div', 'chips');
-      h.tecnologias.forEach(function(t){ ch.appendChild(el('span', 'chip', String(t))); });
+      h.tecnologias.forEach(function(t){
+        var isCore = CORE_STACK.indexOf(String(t).toLowerCase()) !== -1;
+        ch.appendChild(el('span', isCore ? 'chip chip-core' : 'chip', String(t)));
+      });
       c.appendChild(ch);
     }
     return c;
+  }
+
+  function atualizarContadoresFiltro(){
+    var counts = {
+      todos: allProjects.length,
+      backend: 0,
+      frontend: 0,
+      ia: 0
+    };
+    allProjects.forEach(function(p){
+      var cat = detectCategoria(p);
+      if(counts[cat] !== undefined) counts[cat]++;
+    });
+    Object.keys(counts).forEach(function(k){
+      var badge = document.querySelector('.filter-count[data-count="' + k + '"]');
+      if(badge) badge.textContent = String(counts[k]);
+    });
+  }
+
+  function aplicarLinksContato(links){
+    if(!links || !links.length) return;
+    links.forEach(function(item){
+      var chave = String(item.chave || '').trim();
+      var url = String(item.url || '').trim();
+      if(!chave || !url) return;
+
+      if(chave === 'email'){
+        var limpo = url.replace(/^mailto:/i, '').trim();
+        if(limpo && limpo.indexOf('@') !== -1){
+          window.__portfolioEmail = limpo;
+          document.querySelectorAll('a[data-contact-key="email"]').forEach(function(a){
+            a.href = 'mailto:' + limpo;
+            var svg = a.querySelector('svg');
+            a.textContent = ' ' + limpo;
+            if(svg) a.insertBefore(svg, a.firstChild);
+          });
+        }
+        return;
+      }
+
+      var segura = urlSegura(url);
+      if(!segura) return;
+      document.querySelectorAll('a[data-contact-key="' + chave + '"]').forEach(function(a){
+        a.href = segura;
+      });
+    });
   }
 
   function renderProjetos(){
@@ -853,6 +965,10 @@ initReveal();
         }
         return merged;
       });
+    }
+    atualizarContadoresFiltro();
+    if(d.links && d.links.length){
+      aplicarLinksContato(d.links);
     }
     renderProjetos();
     initTilt();

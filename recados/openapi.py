@@ -7,7 +7,7 @@ OPENAPI_SPEC = {
         "contact": {
             "name": "Higor do Amaral Fritz",
             "url": "https://portfolio-higor.onrender.com",
-            "email": "higoramaralfritz@gmail.com",
+            "email": "amarahigor@gmail.com",
         },
     },
     "servers": [
