@@ -2558,24 +2558,6 @@ main.wrap, footer{
   display:block;
   pointer-events:none;
 }
-.bg-cursor-glow{
-  position:absolute;
-  top:0;
-  left:0;
-  width:560px;
-  height:560px;
-  margin-left:-280px;
-  margin-top:-280px;
-  border-radius:50%;
-  background:radial-gradient(circle, color-mix(in srgb, var(--accent) 24%, transparent) 0%, color-mix(in srgb, var(--accent-secondary, #14B8A6) 12%, transparent) 42%, transparent 72%);
-  pointer-events:none;
-  will-change:transform, opacity;
-  opacity:0;
-  transition:opacity .35s ease;
-}
-:root[data-theme="dark"] .bg-cursor-glow{
-  background:radial-gradient(circle, color-mix(in srgb, var(--accent) 30%, transparent) 0%, color-mix(in srgb, var(--accent-secondary, #14B8A6) 15%, transparent) 42%, transparent 72%);
-}
 </style>
 </head>
 <body>
@@ -2584,7 +2566,6 @@ main.wrap, footer{
   <div class="bg-orb orb-2"></div>
   <div class="bg-orb orb-3"></div>
   <div class="bg-grid"></div>
-  <div class="bg-cursor-glow" id="bg-cursor-glow"></div>
   <canvas id="bg-interactive-canvas"></canvas>
 
 </div>
@@ -3081,7 +3062,7 @@ main.wrap, footer{
   <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
-<script src="/static/js/app.js?v=20261103-v10"></script>
+<script src="/static/js/app.js?v=20261103-v11"></script>
 <!-- Botão Voltar ao Topo Flutuante -->
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>

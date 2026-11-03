@@ -1306,7 +1306,6 @@ initReveal();
 // Fundo Interativo com o Mouse: Blueprint de Código Vivo (Live Typing IDE + Caderno BSI + Lente Raio-X no Mouse)
 (function(){
   var canvas = document.getElementById('bg-interactive-canvas');
-  var glow = document.getElementById('bg-cursor-glow');
   if(!canvas) return;
 
   var ctx = canvas.getContext('2d');
@@ -1501,7 +1500,6 @@ initReveal();
       mouse.lastTrailX = nx;
       mouse.lastTrailY = ny;
       mouse.active = true;
-      if(glow) glow.style.opacity = '1';
     }
     mouse.tx = nx;
     mouse.ty = ny;
@@ -1529,7 +1527,6 @@ initReveal();
 
   document.addEventListener('mouseleave', function(){
     mouse.active = false;
-    if(glow) glow.style.opacity = '0';
   }, { passive: true });
 
   window.addEventListener('pointerdown', function(e){
@@ -1572,9 +1569,6 @@ initReveal();
     if(mouse.active){
       mouse.x += (mouse.tx - mouse.x) * 0.2;
       mouse.y += (mouse.ty - mouse.y) * 0.2;
-      if(glow){
-        glow.style.transform = 'translate3d(' + mouse.x.toFixed(1) + 'px,' + mouse.y.toFixed(1) + 'px,0)';
-      }
     }
 
     // 1. Interseções da Malha Blueprint que acendem perto do Mouse (Cruzetas "+" Técnicas)
