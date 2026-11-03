@@ -6,9 +6,9 @@
   var html = document.documentElement;
 
   function getPreferredTheme(){
-    var saved = localStorage.getItem('portfolio_theme');
+    var saved = localStorage.getItem('portfolio_theme_v3');
     if(saved) return saved;
-    return 'dark'; // Padrão: Escuro Moderno (#121212 / #1E1E1E / #00E676)
+    return 'light'; // Padrão: 3. Clean Corporate (#F8FAFC / #FFFFFF / #2563EB / #0D9488)
   }
 
   function applyTheme(theme){
@@ -25,6 +25,7 @@
       btn.setAttribute('aria-label', 'Ativar modo escuro');
       btn.setAttribute('title', 'Ativar modo escuro');
     }
+    localStorage.setItem('portfolio_theme_v3', theme);
     localStorage.setItem('portfolio_theme', theme);
   }
 
@@ -138,7 +139,7 @@ function dispararConfetes(){
   canvas.height = window.innerHeight;
 
   var pieces = [];
-  var colors = ['#4f46e5', '#8b86ff', '#ec4899', '#f59e0b', '#10b981', '#06b6d4'];
+  var colors = ['#2563EB', '#0D9488', '#38bdf8', '#f59e0b', '#10b981', '#6366f1'];
   for(var i = 0; i < 90; i++){
     pieces.push({
       x: canvas.width / 2,
