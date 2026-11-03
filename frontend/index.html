@@ -1382,6 +1382,16 @@ section:hover h2 .heading-icon{
 }
 
 /* Modal de Estudo de Caso */
+/* Bloqueio estrito de rolagem de fundo com modal aberto */
+html.modal-open,
+body.modal-open{
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+}
+body.modal-open{
+  position:fixed;
+  width:100%;
+}
 .modal-backdrop{
   position:fixed;
   inset:0;
@@ -1396,6 +1406,8 @@ section:hover h2 .heading-icon{
   opacity:0;
   visibility:hidden;
   transition:opacity .25s ease, visibility .25s ease;
+  overscroll-behavior:contain;
+  touch-action:none;
 }
 .modal-backdrop.open{
   opacity:1;
@@ -1408,10 +1420,14 @@ section:hover h2 .heading-icon{
   width:min(680px, 100%);
   max-height:90vh;
   overflow-y:auto;
+  overscroll-behavior:contain;
+  touch-action:pan-y;
+  -webkit-overflow-scrolling:touch;
   padding:clamp(20px, 5vw, 36px);
   box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);
   transform:translateY(16px) scale(.98);
   transition:transform .25s cubic-bezier(.2,.8,.2,1);
+  outline:none;
 }
 .modal-backdrop.open .modal-card{
   transform:translateY(0) scale(1);
@@ -3025,7 +3041,7 @@ main.wrap, footer{
 
 <!-- Modal de Estudo de Caso -->
 <div id="modal-case" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="modal-card">
+  <div class="modal-card" id="modal-case-card" tabindex="-1">
     <div class="modal-header">
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
         <span class="modal-tag" id="modal-tag">Estudo de Caso</span>
@@ -3062,7 +3078,7 @@ main.wrap, footer{
   <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
-<script src="/static/js/app.js?v=20261103-v12"></script>
+<script src="/static/js/app.js?v=20261103-v13"></script>
 <!-- Botão Voltar ao Topo Flutuante -->
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>

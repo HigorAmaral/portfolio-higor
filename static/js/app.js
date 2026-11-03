@@ -611,6 +611,7 @@ initReveal();
 
   // Gerenciamento do Modal de Estudo de Caso + Deep Linking (?projeto=slug)
   var modalBackdrop = document.getElementById('modal-case');
+  var modalCard = modalBackdrop ? (modalBackdrop.querySelector('.modal-card') || document.getElementById('modal-case-card')) : null;
   var modalClose = document.getElementById('modal-close');
   var modalTitle = document.getElementById('modal-title');
   var modalBadge = document.getElementById('modal-badge');
@@ -619,11 +620,28 @@ initReveal();
   var modalSolucao = document.getElementById('modal-solucao');
   var modalAprendizados = document.getElementById('modal-aprendizados');
   var modalFooter = document.getElementById('modal-footer');
+  var scrollYBloqueado = 0;
+
+  function travarScrollFundo(){
+    scrollYBloqueado = window.pageYOffset || document.documentElement.scrollTop || 0;
+    document.documentElement.classList.add('modal-open');
+    document.body.classList.add('modal-open');
+    document.body.style.top = '-' + scrollYBloqueado + 'px';
+  }
+
+  function destravarScrollFundo(){
+    var y = scrollYBloqueado;
+    document.documentElement.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
+    document.body.style.top = '';
+    window.scrollTo(0, y);
+  }
 
   function fecharModal(){
     if(modalBackdrop){
       modalBackdrop.classList.remove('open');
       modalBackdrop.setAttribute('aria-hidden', 'true');
+      destravarScrollFundo();
       try {
         if(window.location.search.indexOf('projeto=') !== -1 && window.history.replaceState){
           window.history.replaceState(null, '', window.location.pathname + window.location.hash);
@@ -708,6 +726,11 @@ initReveal();
 
     modalBackdrop.classList.add('open');
     modalBackdrop.setAttribute('aria-hidden', 'false');
+    travarScrollFundo();
+    if(modalCard){
+      modalCard.scrollTop = 0;
+      try { modalCard.focus(); } catch(e){}
+    }
   }
 
   if(modalClose){ modalClose.addEventListener('click', fecharModal); }
@@ -715,6 +738,11 @@ initReveal();
     modalBackdrop.addEventListener('click', function(e){
       if(e.target === modalBackdrop) fecharModal();
     });
+    modalBackdrop.addEventListener('wheel', function(e){
+      if(e.target === modalBackdrop || !e.target.closest('.modal-card')){
+        e.preventDefault();
+      }
+    }, { passive: false });
   }
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape' && modalBackdrop && modalBackdrop.classList.contains('open')){
