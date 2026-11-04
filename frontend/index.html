@@ -1027,15 +1027,23 @@ footer a:hover{text-decoration:underline}
   pointer-events:none;
 }
 
-/* Transição suave ao alternar tema (Claro <-> Escuro) */
-html.theme-transition,
-html.theme-transition *,
-html.theme-transition *::before,
-html.theme-transition *::after{
-  transition:background-color .45s cubic-bezier(0.22, 1, 0.36, 1),
-             border-color .45s cubic-bezier(0.22, 1, 0.36, 1),
-             color .35s ease,
-             box-shadow .45s ease !important;
+/* Transição suave de tema apenas em containers principais no desktop (zero travamento) */
+@media (min-width: 769px) and (hover: hover) {
+  html.theme-transition body,
+  html.theme-transition header.nav,
+  html.theme-transition .card,
+  html.theme-transition .modal-card,
+  html.theme-transition .btn,
+  html.theme-transition .chip {
+    transition: background-color .25s ease, border-color .25s ease, color .2s ease !important;
+  }
+}
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  /* No celular: troca 100% instantânea sem recálculos pesados de layout */
+  html.theme-transition,
+  html.theme-transition * {
+    transition: none !important;
+  }
 }
 ::view-transition-old(root),
 ::view-transition-new(root){
@@ -3040,7 +3048,7 @@ main.wrap, footer{
   <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
-<script src="/static/js/app.js?v=20261103-v14"></script>
+<script src="/static/js/app.js?v=20261104-v15"></script>
 <!-- Botão Voltar ao Topo Flutuante -->
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>

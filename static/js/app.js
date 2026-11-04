@@ -35,15 +35,23 @@
     var current = html.getAttribute('data-theme') || 'light';
     var next = current === 'dark' ? 'light' : 'dark';
     var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var isMobileOrTouch = window.matchMedia('(max-width: 768px), (pointer: coarse)').matches;
 
-    if(document.startViewTransition && !reduced){
-      var rect = btn.getBoundingClientRect();
-      var x = e.clientX || (rect.left + rect.width / 2);
-      var y = e.clientY || (rect.top + rect.height / 2);
-      var maxRadius = Math.hypot(
-        Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y)
-      );
+    // No celular/touch: troca imediata e instantânea (0ms), eliminando qualquer travada
+    if(isMobileOrTouch || reduced || !document.startViewTransition){
+      applyTheme(next);
+      return;
+    }
+
+    // Apenas no desktop (mouse fino): transição visual suave circular
+    var rect = btn.getBoundingClientRect();
+    var x = e.clientX || (rect.left + rect.width / 2);
+    var y = e.clientY || (rect.top + rect.height / 2);
+    var maxRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+    try {
       var vt = document.startViewTransition(function(){
         applyTheme(next);
       });
@@ -56,18 +64,16 @@
             ]
           },
           {
-            duration: 520,
+            duration: 420,
             easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
             pseudoElement: '::view-transition-new(root)'
           }
         );
-      }).catch(function(){});
-    } else {
-      html.classList.add('theme-transition');
+      }).catch(function(){
+        applyTheme(next);
+      });
+    } catch(err){
       applyTheme(next);
-      setTimeout(function(){
-        html.classList.remove('theme-transition');
-      }, 500);
     }
   });
 })();
