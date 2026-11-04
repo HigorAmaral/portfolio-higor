@@ -393,6 +393,14 @@ main.wrap{
     color:var(--accent);
     transform:translateX(4px);
   }
+  .nav-links a.active-section{
+    background:var(--accent-soft) !important;
+    color:var(--accent) !important;
+    font-weight:700 !important;
+  }
+  .nav-links a.active-section svg{
+    stroke:var(--accent) !important;
+  }
   .nav-links a::after{display:none}
 }
 
@@ -1846,6 +1854,9 @@ main.wrap{
     background:linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 72%, var(--accent-secondary, #0F766E)));
     box-shadow:0 3px 10px color-mix(in srgb, var(--accent) 28%, transparent);
   }
+  .nav-links a.active-section svg{
+    stroke:var(--accent-text);
+  }
 }
 @media (max-width: 920px) and (min-width: 769px){
   .logo-sub, .nav-cta span{
@@ -3048,7 +3059,7 @@ main.wrap, footer{
   <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
-<script src="/static/js/app.js?v=20261104-v15"></script>
+<script src="/static/js/app.js?v=20261104-v16"></script>
 <!-- Botão Voltar ao Topo Flutuante -->
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>

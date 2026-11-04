@@ -1158,7 +1158,7 @@ initReveal();
     verificarDeepLinkProjeto();
     initTilt();
     initReveal();
-    window.dispatchEvent(new Event('resize'));
+    window.dispatchEvent(new Event('resize')); if(window.recalcSectionTops){ window.recalcSectionTops(); }
   }
 
   var filterButtons = document.querySelectorAll('.filter-btn');
@@ -1269,30 +1269,55 @@ initReveal();
   });
 })();
 
-// Scroll Unificado, Throttled e com Cache de Posições (Zero Travamentos)
+// Scroll Unificado, Throttled e com Scroll Spy Dinâmico Preciso (com suporte completo a Contato e Rodapé)
 (function(){
   var nav = document.querySelector('header.nav');
   var btnTop = document.getElementById('back-to-top');
   var navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
   var sections = [];
+
   navLinks.forEach(function(link){
     var id = link.getAttribute('href').slice(1);
     var sec = id ? document.getElementById(id) : null;
     if(sec) sections.push({ id: id, el: sec, link: link });
+
+    // Feedback visual imediato ao clicar no link do nav
+    link.addEventListener('click', function(){
+      navLinks.forEach(function(l){
+        l.classList.toggle('active-section', l === link);
+      });
+    });
   });
+
+  function getElementDocTop(el){
+    var top = 0;
+    while(el){
+      top += el.offsetTop || 0;
+      el = el.offsetParent;
+    }
+    return top;
+  }
 
   var sectionTops = [];
   function cacheTops(){
     sectionTops = sections.map(function(s){
-      return { id: s.id, top: s.el.offsetTop, link: s.link };
+      return { id: s.id, top: getElementDocTop(s.el), link: s.link };
     });
   }
+
   cacheTops();
   window.addEventListener('resize', cacheTops, {passive: true});
+  window.addEventListener('load', cacheTops, {passive: true});
+  window.recalcSectionTops = cacheTops;
 
   var ticking = false;
   function updateScrollEffects(){
-    var y = window.scrollY || document.documentElement.scrollTop;
+    var y = window.scrollY || document.documentElement.scrollTop || 0;
+    var docHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+    var winHeight = window.innerHeight || 0;
+    // Se chegou perto ou no final da página, ativa com precisão a última seção (Contato)
+    var isBottom = (winHeight + y) >= (docHeight - 110);
+
     if(nav){
       if(y > 15){
         if(!nav.classList.contains('scrolled')) nav.classList.add('scrolled');
@@ -1307,12 +1332,17 @@ initReveal();
         if(btnTop.classList.contains('visible')) btnTop.classList.remove('visible');
       }
     }
+
     if(sectionTops.length){
       var currentId = '';
-      var offset = y + 180;
-      for(var i = 0; i < sectionTops.length; i++){
-        if(sectionTops[i].top <= offset){
-          currentId = sectionTops[i].id;
+      if(isBottom){
+        currentId = sectionTops[sectionTops.length - 1].id;
+      } else {
+        var offset = y + 170;
+        for(var i = 0; i < sectionTops.length; i++){
+          if(sectionTops[i].top <= offset){
+            currentId = sectionTops[i].id;
+          }
         }
       }
       for(var j = 0; j < sectionTops.length; j++){
