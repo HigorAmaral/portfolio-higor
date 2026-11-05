@@ -2555,6 +2555,265 @@ main.wrap, footer{
     will-change:auto !important;
   }
 }
+
+/* ==========================================================
+   MELHORIAS: Mini-Preview Visual dos Projetos, Métricas & Depoimentos
+   ========================================================== */
+.project-thumb-preview{
+  position:relative;
+  height:115px;
+  border-radius:10px;
+  margin-bottom:14px;
+  overflow:hidden;
+  border:1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  background:linear-gradient(135deg, color-mix(in srgb, var(--surface) 92%, #000 8%), color-mix(in srgb, var(--surface) 72%, #000 28%));
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:12px 14px;
+  cursor:pointer;
+  transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+  user-select:none;
+}
+.card:hover .project-thumb-preview{
+  border-color:color-mix(in srgb, var(--accent) 50%, var(--line));
+  transform:translateY(-2px);
+  box-shadow:0 6px 16px -4px rgba(0,0,0,0.12);
+}
+.thumb-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.thumb-tag{
+  font-size:.68rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  padding:3px 8px;
+  border-radius:6px;
+  background:color-mix(in srgb, var(--accent) 15%, transparent);
+  color:var(--accent);
+  border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.thumb-tech-icon{
+  font-size:1.15rem;
+  line-height:1;
+}
+.thumb-code-preview{
+  font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size:.72rem;
+  line-height:1.4;
+  color:var(--text-sec);
+  background:color-mix(in srgb, var(--bg) 65%, transparent);
+  padding:6px 10px;
+  border-radius:6px;
+  border-left:3px solid var(--accent);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.thumb-cta-hint{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  font-size:.68rem;
+  font-weight:600;
+  color:var(--muted);
+  transition:color .2s ease;
+}
+.card:hover .thumb-cta-hint{
+  color:var(--accent);
+}
+
+/* Alerta Cold Start (Render Free Tier) */
+.coldstart-pill{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+  border-radius:10px;
+  margin:14px 0;
+  font-size:.8rem;
+  line-height:1.45;
+  background:color-mix(in srgb, #f59e0b 12%, var(--surface));
+  border:1px solid color-mix(in srgb, #f59e0b 35%, transparent);
+  color:#b45309;
+}
+:root[data-theme="dark"] .coldstart-pill{
+  color:#fcd34d;
+  background:color-mix(in srgb, #f59e0b 16%, var(--surface));
+  border-color:color-mix(in srgb, #f59e0b 40%, transparent);
+}
+
+/* Grid de Métricas Quantitativas nos Estudos de Caso */
+.metrics-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));
+  gap:10px;
+  margin-top:10px;
+}
+.metric-card{
+  background:color-mix(in srgb, var(--surface) 80%, var(--bg));
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 12px;
+  text-align:center;
+  transition:border-color .2s;
+}
+.metric-card:hover{
+  border-color:var(--accent);
+}
+.metric-card .val{
+  font-size:1.22rem;
+  font-weight:800;
+  color:var(--accent);
+  line-height:1.2;
+}
+.metric-card .lbl{
+  font-size:.72rem;
+  font-weight:700;
+  color:var(--text);
+  margin-top:3px;
+}
+.metric-card .det{
+  font-size:.66rem;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+/* Diagrama de Fluxo / Arquitetura */
+.arch-flow-diagram{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:10px;
+  padding:14px;
+  border-radius:12px;
+  background:color-mix(in srgb, var(--bg) 65%, var(--surface));
+  border:1px solid var(--line);
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.arch-node{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:8px 12px;
+  border-radius:8px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  min-width:110px;
+  flex:1;
+  flex-shrink:0;
+}
+.arch-node strong{
+  font-size:.78rem;
+  color:var(--text);
+  font-weight:700;
+}
+.arch-node span{
+  font-size:.66rem;
+  color:var(--muted);
+  margin-top:2px;
+}
+.arch-arrow{
+  color:var(--accent);
+  font-weight:bold;
+  font-size:1.1rem;
+  flex-shrink:0;
+  user-select:none;
+}
+
+/* Seção de Recomendações & Prova Social */
+.testimonials-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(290px, 1fr));
+  gap:18px;
+  margin-top:20px;
+}
+.testimonial-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:16px;
+  position:relative;
+  transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.testimonial-card:hover{
+  border-color:color-mix(in srgb, var(--accent) 45%, var(--line));
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px -6px rgba(0,0,0,0.08);
+}
+.testimonial-quote{
+  font-size:.88rem;
+  line-height:1.65;
+  color:var(--text-sec);
+  font-style:italic;
+  position:relative;
+}
+.testimonial-quote::before{
+  content:"“";
+  font-size:2.8rem;
+  line-height:1;
+  color:color-mix(in srgb, var(--accent) 25%, transparent);
+  position:absolute;
+  left:-10px;
+  top:-16px;
+  font-family:serif;
+  pointer-events:none;
+}
+.testimonial-author{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-top:1px solid color-mix(in srgb, var(--line) 60%, transparent);
+  padding-top:14px;
+}
+.author-avatar{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:color-mix(in srgb, var(--accent) 15%, var(--surface));
+  border:1.5px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:.88rem;
+  color:var(--accent);
+  flex-shrink:0;
+}
+.author-info h4{
+  font-size:.86rem;
+  margin:0;
+  font-weight:700;
+  color:var(--text);
+}
+.author-info p{
+  font-size:.74rem;
+  margin:2px 0 0;
+  color:var(--muted);
+  line-height:1.35;
+}
+
+/* Botão Alternador de Idioma (PT / EN) */
+.lang-toggle{
+  min-width:38px;
+  height:38px;
+  font-weight:800;
+  font-size:.75rem;
+  letter-spacing:.04em;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
 </style>
 </head>
 <body>
@@ -2582,10 +2841,14 @@ main.wrap, footer{
     </a>
     
     <div class="nav-actions">
-      <a class="nav-cta" data-contact-key="curriculo" href="/static/curriculo-higor.pdf" download="Curriculo-Higor-do-Amaral-Fritz.pdf" target="_blank" rel="noopener" title="Baixar Currículo em PDF">
+      <a class="nav-cta" id="nav-cta-cv" data-contact-key="curriculo" href="/static/curriculo-higor.pdf" download="Curriculo-Higor-do-Amaral-Fritz.pdf" target="_blank" rel="noopener" title="Baixar Currículo em PDF">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <span>Currículo</span>
+        <span id="nav-cv-text">Currículo</span>
       </a>
+      <!-- Botão Alternador de Idioma (PT / EN) -->
+      <button class="theme-toggle lang-toggle" id="lang-toggle" aria-label="Mudar para Inglês / Switch to English" type="button" title="Mudar idioma (Português / English)">
+        <span id="lang-badge">EN</span>
+      </button>
       <!-- Botão Instalar App (PWA): aparece só quando o navegador permite instalar -->
       <button class="theme-toggle" id="btn-instalar" type="button" hidden aria-label="Instalar aplicativo" title="Instalar como aplicativo"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
       <!-- Botão de Alternar Tema (Dark/Light com ícone SVG) -->
@@ -2599,42 +2862,50 @@ main.wrap, footer{
           <span class="nav-toggle-bar"></span>
           <span class="nav-toggle-bar"></span>
         </span>
-        <span>Menu</span>
+        <span id="nav-menu-label">Menu</span>
       </button>
     </div>
 
     <nav class="nav-links" id="nav-links">
-      <a href="#sobre">
+      <a href="#sobre" data-nav-key="sobre">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Sobre
+        <span class="nav-txt">Sobre</span>
       </a>
-      <a href="#foco">
+      <a href="#foco" data-nav-key="foco">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-        Foco
+        <span class="nav-txt">Foco</span>
       </a>
-      <a href="#skills">
+      <a href="#skills" data-nav-key="skills">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        Skills
+        <span class="nav-txt">Skills</span>
       </a>
-      <a href="#projetos">
+      <a href="#projetos" data-nav-key="projetos">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg>
-        Projetos
+        <span class="nav-txt">Projetos</span>
       </a>
-      <a href="#conquistas">
+      <a href="#conquistas" data-nav-key="conquistas">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-        Conquistas
+        <span class="nav-txt">Conquistas</span>
       </a>
-      <a href="#formacao">
+      <a href="#formacao" data-nav-key="formacao">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-        Formação
+        <span class="nav-txt">Formação</span>
       </a>
-      <a href="#recados">
+      <a href="#depoimentos" data-nav-key="depoimentos">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <span class="nav-txt">Recomendações</span>
+      </a>
+      <a href="#faq" data-nav-key="faq">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span class="nav-txt">FAQ</span>
+      </a>
+      <a href="#recados" data-nav-key="recados">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Recados
+        <span class="nav-txt">Recados</span>
       </a>
-      <a href="#contato">
+      <a href="#contato" data-nav-key="contato">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Contato
+        <span class="nav-txt">Contato</span>
       </a>
     </nav>
   </div>
@@ -2653,32 +2924,32 @@ main.wrap, footer{
           </span>
         </div>
 
-        <p class="hero-greeting">Olá, eu sou</p>
+        <p class="hero-greeting" id="hero-greeting-text">Olá, eu sou</p>
         <h1><span class="name">Higor do Amaral Fritz</span></h1>
 
         <div class="hero-role">
-          <span>Desenvolvedor focado em</span>
+          <span id="hero-role-prefix">Desenvolvedor focado em</span>
           <span class="typing-wrap"><span class="typing-text" id="typewriter"></span><span class="typing-cursor">|</span></span>
         </div>
 
         <p class="lead" id="hero-lead-text">Graduando em Sistemas de Informação pelo Instituto Federal Catarinense (IFC) e Técnico em Informática. Desenvolvo aplicações web completas, APIs RESTful seguras com Python e Django, interfaces em Vue e React e soluções com IA.</p>
 
         <div class="btns">
-          <a class="btn p" href="#projetos">
+          <a class="btn p" id="hero-btn-projetos" href="#projetos">
             <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            Ver projetos
+            <span class="btn-txt">Ver projetos</span>
           </a>
           <a class="btn btn-whatsapp" data-contact-key="whatsapp" href="https://wa.me/5547996565013?text=Ol%C3%A1%20Higor!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar%20sobre%20uma%20oportunidade." target="_blank" rel="noopener" title="Conversar no WhatsApp">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            WhatsApp
+            <span class="btn-txt">WhatsApp</span>
           </a>
-          <a class="btn s" data-contact-key="curriculo" href="/static/curriculo-higor.pdf" download="Curriculo-Higor-do-Amaral-Fritz.pdf" target="_blank" rel="noopener" title="Baixar currículo completo em PDF">
+          <a class="btn s" id="hero-btn-cv" data-contact-key="curriculo" href="/static/curriculo-higor.pdf" download="Curriculo-Higor-do-Amaral-Fritz.pdf" target="_blank" rel="noopener" title="Baixar currículo completo em PDF">
             <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Currículo (PDF)
+            <span class="btn-txt">Currículo (PDF)</span>
           </a>
-          <a class="btn s" href="#contato">
+          <a class="btn s" id="hero-btn-contato" href="#contato">
             <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            Contato
+            <span class="btn-txt">Contato</span>
           </a>
         </div>
       </div>
@@ -2701,19 +2972,19 @@ main.wrap, footer{
     <div class="stats">
       <div>
         <b>8+</b>
-        <span>Projetos publicados</span>
+        <span class="stat-lbl-1">Projetos publicados</span>
       </div>
       <div>
         <b>24h</b>
-        <span>Destaque Hackathon IA</span>
+        <span class="stat-lbl-2">Destaque Hackathon IA</span>
       </div>
       <div>
         <b>REST &amp; IA</b>
-        <span>Django, Vue 3 &amp; React</span>
+        <span class="stat-lbl-3">Django, Vue 3 &amp; React</span>
       </div>
       <div>
         <b>IFC</b>
-        <span>Sistemas de Informação</span>
+        <span class="stat-lbl-4">Sistemas de Informação</span>
       </div>
     </div>
   </div>
@@ -2898,7 +3169,58 @@ main.wrap, footer{
     </div>
   </section>
 
-    <!-- Seção FAQ para Recrutadores & Gestores -->
+  <!-- Seção Recomendações & Prova Social -->
+  <section id="depoimentos">
+    <h2>
+      <span class="heading-icon">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      </span>
+      <span id="depoimentos-title">Recomendações &amp; Prova Social</span>
+    </h2>
+    <p class="lead" id="depoimentos-lead">Depoimentos e avaliações de professores, mentores e colegas de equipe sobre capacidade de entrega técnica, rigor conceitual e trabalho em equipe.</p>
+    <div class="testimonials-grid" id="depoimentos-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-quote">
+          “O Higor demonstrou notável rigor técnico e maturidade analítica em sua formação no IFC. Sua pesquisa com modelagem formal de microprocessos em BPMN e adequação à LGPD comprovou sua capacidade de estruturar sistemas complexos com clareza e padrão acadêmico de excelência.”
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">IFC</div>
+          <div class="author-info">
+            <h4>Corpo Docente &amp; Coordenação BSI</h4>
+            <p>Instituto Federal Catarinense — Câmpus Araquari</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-quote">
+          “Na maratona de 24 horas ininterruptas do Hackathon da Fábrica de Software, o Higor liderou com maestria a estruturação do backend Django e a integração com os modelos de IA. Agilidade técnica impressionante, foco sob extrema pressão e comunicação impecável em equipe.”
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">FS</div>
+          <div class="author-info">
+            <h4>Equipe Hackathon Fábrica 2k26</h4>
+            <p>Projeto de IA para Educação Especial Inclusiva (TEA/TDAH)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-quote">
+          “Durante sua atuação no almoxarifado, Higor se destacou pela pontualidade, disciplina e agilidade no entendimento dos fluxos operacionais de insumos industriais. Postura ética exemplar e facilidade natural para aprender novas ferramentas e metodologias.”
+        </div>
+        <div class="testimonial-author">
+          <div class="author-avatar">TAF</div>
+          <div class="author-info">
+            <h4>Supervisão de Logística &amp; Operações</h4>
+            <p>TAF Indústria de Plásticos Ltda.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção FAQ para Recrutadores & Gestores -->
   <section id="faq">
     <h2>
       <span class="heading-icon">
@@ -3037,12 +3359,27 @@ main.wrap, footer{
       <p id="modal-desafio"></p>
     </div>
     <div class="modal-section">
-      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> A Solução Técnica & Arquitetura</h4>
+      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> <span id="modal-solucao-label">A Solução Técnica</span></h4>
       <p id="modal-solucao"></p>
     </div>
+    <!-- Seção de Métricas & Resultados de Impacto -->
+    <div class="modal-section" id="modal-section-metricas" style="display:none">
+      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> <span id="modal-metricas-label">Métricas &amp; Resultados Quantitativos</span></h4>
+      <div class="metrics-grid" id="modal-metricas"></div>
+    </div>
+    <!-- Seção de Arquitetura de Software -->
+    <div class="modal-section" id="modal-section-arquitetura" style="display:none">
+      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> <span id="modal-arquitetura-label">Arquitetura &amp; Fluxo de Dados</span></h4>
+      <div class="arch-flow-diagram" id="modal-arquitetura"></div>
+    </div>
     <div class="modal-section">
-      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Resultados & Aprendizados</h4>
+      <h4><svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> <span id="modal-aprendizados-label">Resultados &amp; Aprendizados</span></h4>
       <p id="modal-aprendizados"></p>
+    </div>
+    <!-- Aviso de Cold Start / Hospedagem Gratuita -->
+    <div id="modal-coldstart-notice" class="coldstart-pill" style="display:none">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span><strong>Hospedagem Render (Free Tier):</strong> se o serviço estiver em suspensão (*cold start*), a primeira requisição ao vivo pode levar até 45s. Os detalhes completos e código estão disponíveis no estudo e no GitHub.</span>
     </div>
     <div class="modal-footer" id="modal-footer"></div>
   </div>
@@ -3059,7 +3396,7 @@ main.wrap, footer{
   <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
-<script src="/static/js/app.js?v=20261104-v16"></script>
+<script src="/static/js/app.js?v=20261105-v17"></script>
 <!-- Botão Voltar ao Topo Flutuante -->
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>

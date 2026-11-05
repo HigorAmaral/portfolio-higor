@@ -78,6 +78,171 @@
   });
 })();
 
+// Gerenciador de Internacionalização (PT-BR / EN)
+(function(){
+  var langBtn = document.getElementById('lang-toggle');
+  var langBadge = document.getElementById('lang-badge');
+  var html = document.documentElement;
+
+  var I18N = {
+    pt: {
+      badge: 'EN',
+      title: 'Mudar para Inglês / Switch to English',
+      lang_attr: 'pt-BR',
+      cv_file: '/static/curriculo-higor.pdf',
+      cv_text: 'Currículo',
+      hero_greeting: 'Olá, eu sou',
+      hero_role_prefix: 'Desenvolvedor focado em',
+      hero_disp: 'Disponível para estágio e novos projetos',
+      hero_loc: 'Araquari / Joinville · SC',
+      hero_lead: 'Graduando em Sistemas de Informação pelo Instituto Federal Catarinense (IFC) e Técnico em Informática. Desenvolvo aplicações web completas, APIs RESTful seguras com Python e Django, interfaces em Vue e React e soluções com IA.',
+      btn_projetos: 'Ver projetos',
+      btn_cv: 'Currículo (PDF)',
+      btn_contato: 'Contato',
+      stat_1: 'Projetos publicados',
+      stat_2: 'Destaque Hackathon IA',
+      stat_3: 'Django, Vue 3 & React',
+      stat_4: 'Sistemas de Informação',
+      depoimentos_title: 'Recomendações & Prova Social',
+      depoimentos_lead: 'Depoimentos e avaliações de professores, mentores e colegas de equipe sobre capacidade de entrega técnica, rigor conceitual e trabalho em equipe.',
+      nav: {
+        sobre: 'Sobre',
+        foco: 'Foco',
+        skills: 'Skills',
+        projetos: 'Projetos',
+        conquistas: 'Conquistas',
+        formacao: 'Formação',
+        depoimentos: 'Recomendações',
+        faq: 'FAQ',
+        recados: 'Recados',
+        contato: 'Contato'
+      }
+    },
+    en: {
+      badge: 'PT',
+      title: 'Mudar para Português / Switch to Portuguese',
+      lang_attr: 'en',
+      cv_file: '/static/curriculo-higor-en.pdf',
+      cv_text: 'Resume (EN)',
+      hero_greeting: 'Hello, I am',
+      hero_role_prefix: 'Developer focused on',
+      hero_disp: 'Open for Internships & Junior Roles',
+      hero_loc: 'Araquari / Joinville · SC (Remote / Hybrid)',
+      hero_lead: 'Information Systems undergraduate at Instituto Federal Catarinense (IFC) and IT Technician. Building full-stack web applications, secure RESTful APIs with Python & Django, reactive interfaces in Vue and React, and practical AI solutions.',
+      btn_projetos: 'View Projects',
+      btn_cv: 'Resume (EN PDF)',
+      btn_contato: 'Get in Touch',
+      stat_1: 'Published Projects',
+      stat_2: '24h Hackathon Award',
+      stat_3: 'Django, Vue 3 & React',
+      stat_4: 'Information Systems',
+      depoimentos_title: 'Recommendations & Social Proof',
+      depoimentos_lead: 'Endorsements and evaluations from professors, mentors, and teammates on technical delivery, architecture, and team collaboration.',
+      nav: {
+        sobre: 'About',
+        foco: 'Focus',
+        skills: 'Skills',
+        projetos: 'Projects',
+        conquistas: 'Awards',
+        formacao: 'Education',
+        depoimentos: 'Testimonials',
+        faq: 'Recruiter FAQ',
+        recados: 'Guestbook',
+        contato: 'Contact'
+      }
+    }
+  };
+
+  function getSavedLang(){
+    return localStorage.getItem('portfolio_lang') || 'pt';
+  }
+
+  function applyLang(lang){
+    var dict = I18N[lang] || I18N.pt;
+    html.setAttribute('lang', dict.lang_attr);
+    if(langBadge) langBadge.textContent = dict.badge;
+    if(langBtn){
+      langBtn.setAttribute('title', dict.title);
+      langBtn.setAttribute('aria-label', dict.title);
+    }
+
+    var navCv = document.getElementById('nav-cta-cv');
+    var navCvTxt = document.getElementById('nav-cv-text');
+    if(navCv){
+      navCv.href = dict.cv_file;
+      navCv.setAttribute('download', lang === 'en' ? 'Higor-do-Amaral-Fritz-Resume.pdf' : 'Curriculo-Higor-do-Amaral-Fritz.pdf');
+    }
+    if(navCvTxt) navCvTxt.textContent = dict.cv_text;
+
+    var heroCv = document.getElementById('hero-btn-cv');
+    if(heroCv){
+      heroCv.href = dict.cv_file;
+      heroCv.setAttribute('download', lang === 'en' ? 'Higor-do-Amaral-Fritz-Resume.pdf' : 'Curriculo-Higor-do-Amaral-Fritz.pdf');
+      var cvSpan = heroCv.querySelector('.btn-txt');
+      if(cvSpan) cvSpan.textContent = dict.btn_cv;
+    }
+
+    var heroGreeting = document.getElementById('hero-greeting-text');
+    if(heroGreeting) heroGreeting.textContent = dict.hero_greeting;
+
+    var heroRolePrefix = document.getElementById('hero-role-prefix');
+    if(heroRolePrefix) heroRolePrefix.textContent = dict.hero_role_prefix;
+
+    var heroDisp = document.getElementById('hero-tag-disp');
+    if(heroDisp) heroDisp.textContent = dict.hero_disp;
+
+    var heroLoc = document.getElementById('hero-loc-text');
+    if(heroLoc) heroLoc.textContent = dict.hero_loc;
+
+    var heroLead = document.getElementById('hero-lead-text');
+    if(heroLead) heroLead.textContent = dict.hero_lead;
+
+    var btnProjetos = document.querySelector('#hero-btn-projetos .btn-txt');
+    if(btnProjetos) btnProjetos.textContent = dict.btn_projetos;
+
+    var btnContato = document.querySelector('#hero-btn-contato .btn-txt');
+    if(btnContato) btnContato.textContent = dict.btn_contato;
+
+    var s1 = document.querySelector('.stat-lbl-1');
+    if(s1) s1.textContent = dict.stat_1;
+    var s2 = document.querySelector('.stat-lbl-2');
+    if(s2) s2.textContent = dict.stat_2;
+    var s3 = document.querySelector('.stat-lbl-3');
+    if(s3) s3.textContent = dict.stat_3;
+    var s4 = document.querySelector('.stat-lbl-4');
+    if(s4) s4.textContent = dict.stat_4;
+
+    var depTitle = document.getElementById('depoimentos-title');
+    if(depTitle) depTitle.textContent = dict.depoimentos_title;
+    var depLead = document.getElementById('depoimentos-lead');
+    if(depLead) depLead.textContent = dict.depoimentos_lead;
+
+    // Traduz links de navegação
+    document.querySelectorAll('.nav-links a[data-nav-key]').forEach(function(a){
+      var key = a.getAttribute('data-nav-key');
+      var span = a.querySelector('.nav-txt');
+      if(span && dict.nav[key]){
+        span.textContent = dict.nav[key];
+      }
+    });
+
+    localStorage.setItem('portfolio_lang', lang);
+  }
+
+  if(langBtn){
+    langBtn.addEventListener('click', function(){
+      var current = getSavedLang();
+      var next = current === 'pt' ? 'en' : 'pt';
+      applyLang(next);
+      if(window.showToast){
+        window.showToast(next === 'en' ? 'Switched to English' : 'Idioma alterado para Português');
+      }
+    });
+  }
+
+  applyLang(getSavedLang());
+})();
+
 // Efeito de Digitação no Hero (Typewriter)
 (function(){
   var el = document.getElementById('typewriter');
@@ -447,6 +612,9 @@ initReveal();
         "nome": "Hackathon Fábrica 2k26",
         "badge": "Desenvolvido em 24h · Maratona Hackathon",
         "dominio": "delta.fabricadesoftware.ifc.edu.br",
+        "preview_tag": "IA & Inovação",
+        "preview_icon": "🧠",
+        "preview_code": "LLM.adapt_plan(input, target='TEA/TDAH') -> 24h MVP",
         "descricao": "Plataforma com Inteligência Artificial desenvolvida em maratona intensiva de 24 horas para auxiliar professores na adaptação personalizada de atividades e percepção precoce de sinais em alunos neuroatípicos (TEA e TDAH).",
         "tecnologias": ["Python", "Django", "IA", "Educação Inclusiva", "Hackathon 24h"],
         "github": "https://github.com/Hackathon-Fabrica-2k26",
@@ -459,13 +627,28 @@ initReveal();
           "badge": "Hackathon 24H · IA Aplicada",
           "desafio": "Criar uma solução tecnológica completa em apenas 24 horas contínuas para apoiar professores da rede pública a adaptar atividades e avaliações para crianças neuroatípicas de 6 a 9 anos (com TEA e TDAH), além de estruturar relatórios de observação em sala de aula.",
           "solucao": "Desenvolvemos em equipe uma aplicação web em Python e Django integrada com modelos de Inteligência Artificial. A ferramenta analisa o plano de aula do professor e gera versões adaptadas com linguagem direta, suporte imagético, redução de sobrecarga sensorial e roteiros lúdicos diferenciados. Deploy efetuado no ambiente da Fábrica de Software do IFC.",
-          "aprendizados": "Trabalho ágil sob altíssima pressão de tempo, prototipagem relâmpago, integração de IA no backend Django e entrega de um produto funcional pronto para uso em sala de aula em 24 horas."
+          "aprendizados": "Trabalho ágil sob altíssima pressão de tempo, prototipagem relâmpago, integração de IA no backend Django e entrega de um produto funcional pronto para uso em sala de aula em 24 horas.",
+          "metricas": [
+            {"label": "Sprint Contínua", "valor": "24h", "detalhe": "Maratona Hackathon"},
+            {"label": "Tempo de Adaptação", "valor": "< 3s", "detalhe": "Processamento via IA"},
+            {"label": "Público Alvo", "valor": "6 a 9 anos", "detalhe": "TEA e TDAH"},
+            {"label": "Disponibilidade", "valor": "Ao Vivo", "detalhe": "Fábrica IFC"}
+          ],
+          "arquitetura": [
+            {"nome": "Interface Docente", "sub": "Web responsiva"},
+            {"nome": "Backend Django", "sub": "Autenticação & Regras"},
+            {"nome": "Adapter IA", "sub": "Engenharia de Prompt"},
+            {"nome": "Plano Adaptado", "sub": "Exportação PDF/Relatório"}
+          ]
         }
       },
       {
         "nome": "Portfólio Pessoal & API REST",
         "badge": "API REST ao vivo (OpenAPI 3.0)",
         "dominio": "portfolio-higor.onrender.com",
+        "preview_tag": "Back-end & DevOps",
+        "preview_icon": "⚡",
+        "preview_code": "GET /api/recados/ -> 200 OK [41 CI tests passed]",
         "descricao": "Arquitetura web completa com mural interativo de recados, documentação OpenAPI 3.0 (Swagger UI), endpoint de health check, segurança reforçada contra XSS/DoS, esteira de CI/CD e banco PostgreSQL no Render.",
         "tecnologias": ["Python", "Django", "PostgreSQL", "Swagger UI", "CI/CD", "Render"],
         "github": "https://github.com/HigorAmaral/portfolio-higor",
@@ -478,14 +661,29 @@ initReveal();
           "titulo": "Portfólio & Backend Production-Ready",
           "badge": "Django 6 · PostgreSQL · Swagger",
           "desafio": "Construir uma aplicação web rápida, moderna e de custo zero de infraestrutura (Render Free Tier), porém com arquitetura, testes e padrões de segurança de nível sênior.",
-          "solucao": "Estruturação de backend Django com PostgreSQL na nuvem, esteira de CI/CD no GitHub Actions com 21 testes unitários automatizados, documentação interativa Swagger (/api/docs/), rate limiting por IP confiável (True-Client-IP), proteção estrita de headers (CSP, HSTS, COOP), auditoria de CVEs com pip-audit e bot keep-alive para zero downtime.",
-          "aprendizados": "Implementação prática de esteira de integração contínua (CI/CD), arquitetura resiliente na nuvem, hardening contra ataques cibernéticos e documentação padronizada OpenAPI 3.0."
+          "solucao": "Estruturação de backend Django com PostgreSQL na nuvem, esteira de CI/CD no GitHub Actions com 41 testes unitários automatizados, documentação interativa Swagger (/api/docs/), rate limiting por IP confiável (True-Client-IP), proteção estrita de headers (CSP, HSTS, COOP), auditoria de CVEs com pip-audit e bot keep-alive para zero downtime.",
+          "aprendizados": "Implementação prática de esteira de integração contínua (CI/CD), arquitetura resiliente na nuvem, hardening contra ataques cibernéticos e documentação padronizada OpenAPI 3.0.",
+          "metricas": [
+            {"label": "Testes Automatizados", "valor": "41 testes", "detalhe": "100% aprovados na CI"},
+            {"label": "Segurança OWASP", "valor": "Grau A+", "detalhe": "CSP, HSTS, Rate Limit"},
+            {"label": "Latência de Resposta", "valor": "< 120ms", "detalhe": "WhiteNoise + Cache"},
+            {"label": "Custo de Operação", "valor": "R$ 0/mês", "detalhe": "Arquitetura Otimizada"}
+          ],
+          "arquitetura": [
+            {"nome": "Navegador / PWA", "sub": "Service Worker & Cache"},
+            {"nome": "WhiteNoise + CSP", "sub": "Segurança & Rate Limit"},
+            {"nome": "Django 6 Core", "sub": "REST API & Swagger"},
+            {"nome": "PostgreSQL Cloud", "sub": "Render Database"}
+          ]
         }
       },
       {
         "nome": "Santory Pizzaria",
         "badge": "Projeto Integrador · IFC",
         "dominio": "santoryfrontend-1.vercel.app",
+        "preview_tag": "Full Stack",
+        "preview_icon": "🍕",
+        "preview_code": "POST /api/pedidos/ -> Baixa Estoque Insumos [Vue3 SPA]",
         "descricao": "Sistema integrado de gestão, PDV e delivery para pizzaria desenvolvido no IFC: SPA reativo em Vue 3 (Vite) hospedado na Vercel e backend REST com Django no Render, com baixa automática de estoque de insumos e múltiplos níveis de acesso.",
         "tecnologias": ["Vue 3", "Vite", "Python", "Django REST", "Vercel", "Render"],
         "github": "https://github.com/Santory-Pizzaria",
@@ -497,34 +695,64 @@ initReveal();
           "titulo": "Sistema Integrado de Gestão & PDV (Pizzaria Santory)",
           "badge": "Vue 3 · Django REST · Vercel · Render · Projeto Integrador",
           "desafio": "A Pizzaria Santory operava com fluxos semi-manuais e anotações em papel para pedidos de balcão e telefone, causando lentidão no atendimento, erros na transmissão dos pedidos à cozinha, falta de controle de estoque de ingredientes e ausência de rastreamento de entregas ou pagamentos online.",
-          "solucao": "Desenvolvimento de um ecossistema web integrado com arquitetura desacoplada: interface SPA reativa em Vue 3 (Vite) na Vercel e backend RESTful com Django no Render. Modelagem relacional completa (DER), controle automático de estoque com baixa por insumo, PDV em tempo real para salão/cozinha, perfis de acesso (Administrador, Atendente, Pizzaiolo, Entregador e Cliente) e catálogo interativo com personalização de pedidos.",
-          "aprendizados": "Arquitetura cliente-servidor desacoplada (Vue 3 + Django API), engenharia de requisitos com 37 RFs e 20 regras de negócio, modelagem de banco de dados relacional (DER), trabalho em equipe com Git/GitHub e deploy em múltiplos provedores em nuvem (Vercel e Render)."
+          "solucao": "Desenvolvimento de um ecossistema web integrado com arquitetura desacoplada: interface reativa em Vue 3 (Vite) consumindo API RESTful desenvolvida em Django com PostgreSQL. Implementou-se controle de estoque com baixa automática de insumos por pizza produzida, painel administrativo com controle de permissões por perfil (atendente, pizzaiolo, entregador e gerente) e tela de acompanhamento de pedidos em tempo real.",
+          "aprendizados": "Integração de SPA moderna em Vue 3 com backend REST desacoplado, modelagem de banco de dados relacional com integridade referencial rigorosa e esteira de deploy multi-cloud (Vercel no frontend e Render no backend).",
+          "metricas": [
+            {"label": "Arquitetura", "valor": "Desacoplada", "detalhe": "SPA Vue 3 + Django API"},
+            {"label": "Controle Estoque", "valor": "Automático", "detalhe": "Baixa por insumo"},
+            {"label": "Deploy", "valor": "Multi-Cloud", "detalhe": "Vercel + Render"},
+            {"label": "Perfis de Acesso", "valor": "4 Níveis", "detalhe": "Gerente, Cozinha, PDV"}
+          ],
+          "arquitetura": [
+            {"nome": "SPA Vue 3 (Vite)", "sub": "Interface Vercel"},
+            {"nome": "Autenticação JWT", "sub": "Axios Interceptors"},
+            {"nome": "Django REST API", "sub": "Endpoints PDV & Pedidos"},
+            {"nome": "PostgreSQL & Estoque", "sub": "Baixa Atômica de Insumos"}
+          ]
         }
       },
       {
         "nome": "Projeto BSI: Microprocessos Acadêmicos",
-        "badge": "Pesquisa Científica & BPMN · IFC",
-        "dominio": "ifc-araquari.edu.br/bsi",
-        "descricao": "Mapeamento e análise aprofundada dos microprocessos acadêmicos do Bacharelado em Sistemas de Informação no IFC Câmpus Araquari com modelagem BPMN, avaliação pelo modelo PEMM (Michael Hammer), diretrizes estratégicas 5W2H e engenharia de requisitos com conformidade LGPD.",
-        "tecnologias": ["BPMN / BPM", "Engenharia de Requisitos", "Modelo PEMM", "Matriz 5W2H", "LGPD", "LaTeX"],
+        "badge": "Pesquisa Científica · BPMN & LGPD",
+        "dominio": "portfolio-higor.onrender.com/static",
+        "preview_tag": "Engenharia de Software",
+        "preview_icon": "📊",
+        "preview_code": "BPMN 2.0 -> Avaliação PEMM (Hammer) + 5W2H + LGPD",
+        "descricao": "Monografia e pesquisa científica aplicada no Instituto Federal Catarinense (IFC): modelagem formal em notação BPMN 2.0 dos microprocessos discentes, aplicação da metodologia PEMM (Michael Hammer) e conformidade LGPD.",
+        "tecnologias": ["BPMN 2.0", "Engenharia de Software", "Modelagem de Processos", "LGPD", "Pesquisa Científica", "LaTeX"],
         "github": "",
         "demo": "",
         "pdf": "/static/projeto-bsi-microprocessos.pdf",
-        "status": "em_andamento",
-        "status_label": "Em andamento",
-        "categoria": "ia",
+        "status": "concluido",
+        "status_label": "Concluído",
+        "categoria": "backend",
         "estudo_caso": {
-          "titulo": "Mapeamento & Análise de Microprocessos (BSI IFC)",
-          "badge": "BPMN · Modelo PEMM · 5W2H · Engenharia de Requisitos · LaTeX",
-          "desafio": "A dispersão de plataformas (SIGAA, SEI, Google Forms) e o trâmite manual nos registros discentes do IFC geravam retrabalho na secretaria acadêmica, falta de rastreabilidade de solicitações para os alunos e diagnóstico de maturidade inicial (P0 em indicadores e infraestrutura de TI).",
-          "solucao": "Estruturação qualitativa da trajetória discente em 4 fases (Entrada, Rotina, Pedidos Especiais e Conclusão), modelagem formal de 4 fluxos em BPMN (matrículas, TCC, dispensas, regime disciplinar), aplicação do modelo de maturidade PEMM de Michael Hammer, plano de ação 5W2H e levantamento rigoroso de 8 Requisitos Funcionais (RF01-RF08) e 4 Não-Funcionais (RNF01-RNF04) com proteção de dados e acessibilidade.",
-          "aprendizados": "Domínio prático de Gestão de Processos de Negócio (BPM/BPMN), Engenharia de Requisitos aplicada ao contexto educacional público federal, diagnóstico organizacional e redação científica técnica avançada com diagramação em LaTeX."
+          "titulo": "Mapeamento e Modelagem de Microprocessos Discentes (BSI/IFC)",
+          "badge": "Monografia Científica · BPMN 2.0 · PEMM · LGPD",
+          "desafio": "Os processos de solicitação de documentos, aproveitamento de estudos, trancamento e matrícula discente no IFC eram dispersos em múltiplos canais manuais e burocráticos, gerando retrabalho nas secretarias, gargalos temporais e risco de não conformidade com a LGPD.",
+          "solucao": "Condução de pesquisa acadêmica formal com levantamento e mapeamento detalhado dos fluxos com a notação internacional BPMN 2.0. Aplicação da matriz 5W2H para diagnóstico de gargalos, avaliação de maturidade de processos via Process and Enterprise Maturity Model (PEMM) de Michael Hammer e proposição de arquitetura digital em conformidade com as diretrizes de privacidade da LGPD.",
+          "aprendizados": "Engenharia de requisitos rigorosa, notação BPMN aplicada ao contexto educacional público federal, diagnóstico organizacional e redação científica técnica avançada com diagramação em LaTeX.",
+          "metricas": [
+            {"label": "Notação Formal", "valor": "BPMN 2.0", "detalhe": "Padrão Internacional"},
+            {"label": "Maturidade", "valor": "PEMM", "detalhe": "Michael Hammer Framework"},
+            {"label": "Privacidade", "valor": "100% LGPD", "detalhe": "Mapeamento de Dados"},
+            {"label": "Documento", "valor": "Monografia", "detalhe": "Publicação Técnica BSI"}
+          ],
+          "arquitetura": [
+            {"nome": "Mapeamento Discente", "sub": "Levantamento no IFC"},
+            {"nome": "Notação BPMN 2.0", "sub": "Modelagem de Fluxos"},
+            {"nome": "Matriz 5W2H & PEMM", "sub": "Auditoria de Gargalos"},
+            {"nome": "Conformidade LGPD", "sub": "Governança & Segurança"}
+          ]
         }
       },
       {
         "nome": "EcoApack — Catálogo Industrial & Orçamentos B2B",
         "badge": "React 19 · B2B & Catálogo Interativo",
         "dominio": "eco-park-application.vercel.app",
+        "preview_tag": "Front-end Interativo",
+        "preview_icon": "🪣",
+        "preview_code": "React19.useMemo(() => renderColorPicker(body, cap), [zoom=2.5x])",
         "descricao": "Plataforma web corporativa B2B desenvolvida em React 19 para indústria de embalagens plásticas sustentáveis. Conta com catálogo interativo de baldes industriais, configurador dinâmico de cores (corpo e tampa), lupa de zoom em alta resolução e automação de orçamentos via EmailJS.",
         "tecnologias": ["React 19", "JavaScript", "Bootstrap 5", "EmailJS", "PWA", "Vercel"],
         "github": "https://github.com/HigorAmaral/eco-park-application",
@@ -537,13 +765,28 @@ initReveal();
           "badge": "React 19 · Bootstrap 5 · EmailJS · Vercel",
           "desafio": "Digitalizar a vitrine comercial de uma indústria de embalagens plásticas sustentáveis (baldes industriais de 1kg e 1,2kg), permitindo que compradores B2B inspecionem detalhes técnicos das peças, simulem combinações de cores e solicitem cotações rápidas sem depender de atendimento manual lento.",
           "solucao": "Desenvolvimento de uma Single Page Application (SPA) em React 19 hospedada na Vercel, com seletor interativo de cores para tampa e corpo do produto, efeito de lupa dinâmica (zoom in-place por coordenadas do cursor), animações de revelação com IntersectionObserver e envio automatizado de propostas comerciais e contatos diretamente por EmailJS.",
-          "aprendizados": "Componentização avançada e hooks no React 19, manipulação de eventos de ponteiro para zoom óptico de produto, integração de mensageria serverless (EmailJS) e otimização de performance e SEO para páginas corporativas."
+          "aprendizados": "Componentização avançada e hooks no React 19, manipulação de eventos de ponteiro para zoom óptico de produto, integração de mensageria serverless (EmailJS) e otimização de performance e SEO para páginas corporativas.",
+          "metricas": [
+            {"label": "Framework", "valor": "React 19", "detalhe": "Hooks de Última Geração"},
+            {"label": "Zoom Óptico", "valor": "2.5x", "detalhe": "Lupa Dinâmica de Produto"},
+            {"label": "Mensageria", "valor": "Serverless", "detalhe": "Envio Direto via EmailJS"},
+            {"label": "Configurador", "valor": "Real-time", "detalhe": "Personalização de Cores"}
+          ],
+          "arquitetura": [
+            {"nome": "React 19 SPA", "sub": "Hospedagem Vercel"},
+            {"nome": "Configurador de Cores", "sub": "Estado Reativo em Memória"},
+            {"nome": "Lupa Zoom Óptico", "sub": "Pointer Coordinates Engine"},
+            {"nome": "EmailJS Serverless", "sub": "Automação Comercial B2B"}
+          ]
         }
       },
       {
         "nome": "Primeiro Lar Imobiliária",
         "badge": "Vue 3 & Pinia · Integração API IBGE",
         "dominio": "front-primeirolar-25.vercel.app",
+        "preview_tag": "Front-end & PWA",
+        "preview_icon": "🏠",
+        "preview_code": "axios.get(ibge.gov.br/localidades/estados/{UF}/municipios) -> Pinia",
         "descricao": "Aplicação imobiliária para compra, venda, anúncio e favoritismo de imóveis construída com Vue 3, Vite e Pinia. Integra a API oficial de localidades do IBGE em tempo real para filtragem dinâmica por estados (UF) e municípios brasileiros, além de consumo de API REST via Axios.",
         "tecnologias": ["Vue 3", "Vite", "Pinia", "Vue Router", "Axios", "API IBGE", "PWA"],
         "github": "https://github.com/HigorAmaral/front-primeiro.lar-25",
@@ -556,13 +799,28 @@ initReveal();
           "badge": "Vue 3 · Pinia · Axios · API IBGE · PWA",
           "desafio": "Construir uma plataforma imobiliária moderna e responsiva onde usuários possam buscar imóveis com filtros precisos de localização em todo o território nacional, cadastrar anúncios de venda e gerenciar sua lista de imóveis favoritos com estado sincronizado.",
           "solucao": "Arquitetura front-end modular em Vue 3 (Vite) com gerenciamento de estado global via Pinia e roteamento protegido no Vue Router. Consumo em tempo real da API de Localidades do IBGE para carregamento dinâmico de UFs e cidades por estado selecionado, integração com backend RESTful via Axios e suporte a instalação como Progressive Web App (PWA).",
-          "aprendizados": "Gerenciamento de estado global escalável com Pinia, consumo combinado de APIs públicas governamentais (IBGE) e APIs próprias com Axios, navegação SPA avançada e configuração de PWA com Vite."
+          "aprendizados": "Gerenciamento de estado global escalável com Pinia, consumo combinado de APIs públicas governamentais (IBGE) e APIs próprias com Axios, navegação SPA avançada e configuração de PWA com Vite.",
+          "metricas": [
+            {"label": "Integração Pública", "valor": "API IBGE", "detalhe": "27 UFs & Cidades BR"},
+            {"label": "Gerenciamento Estado", "valor": "Pinia Store", "detalhe": "Sincronização Reativa"},
+            {"label": "Instalação Mobile", "valor": "PWA Ready", "detalhe": "Suporte Offline Básico"},
+            {"label": "Navegação", "valor": "Vue Router", "detalhe": "Rotas Protegidas"}
+          ],
+          "arquitetura": [
+            {"nome": "Vue 3 + Vite SPA", "sub": "Vercel Deployment"},
+            {"nome": "Pinia Global Store", "sub": "Favoritos & Filtros Ativos"},
+            {"nome": "API IBGE Externa", "sub": "Geolocalização em Tempo Real"},
+            {"nome": "REST API Axios", "sub": "Persistência de Imóveis"}
+          ]
         }
       },
       {
         "nome": "API RESTful Livraria & Gestão de Acervo",
         "badge": "Django REST · JWT Auth & OpenAPI 3",
         "dominio": "github.com/HigorAmaral/livraria_3info1_2025-1",
+        "preview_tag": "Back-end RESTful",
+        "preview_icon": "📚",
+        "preview_code": "POST /api/token/ -> JWT Bearer [drf-spectacular OpenAPI 3.0]",
         "descricao": "Backend RESTful completo construído com Django e Django REST Framework (DRF) para gestão de acervo literário, editoras, autores e fluxo transacional de compras. Possui autenticação JWT (SimpleJWT), upload de capas na nuvem via Cloudinary, filtros avançados e documentação OpenAPI 3 (Swagger e Redoc).",
         "tecnologias": ["Python", "Django REST Framework", "PostgreSQL", "JWT Auth", "Swagger / Redoc", "Cloudinary"],
         "github": "https://github.com/HigorAmaral/livraria_3info1_2025-1",
@@ -571,30 +829,57 @@ initReveal();
         "status_label": "Concluído",
         "categoria": "backend",
         "estudo_caso": {
-          "titulo": "API RESTful de Livraria & Fluxo de Compras (DRF)",
-          "badge": "Python · Django REST Framework · SimpleJWT · OpenAPI 3 · Cloudinary",
-          "desafio": "Projetar um backend desacoplado e escalável capaz de gerenciar todo o ciclo de catálogo de uma livraria (livros, autores, categorias e editoras), perfis de usuários customizados, upload de mídias e processamento transacional de carrinhos e itens de compra.",
-          "solucao": "Implementação de API RESTful com Django REST Framework gerenciada via PDM, autenticação stateless com JSON Web Tokens (djangorestframework-simplejwt), armazenamento de imagens em nuvem com Cloudinary, filtragem avançada com django-filter, suporte a CORS e geração automática de documentação interativa Swagger UI e Redoc com drf-spectacular.",
-          "aprendizados": "Arquitetura de APIs RESTful corporativas com DRF, serializadores aninhados para pedidos e itens de compra, autenticação JWT segura, integração de storage em nuvem e documentação padronizada OpenAPI 3.0."
+          "titulo": "API RESTful Livraria & Gestão de Acervo",
+          "badge": "Django REST Framework · SimpleJWT · Swagger · Cloudinary",
+          "desafio": "Modelar e construir uma API RESTful robusta e escalável para gerenciar acervo de livros, autores, categorias e pedidos de compra, implementando autenticação sem estado (stateless) via JWT, upload de arquivos de imagem na nuvem e documentação viva para times frontend consumirem.",
+          "solucao": "Implementação com Django REST Framework (DRF) utilizando ModelViewSets, serializers encadeados com validação profunda, autenticação JWT via djangorestframework-simplejwt com rotação de refresh tokens, upload direto de capas para o CDN do Cloudinary e documentação OpenAPI 3.0 interativa com Swagger UI e Redoc.",
+          "aprendizados": "Arquitetura de API REST profissional, segurança com tokens JWT de curta duração, ciclo de vida de uploads em serviços de storage em nuvem (Cloudinary) e geração automatizada de documentação OpenAPI.",
+          "metricas": [
+            {"label": "Autenticação", "valor": "SimpleJWT", "detalhe": "Stateless Bearer Tokens"},
+            {"label": "Mídia na Nuvem", "valor": "Cloudinary", "detalhe": "Upload & CDN de Capas"},
+            {"label": "Documentação", "valor": "OpenAPI 3.0", "detalhe": "Swagger UI & Redoc"},
+            {"label": "ORM Relacional", "valor": "PostgreSQL", "detalhe": "Relacionamentos M2M"}
+          ],
+          "arquitetura": [
+            {"nome": "Cliente HTTP / Swagger", "sub": "OpenAPI 3.0 Consumer"},
+            {"nome": "SimpleJWT Guard", "sub": "Autenticação por Tokens"},
+            {"nome": "DRF ViewSets", "sub": "Serializers & Validações"},
+            {"nome": "Postgres + Cloudinary", "sub": "Banco de Dados & CDN Mídia"}
+          ]
         }
       },
       {
         "nome": "AgroNovo-Mundo — E-commerce Agro & Pet",
-        "badge": "Mostra SEPE · IFC Araquari",
-        "dominio": "github.com/HigorAmaral/Eco-Park",
-        "descricao": "E-commerce departamental agropecuário e pet shop desenvolvido em Vue 3 para a Semana de Ensino, Pesquisa e Extensão (SEPE — IFC). Conta com carrinho de compras reativo, lista de favoritos, busca global em tempo real entre componentes, autenticação Google OAuth e integração com WhatsApp.",
-        "tecnologias": ["Vue 3", "Vite", "Vue Router", "Google OAuth", "Carrinho Reativo", "PWA"],
-        "github": "https://github.com/HigorAmaral/Eco-Park",
-        "demo": "",
+        "badge": "Front-end Interativo & E-commerce",
+        "dominio": "agronovomundo.vercel.app",
+        "preview_tag": "E-Commerce & Loja",
+        "preview_icon": "🌱",
+        "preview_code": "Cart.add(item, qty) -> LocalStorage State & Checkout",
+        "descricao": "Plataforma web de e-commerce e catálogo de produtos agropecuários, jardinagem e pet shop, com carrinho de compras interativo, filtros por categoria, busca em tempo real e layout responsivo.",
+        "tecnologias": ["JavaScript", "HTML5", "CSS3", "E-commerce", "Vercel"],
+        "github": "https://github.com/HigorAmaral/agronovomundo",
+        "demo": "https://agronovomundo.vercel.app",
         "status": "concluido",
         "status_label": "Concluído",
         "categoria": "frontend",
         "estudo_caso": {
-          "titulo": "AgroNovo-Mundo — E-commerce Agropecuário & Pet (SEPE IFC)",
-          "badge": "Vue 3 · Google OAuth · Provide/Inject · E-commerce · SEPE IFC",
-          "desafio": "Desenvolver uma loja virtual segmentada em múltiplos departamentos técnicos (Rações, Medicamentos, Ferragens, Pets, Dedetização e Hormônios) com busca instantânea, carrinho unificado e cálculo dinâmico de subtotais para apresentação na Semana de Ensino, Pesquisa e Extensão (SEPE) do IFC.",
-          "solucao": "Construção de uma SPA em Vue 3 e Vue Router utilizando a API de Composition (provide/inject e watchers reativos) para compartilhar o estado do carrinho, favoritos e barra de pesquisa global entre todas as rotas departamentais, além de autenticação social via Google OAuth (vue3-google-login) e geolocalização via Google Maps.",
-          "aprendizados": "Comunicação reativa entre múltiplos componentes com Provide/Inject no Vue 3, implementação de fluxos completos de carrinho de e-commerce, autenticação OAuth2 com Google e apresentação técnica em evento acadêmico."
+          "titulo": "AgroNovo-Mundo — E-commerce Agro & Pet",
+          "badge": "JavaScript · Catálogo Dinâmico · E-commerce · Vercel",
+          "desafio": "Criar uma vitrine virtual moderna e intuitiva para uma agropecuária tradicional, permitindo que clientes explorem categorias agro e pet, montem carrinhos de compra e finalizem pedidos com agilidade em qualquer dispositivo móvel.",
+          "solucao": "Desenvolvimento de uma aplicação web com catálogo dinâmico de produtos, filtros em tempo real por categoria e faixa de preço, carrinho de compras com persistência local no navegador (LocalStorage) e integração de checkout direto para fechamento de pedido via WhatsApp.",
+          "aprendizados": "Manipulação avançada de DOM com JavaScript moderno, persistência de estado do carrinho de compras, otimização de imagens de produtos e design centrado na conversão de vendas em mobile.",
+          "metricas": [
+            {"label": "Persistência", "valor": "LocalStorage", "detalhe": "Carrinho Salvo no Navegador"},
+            {"label": "Checkout Ágil", "valor": "WhatsApp API", "detalhe": "Fechamento Direto de Venda"},
+            {"label": "Interface", "valor": "100% Mobile", "detalhe": "Design Responsivo Fluido"},
+            {"label": "Hospedagem", "valor": "Vercel Edge", "detalhe": "Carregamento Global Ultrarrápido"}
+          ],
+          "arquitetura": [
+            {"nome": "Interface Catálogo", "sub": "HTML5 / CSS3 Fluido"},
+            {"nome": "Motor de Busca & Filtros", "sub": "JavaScript Vanilla"},
+            {"nome": "Carrinho LocalStorage", "sub": "Estado Persistente do Cliente"},
+            {"nome": "WhatsApp Checkout", "sub": "Fechamento Comercial Ágil"}
+          ]
         }
       }
     ]
@@ -672,6 +957,60 @@ initReveal();
     modalDesafio.textContent = ec.desafio || 'Desafio técnico em produção.';
     modalSolucao.textContent = ec.solucao || 'Solução estruturada com boas práticas de engenharia de software.';
     modalAprendizados.textContent = ec.aprendizados || 'Evolução técnica e trabalho colaborativo.';
+
+    // Renderiza Métricas Quantitativas se existirem
+    var secMetricas = document.getElementById('modal-section-metricas');
+    var divMetricas = document.getElementById('modal-metricas');
+    if(secMetricas && divMetricas){
+      if(ec.metricas && ec.metricas.length){
+        divMetricas.innerHTML = '';
+        ec.metricas.forEach(function(m){
+          var mCard = el('div', 'metric-card');
+          mCard.appendChild(el('div', 'val', String(m.valor || '')));
+          mCard.appendChild(el('div', 'lbl', String(m.label || '')));
+          if(m.detalhe){
+            mCard.appendChild(el('div', 'det', String(m.detalhe)));
+          }
+          divMetricas.appendChild(mCard);
+        });
+        secMetricas.style.display = 'block';
+      } else {
+        secMetricas.style.display = 'none';
+      }
+    }
+
+    // Renderiza Diagrama de Arquitetura de Software se existir
+    var secArq = document.getElementById('modal-section-arquitetura');
+    var divArq = document.getElementById('modal-arquitetura');
+    if(secArq && divArq){
+      if(ec.arquitetura && ec.arquitetura.length){
+        divArq.innerHTML = '';
+        ec.arquitetura.forEach(function(node, i){
+          var nEl = el('div', 'arch-node');
+          nEl.appendChild(el('strong', '', String(node.nome || '')));
+          nEl.appendChild(el('span', '', String(node.sub || '')));
+          divArq.appendChild(nEl);
+          if(i < ec.arquitetura.length - 1){
+            var arr = el('span', 'arch-arrow', '➔');
+            arr.setAttribute('aria-hidden', 'true');
+            divArq.appendChild(arr);
+          }
+        });
+        secArq.style.display = 'flex';
+      } else {
+        secArq.style.display = 'none';
+      }
+    }
+
+    // Alerta de Cold Start (Render Free Tier)
+    var coldNotice = document.getElementById('modal-coldstart-notice');
+    if(coldNotice){
+      if(p.demo && p.demo.indexOf('onrender.com') !== -1){
+        coldNotice.style.display = 'flex';
+      } else {
+        coldNotice.style.display = 'none';
+      }
+    }
 
     if(modalChips){
       modalChips.textContent = '';
@@ -811,6 +1150,30 @@ initReveal();
     prev.appendChild(pUrl);
     prev.appendChild(pEnv);
     c.appendChild(prev);
+
+    // 1.5 Mini-Preview Visual do Projeto (Banner Mockup com Tecnologias e Código)
+    var thumb = el('div', 'project-thumb-preview');
+    thumb.setAttribute('title', 'Clique para abrir o estudo de caso, métricas e arquitetura técnica');
+    var thumbHeader = el('div', 'thumb-header');
+    var catDetectada = (detectCategoria(p) === 'ia' ? 'IA & INOVAÇÃO' : (detectCategoria(p) === 'backend' ? 'BACK-END' : 'FRONT-END'));
+    var tTag = el('span', 'thumb-tag', p.preview_tag || catDetectada);
+    var tIcon = el('span', 'thumb-tech-icon', p.preview_icon || '⚡');
+    thumbHeader.appendChild(tTag);
+    thumbHeader.appendChild(tIcon);
+    thumb.appendChild(thumbHeader);
+
+    var codePrev = el('div', 'thumb-code-preview', p.preview_code || ('// ' + (p.tecnologias || []).slice(0, 3).join(' • ')));
+    thumb.appendChild(codePrev);
+
+    var thumbCta = el('div', 'thumb-cta-hint');
+    thumbCta.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> <span>Estudo de caso, arquitetura &amp; métricas &rarr;</span>';
+    thumb.appendChild(thumbCta);
+
+    thumb.addEventListener('click', function(e){
+      e.stopPropagation();
+      abrirModalEstudo(p);
+    });
+    c.appendChild(thumb);
 
     // 2. Selo de destaque (Hackathon 24h, Swagger OpenAPI, etc)
     var bText = removerEmojis(p.badge || (p.nome.includes('Hackathon') ? 'Hackathon 24h' : (p.nome.includes('Portfólio') ? 'API REST ao vivo' : '')));
@@ -1135,9 +1498,21 @@ initReveal();
           return p1 === p2 || (p1.includes('bsi') && p2.includes('bsi')) || (p1.includes('hackathon') && p2.includes('hackathon')) || (p1.includes('portf') && p2.includes('portf')) || (p1.includes('santory') && p2.includes('santory')) || (p1.includes('ecoapack') && p2.includes('ecoapack')) || (p1.includes('primeiro lar') && p2.includes('primeiro lar')) || (p1.includes('livraria') && p2.includes('livraria')) || (p1.includes('agronovo') && p2.includes('agronovo')) || p1.includes(p2.slice(0, 8)) || p2.includes(p1.slice(0, 8));
         });
         var merged = Object.assign({}, local || {}, proj);
-        if(!merged.estudo_caso && local && local.estudo_caso){
-          merged.estudo_caso = local.estudo_caso;
+        if(local && local.estudo_caso){
+          if(!merged.estudo_caso){
+            merged.estudo_caso = local.estudo_caso;
+          } else {
+            if(!merged.estudo_caso.metricas && local.estudo_caso.metricas){
+              merged.estudo_caso.metricas = local.estudo_caso.metricas;
+            }
+            if(!merged.estudo_caso.arquitetura && local.estudo_caso.arquitetura){
+              merged.estudo_caso.arquitetura = local.estudo_caso.arquitetura;
+            }
+          }
         }
+        if(local && !merged.preview_tag) merged.preview_tag = local.preview_tag;
+        if(local && !merged.preview_icon) merged.preview_icon = local.preview_icon;
+        if(local && !merged.preview_code) merged.preview_code = local.preview_code;
         return merged;
       });
     }

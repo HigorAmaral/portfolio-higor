@@ -27,12 +27,14 @@ Aplicação web full-stack desenvolvida com **Django** no backend e interface mo
 * **Servidor de Produção:** Gunicorn gerenciado por container Linux no Render.
 * **Arquivos Estáticos:** WhiteNoise com compressão gzip/brotli e cache agressivo de ativos.
 * **Documentação de API:** Especificação OpenAPI 3.0 com interface Swagger UI interativa nativa.
-* **CI/CD:** Pipeline automatizado no GitHub Actions executando 24 testes unitários em cada push.
+* **CI/CD:** Pipeline automatizado no GitHub Actions executando 41 testes unitários em cada push.
 
 ### Front-end & Interface
 * **Arquitetura:** HTML5 semântico, CSS3 com design tokens e JavaScript Vanilla (zero frameworks pesados para carregamento ultra-rápido).
+* **Internacionalização (i18n):** Suporte nativo a alternância de idiomas (Português / Inglês) e download de currículo bilíngue (`curriculo-higor.pdf` e `curriculo-higor-en.pdf`).
 * **Acessibilidade & Design:** Paleta dinâmica adaptada para modo escuro e claro (Dark/Light mode) com cálculo de contraste harmonioso (`color-mix`), tipografia fluida e suporte a leitores de tela.
-* **Estudos de Caso:** Modais interativos detalhando desafios técnicos, decisões de engenharia e resultados de projetos.
+* **Estudos de Caso & Métricas:** Modais detalhando desafios técnicos, decisões de engenharia, **métricas quantitativas de impacto** e **diagramas de arquitetura de software**.
+* **Prova Social & Recomendações:** Seção estruturada com depoimentos acadêmicos, de hackathon e de liderança operacional.
 * **PWA (Progressive Web App):** Instalável no celular e desktop, com Service Worker para carregamento instantâneo e acesso offline ao conteúdo principal.
 
 ---
@@ -147,6 +149,9 @@ python manage.py test
 * **Portfólio:** [portfolio-higor.onrender.com](https://portfolio-higor.onrender.com)
 * **GitHub:** [@HigorAmaral](https://github.com/HigorAmaral)
 * **E-mail:** [amarahigor@gmail.com](mailto:amarahigor@gmail.com)
+* **Currículo (PT-BR):** [curriculo-higor.pdf](static/curriculo-higor.pdf)
+* **Resume (EN):** [curriculo-higor-en.pdf](static/curriculo-higor-en.pdf)
+* **Padrão de Repositórios:** [docs/GUIA_PADRAO_REPOSITORIOS.md](docs/GUIA_PADRAO_REPOSITORIOS.md)
 
 ---
 
