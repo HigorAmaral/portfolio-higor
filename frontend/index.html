@@ -709,21 +709,35 @@ h2 .heading-icon{
 .rodape a{
   color:var(--accent);
   font-weight:600;
-  font-size:.92rem;
+  font-size:.84rem;
   text-decoration:none;
   display:inline-flex;
   align-items:center;
   gap:6px;
-  min-height:38px;
+  min-height:34px;
 }
 .rodape a:hover{text-decoration:underline}
 .rodape a.demo-link{
   background:var(--accent-soft);
-  padding:6px 14px;
-  border-radius:10px;
-  border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+  color:var(--accent);
+  padding:6px 13px;
+  border-radius:999px;
+  border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);
+  font-size:.82rem;
+  font-weight:600;
+  min-height:34px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all .2s ease;
 }
-.rodape a.demo-link:hover{text-decoration:none;filter:brightness(1.05)}
+.rodape a.demo-link:hover{
+  text-decoration:none;
+  background:var(--accent);
+  color:var(--accent-text, #ffffff);
+  border-color:var(--accent);
+  transform:translateY(-1px);
+}
 
 /* Filtros de Projetos */
 .filter-tabs{
@@ -1347,54 +1361,93 @@ section:hover h2 .heading-icon{
 }
 
 .rodape a.swagger-link{
-  background:color-mix(in srgb,#0ea5e9 16%,transparent);
+  background:color-mix(in srgb,#0ea5e9 14%,transparent);
   color:#0ea5e9;
-  padding:6px 14px;
-  border-radius:10px;
+  padding:6px 13px;
+  border-radius:999px;
   border:1px solid color-mix(in srgb,#0ea5e9 35%,transparent);
-}
-.rodape a.swagger-link:hover{text-decoration:none;filter:brightness(1.15)}
-
-.rodape a.pdf-link{
-  background:color-mix(in srgb,#8b5cf6 16%,transparent);
-  color:var(--accent-purple, #7C4DFF);
-  padding:6px 14px;
-  border-radius:10px;
-  border:1px solid color-mix(in srgb,#8b5cf6 35%,transparent);
-  font-size:.84rem;
+  font-size:.82rem;
   font-weight:600;
+  min-height:34px;
   display:inline-flex;
   align-items:center;
   gap:6px;
   transition:all .2s ease;
 }
+.rodape a.swagger-link:hover{
+  text-decoration:none;
+  filter:brightness(1.15);
+  transform:translateY(-1px);
+}
+
+.rodape a.pdf-link{
+  background:color-mix(in srgb,#8b5cf6 14%,transparent);
+  color:var(--accent-purple, #7C4DFF);
+  padding:6px 13px;
+  border-radius:999px;
+  border:1px solid color-mix(in srgb,#8b5cf6 35%,transparent);
+  font-size:.82rem;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  min-height:34px;
+  transition:all .2s ease;
+}
 :root[data-theme="light"] .rodape a.pdf-link{
-  background:color-mix(in srgb,#7c3aed 12%,transparent);
+  background:color-mix(in srgb,#7c3aed 10%,transparent);
   color:#6d28d9;
   border-color:color-mix(in srgb,#7c3aed 30%,transparent);
 }
-.rodape a.pdf-link:hover{text-decoration:none;filter:brightness(1.15);transform:translateY(-1px)}
+.rodape a.pdf-link:hover{
+  text-decoration:none;
+  filter:brightness(1.15);
+  transform:translateY(-1px);
+}
+
+.rodape a.github-link{
+  background:color-mix(in srgb,var(--surface) 80%,var(--bg));
+  color:var(--text-sec, var(--muted));
+  padding:6px 13px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  font-size:.82rem;
+  font-weight:600;
+  min-height:34px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all .2s ease;
+}
+.rodape a.github-link:hover{
+  text-decoration:none;
+  color:var(--accent);
+  border-color:color-mix(in srgb,var(--accent) 45%,var(--line));
+  background:var(--accent-soft);
+  transform:translateY(-1px);
+}
 
 .btn-case{
   background:transparent;
   border:1px dashed color-mix(in srgb,var(--accent) 55%,transparent);
   color:var(--accent);
-  font-size:.84rem;
+  font-size:.82rem;
   font-weight:600;
-  padding:6px 12px;
-  border-radius:8px;
+  padding:6px 13px;
+  border-radius:999px;
   cursor:pointer;
   display:inline-flex;
   align-items:center;
   gap:6px;
   transition:all .2s ease;
   font-family:inherit;
-  min-height:36px;
+  min-height:34px;
 }
 .btn-case:hover{
   background:var(--accent-soft);
   border-style:solid;
   border-color:var(--accent);
+  transform:translateY(-1px);
 }
 
 /* Modal de Estudo de Caso */
@@ -2571,74 +2624,8 @@ main.wrap, footer{
 }
 
 /* ==========================================================
-   MELHORIAS: Mini-Preview Visual dos Projetos, Métricas & Depoimentos
+   MELHORIAS: Métricas STAR, Arquitetura & Alerta Cold-Start
    ========================================================== */
-.project-thumb-preview{
-  position:relative;
-  height:115px;
-  border-radius:10px;
-  margin-bottom:14px;
-  overflow:hidden;
-  border:1px solid color-mix(in srgb, var(--line) 80%, transparent);
-  background:linear-gradient(135deg, color-mix(in srgb, var(--surface) 92%, #000 8%), color-mix(in srgb, var(--surface) 72%, #000 28%));
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  padding:12px 14px;
-  cursor:pointer;
-  transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease;
-  user-select:none;
-}
-.card:hover .project-thumb-preview{
-  border-color:color-mix(in srgb, var(--accent) 50%, var(--line));
-  transform:translateY(-2px);
-  box-shadow:0 6px 16px -4px rgba(0,0,0,0.12);
-}
-.thumb-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.thumb-tag{
-  font-size:.68rem;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.05em;
-  padding:3px 8px;
-  border-radius:6px;
-  background:color-mix(in srgb, var(--accent) 15%, transparent);
-  color:var(--accent);
-  border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-}
-.thumb-tech-icon{
-  font-size:1.15rem;
-  line-height:1;
-}
-.thumb-code-preview{
-  font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size:.72rem;
-  line-height:1.4;
-  color:var(--text-sec);
-  background:color-mix(in srgb, var(--bg) 65%, transparent);
-  padding:6px 10px;
-  border-radius:6px;
-  border-left:3px solid var(--accent);
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.thumb-cta-hint{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  font-size:.68rem;
-  font-weight:600;
-  color:var(--muted);
-  transition:color .2s ease;
-}
-.card:hover .thumb-cta-hint{
-  color:var(--accent);
-}
 
 /* Alerta Cold Start (Render Free Tier) */
 .coldstart-pill{
@@ -2741,17 +2728,7 @@ main.wrap, footer{
   user-select:none;
 }
 
-/* Botão Alternador de Idioma (PT / EN) */
-.lang-toggle{
-  min-width:38px;
-  height:38px;
-  font-weight:800;
-  font-size:.75rem;
-  letter-spacing:.04em;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-}
+
 </style>
 </head>
 <body>
@@ -2783,10 +2760,7 @@ main.wrap, footer{
         <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         <span id="nav-cv-text">Currículo</span>
       </a>
-      <!-- Botão Alternador de Idioma (PT / EN) -->
-      <button class="theme-toggle lang-toggle" id="lang-toggle" aria-label="Mudar para Inglês / Switch to English" type="button" title="Mudar idioma (Português / English)">
-        <span id="lang-badge">EN</span>
-      </button>
+
       <!-- Botão Instalar App (PWA): aparece só quando o navegador permite instalar -->
       <button class="theme-toggle" id="btn-instalar" type="button" hidden aria-label="Instalar aplicativo" title="Instalar como aplicativo"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
       <!-- Botão de Alternar Tema (Dark/Light com ícone SVG) -->
@@ -3279,7 +3253,7 @@ main.wrap, footer{
   <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
-<script src="/static/js/app.js?v=20261105-v18"></script>
+<script src="/static/js/app.js?v=20261105-v19"></script>
 <!-- Botão Voltar ao Topo Flutuante -->
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>

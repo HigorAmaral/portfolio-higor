@@ -78,159 +78,7 @@
   });
 })();
 
-// Gerenciador de Internacionalização (PT-BR / EN)
-(function(){
-  var langBtn = document.getElementById('lang-toggle');
-  var langBadge = document.getElementById('lang-badge');
-  var html = document.documentElement;
 
-  var I18N = {
-    pt: {
-      badge: 'EN',
-      title: 'Mudar para Inglês / Switch to English',
-      lang_attr: 'pt-BR',
-      cv_file: '/static/curriculo-higor.pdf',
-      cv_text: 'Currículo',
-      hero_greeting: 'Olá, eu sou',
-      hero_role_prefix: 'Desenvolvedor focado em',
-      hero_disp: 'Disponível para estágio e novos projetos',
-      hero_loc: 'Araquari / Joinville · SC',
-      hero_lead: 'Graduando em Sistemas de Informação pelo Instituto Federal Catarinense (IFC) e Técnico em Informática. Desenvolvo aplicações web completas, APIs RESTful seguras com Python e Django, interfaces em Vue e React e soluções com IA.',
-      btn_projetos: 'Ver projetos',
-      btn_cv: 'Currículo (PDF)',
-      btn_contato: 'Contato',
-      stat_1: 'Projetos publicados',
-      stat_2: 'Destaque Hackathon IA',
-      stat_3: 'Django, Vue 3 & React',
-      stat_4: 'Sistemas de Informação',
-      nav: {
-        sobre: 'Sobre',
-        foco: 'Foco',
-        skills: 'Skills',
-        projetos: 'Projetos',
-        conquistas: 'Conquistas',
-        formacao: 'Formação',
-        faq: 'FAQ',
-        recados: 'Recados',
-        contato: 'Contato'
-      }
-    },
-    en: {
-      badge: 'PT',
-      title: 'Mudar para Português / Switch to Portuguese',
-      lang_attr: 'en',
-      cv_file: '/static/curriculo-higor-en.pdf',
-      cv_text: 'Resume (EN)',
-      hero_greeting: 'Hello, I am',
-      hero_role_prefix: 'Developer focused on',
-      hero_disp: 'Open for Internships & Junior Roles',
-      hero_loc: 'Araquari / Joinville · SC (Remote / Hybrid)',
-      hero_lead: 'Information Systems undergraduate at Instituto Federal Catarinense (IFC) and IT Technician. Building full-stack web applications, secure RESTful APIs with Python & Django, reactive interfaces in Vue and React, and practical AI solutions.',
-      btn_projetos: 'View Projects',
-      btn_cv: 'Resume (EN PDF)',
-      btn_contato: 'Get in Touch',
-      stat_1: 'Published Projects',
-      stat_2: '24h Hackathon Award',
-      stat_3: 'Django, Vue 3 & React',
-      stat_4: 'Information Systems',
-      nav: {
-        sobre: 'About',
-        foco: 'Focus',
-        skills: 'Skills',
-        projetos: 'Projects',
-        conquistas: 'Awards',
-        formacao: 'Education',
-        faq: 'Recruiter FAQ',
-        recados: 'Guestbook',
-        contato: 'Contact'
-      }
-    }
-  };
-
-  function getSavedLang(){
-    return localStorage.getItem('portfolio_lang') || 'pt';
-  }
-
-  function applyLang(lang){
-    var dict = I18N[lang] || I18N.pt;
-    html.setAttribute('lang', dict.lang_attr);
-    if(langBadge) langBadge.textContent = dict.badge;
-    if(langBtn){
-      langBtn.setAttribute('title', dict.title);
-      langBtn.setAttribute('aria-label', dict.title);
-    }
-
-    var navCv = document.getElementById('nav-cta-cv');
-    var navCvTxt = document.getElementById('nav-cv-text');
-    if(navCv){
-      navCv.href = dict.cv_file;
-      navCv.setAttribute('download', lang === 'en' ? 'Higor-do-Amaral-Fritz-Resume.pdf' : 'Curriculo-Higor-do-Amaral-Fritz.pdf');
-    }
-    if(navCvTxt) navCvTxt.textContent = dict.cv_text;
-
-    var heroCv = document.getElementById('hero-btn-cv');
-    if(heroCv){
-      heroCv.href = dict.cv_file;
-      heroCv.setAttribute('download', lang === 'en' ? 'Higor-do-Amaral-Fritz-Resume.pdf' : 'Curriculo-Higor-do-Amaral-Fritz.pdf');
-      var cvSpan = heroCv.querySelector('.btn-txt');
-      if(cvSpan) cvSpan.textContent = dict.btn_cv;
-    }
-
-    var heroGreeting = document.getElementById('hero-greeting-text');
-    if(heroGreeting) heroGreeting.textContent = dict.hero_greeting;
-
-    var heroRolePrefix = document.getElementById('hero-role-prefix');
-    if(heroRolePrefix) heroRolePrefix.textContent = dict.hero_role_prefix;
-
-    var heroDisp = document.getElementById('hero-tag-disp');
-    if(heroDisp) heroDisp.textContent = dict.hero_disp;
-
-    var heroLoc = document.getElementById('hero-loc-text');
-    if(heroLoc) heroLoc.textContent = dict.hero_loc;
-
-    var heroLead = document.getElementById('hero-lead-text');
-    if(heroLead) heroLead.textContent = dict.hero_lead;
-
-    var btnProjetos = document.querySelector('#hero-btn-projetos .btn-txt');
-    if(btnProjetos) btnProjetos.textContent = dict.btn_projetos;
-
-    var btnContato = document.querySelector('#hero-btn-contato .btn-txt');
-    if(btnContato) btnContato.textContent = dict.btn_contato;
-
-    var s1 = document.querySelector('.stat-lbl-1');
-    if(s1) s1.textContent = dict.stat_1;
-    var s2 = document.querySelector('.stat-lbl-2');
-    if(s2) s2.textContent = dict.stat_2;
-    var s3 = document.querySelector('.stat-lbl-3');
-    if(s3) s3.textContent = dict.stat_3;
-    var s4 = document.querySelector('.stat-lbl-4');
-    if(s4) s4.textContent = dict.stat_4;
-
-    // Traduz links de navegação
-    document.querySelectorAll('.nav-links a[data-nav-key]').forEach(function(a){
-      var key = a.getAttribute('data-nav-key');
-      var span = a.querySelector('.nav-txt');
-      if(span && dict.nav[key]){
-        span.textContent = dict.nav[key];
-      }
-    });
-
-    localStorage.setItem('portfolio_lang', lang);
-  }
-
-  if(langBtn){
-    langBtn.addEventListener('click', function(){
-      var current = getSavedLang();
-      var next = current === 'pt' ? 'en' : 'pt';
-      applyLang(next);
-      if(window.showToast){
-        window.showToast(next === 'en' ? 'Switched to English' : 'Idioma alterado para Português');
-      }
-    });
-  }
-
-  applyLang(getSavedLang());
-})();
 
 // Efeito de Digitação no Hero (Typewriter)
 (function(){
@@ -1138,31 +986,15 @@ initReveal();
     prev.appendChild(dots);
     prev.appendChild(pUrl);
     prev.appendChild(pEnv);
+    if(p.estudo_caso){
+      prev.style.cursor = 'pointer';
+      prev.title = 'Ver estudo de caso e arquitetura de ' + p.nome;
+      prev.addEventListener('click', function(e){
+        e.stopPropagation();
+        abrirModalEstudo(p);
+      });
+    }
     c.appendChild(prev);
-
-    // 1.5 Mini-Preview Visual do Projeto (Banner Mockup com Tecnologias e Código)
-    var thumb = el('div', 'project-thumb-preview');
-    thumb.setAttribute('title', 'Clique para abrir o estudo de caso, métricas e arquitetura técnica');
-    var thumbHeader = el('div', 'thumb-header');
-    var catDetectada = (detectCategoria(p) === 'ia' ? 'IA & INOVAÇÃO' : (detectCategoria(p) === 'backend' ? 'BACK-END' : 'FRONT-END'));
-    var tTag = el('span', 'thumb-tag', p.preview_tag || catDetectada);
-    var tIcon = el('span', 'thumb-tech-icon', p.preview_icon || '⚡');
-    thumbHeader.appendChild(tTag);
-    thumbHeader.appendChild(tIcon);
-    thumb.appendChild(thumbHeader);
-
-    var codePrev = el('div', 'thumb-code-preview', p.preview_code || ('// ' + (p.tecnologias || []).slice(0, 3).join(' • ')));
-    thumb.appendChild(codePrev);
-
-    var thumbCta = el('div', 'thumb-cta-hint');
-    thumbCta.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> <span>Estudo de caso, arquitetura &amp; métricas &rarr;</span>';
-    thumb.appendChild(thumbCta);
-
-    thumb.addEventListener('click', function(e){
-      e.stopPropagation();
-      abrirModalEstudo(p);
-    });
-    c.appendChild(thumb);
 
     // 2. Selo de destaque (Hackathon 24h, Swagger OpenAPI, etc)
     var bText = removerEmojis(p.badge || (p.nome.includes('Hackathon') ? 'Hackathon 24h' : (p.nome.includes('Portfólio') ? 'API REST ao vivo' : '')));
@@ -1185,7 +1017,8 @@ initReveal();
         var isMatch = currentSearch && String(t).toLowerCase() === currentSearch.toLowerCase();
         var chipEl = el('span', isMatch ? 'chip active-tech' : 'chip', String(t));
         chipEl.title = 'Filtrar projetos com ' + String(t);
-        chipEl.addEventListener('click', function(){
+        chipEl.addEventListener('click', function(e){
+          e.stopPropagation();
           var sInput = document.getElementById('project-search');
           var sClear = document.getElementById('project-search-clear');
           if(currentSearch.toLowerCase() === String(t).toLowerCase()){
@@ -1209,7 +1042,8 @@ initReveal();
       var btnCase = el('button', 'btn-case', '');
       btnCase.type = 'button';
       btnCase.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Estudo de Caso';
-      btnCase.addEventListener('click', function(){
+      btnCase.addEventListener('click', function(e){
+        e.stopPropagation();
         abrirModalEstudo(p);
       });
       rodape.appendChild(btnCase);
@@ -1247,7 +1081,7 @@ initReveal();
 
     // Botão GitHub
     if(p.github && /^https?:\/\//.test(p.github)){
-      var aGit = el('a', '', '');
+      var aGit = el('a', 'github-link', '');
       aGit.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg> GitHub →';
       aGit.href = urlSegura(p.github);
       aGit.target = '_blank';
