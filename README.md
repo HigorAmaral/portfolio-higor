@@ -34,7 +34,6 @@ Aplicação web full-stack desenvolvida com **Django** no backend e interface mo
 * **Internacionalização (i18n):** Suporte nativo a alternância de idiomas (Português / Inglês) e download de currículo bilíngue (`curriculo-higor.pdf` e `curriculo-higor-en.pdf`).
 * **Acessibilidade & Design:** Paleta dinâmica adaptada para modo escuro e claro (Dark/Light mode) com cálculo de contraste harmonioso (`color-mix`), tipografia fluida e suporte a leitores de tela.
 * **Estudos de Caso & Métricas:** Modais detalhando desafios técnicos, decisões de engenharia, **métricas quantitativas de impacto** e **diagramas de arquitetura de software**.
-* **Prova Social & Recomendações:** Seção estruturada com depoimentos acadêmicos, de hackathon e de liderança operacional.
 * **PWA (Progressive Web App):** Instalável no celular e desktop, com Service Worker para carregamento instantâneo e acesso offline ao conteúdo principal.
 
 ---

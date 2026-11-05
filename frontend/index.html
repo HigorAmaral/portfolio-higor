@@ -331,7 +331,7 @@ main.wrap{
 /* Overlay mobile */
 .nav-overlay{display:none}
 
-@media (max-width: 768px){
+@media (max-width: 1024px){
   .nav-toggle{display:inline-flex}
   .nav-overlay{
     display:block;
@@ -1818,25 +1818,39 @@ main.wrap{
   box-shadow:0 4px 12px color-mix(in srgb, var(--accent) 28%, transparent);
 }
 
-@media (min-width: 769px){
+@media (min-width: 1025px){
+  .nav-toggle{
+    display:none !important;
+  }
+  .nav .wrap{
+    max-width:1160px;
+  }
   .nav-links{
     order:2;
+    display:flex;
+    align-items:center;
     gap:2px;
     background:color-mix(in srgb, var(--bg) 65%, var(--surface));
-    padding:4px 5px;
+    padding:3px 5px;
     border-radius:999px;
     border:1px solid color-mix(in srgb, var(--line) 85%, transparent);
+    flex-shrink:1;
+    min-width:0;
   }
   .nav-actions{
     order:3;
+    display:flex;
+    align-items:center;
     gap:8px;
+    flex-shrink:0;
   }
   .nav-links a{
-    padding:6px 11px;
-    min-height:34px;
+    padding:5px 9px;
+    min-height:32px;
     border-radius:999px;
-    font-size:.84rem;
+    font-size:.81rem;
     font-weight:600;
+    white-space:nowrap;
     transition:color .2s ease, background-color .2s ease, box-shadow .2s ease;
   }
   .nav-links a svg{
@@ -1858,21 +1872,21 @@ main.wrap{
     stroke:var(--accent-text);
   }
 }
-@media (max-width: 920px) and (min-width: 769px){
+@media (min-width: 1025px) and (max-width: 1200px){
+  .logo-sub{
+    display:none;
+  }
+  .nav-links a{
+    padding:5px 7px;
+    font-size:.78rem;
+  }
+}
+@media (max-width: 640px){
   .logo-sub, .nav-cta span{
     display:none;
   }
   .nav-cta{
     padding:8px;
-  }
-  .nav-links a{
-    padding:6px 8px;
-    font-size:.8rem;
-  }
-}
-@media (max-width: 768px){
-  .nav-cta{
-    display:none;
   }
 }
 
@@ -2727,82 +2741,6 @@ main.wrap, footer{
   user-select:none;
 }
 
-/* Seção de Recomendações & Prova Social */
-.testimonials-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(290px, 1fr));
-  gap:18px;
-  margin-top:20px;
-}
-.testimonial-card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:22px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  gap:16px;
-  position:relative;
-  transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;
-}
-.testimonial-card:hover{
-  border-color:color-mix(in srgb, var(--accent) 45%, var(--line));
-  transform:translateY(-2px);
-  box-shadow:0 8px 24px -6px rgba(0,0,0,0.08);
-}
-.testimonial-quote{
-  font-size:.88rem;
-  line-height:1.65;
-  color:var(--text-sec);
-  font-style:italic;
-  position:relative;
-}
-.testimonial-quote::before{
-  content:"“";
-  font-size:2.8rem;
-  line-height:1;
-  color:color-mix(in srgb, var(--accent) 25%, transparent);
-  position:absolute;
-  left:-10px;
-  top:-16px;
-  font-family:serif;
-  pointer-events:none;
-}
-.testimonial-author{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  border-top:1px solid color-mix(in srgb, var(--line) 60%, transparent);
-  padding-top:14px;
-}
-.author-avatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:color-mix(in srgb, var(--accent) 15%, var(--surface));
-  border:1.5px solid color-mix(in srgb, var(--accent) 40%, transparent);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:700;
-  font-size:.88rem;
-  color:var(--accent);
-  flex-shrink:0;
-}
-.author-info h4{
-  font-size:.86rem;
-  margin:0;
-  font-weight:700;
-  color:var(--text);
-}
-.author-info p{
-  font-size:.74rem;
-  margin:2px 0 0;
-  color:var(--muted);
-  line-height:1.35;
-}
-
 /* Botão Alternador de Idioma (PT / EN) */
 .lang-toggle{
   min-width:38px;
@@ -2890,10 +2828,6 @@ main.wrap, footer{
       <a href="#formacao" data-nav-key="formacao">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
         <span class="nav-txt">Formação</span>
-      </a>
-      <a href="#depoimentos" data-nav-key="depoimentos">
-        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-        <span class="nav-txt">Recomendações</span>
       </a>
       <a href="#faq" data-nav-key="faq">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -3169,57 +3103,6 @@ main.wrap, footer{
     </div>
   </section>
 
-  <!-- Seção Recomendações & Prova Social -->
-  <section id="depoimentos">
-    <h2>
-      <span class="heading-icon">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-      </span>
-      <span id="depoimentos-title">Recomendações &amp; Prova Social</span>
-    </h2>
-    <p class="lead" id="depoimentos-lead">Depoimentos e avaliações de professores, mentores e colegas de equipe sobre capacidade de entrega técnica, rigor conceitual e trabalho em equipe.</p>
-    <div class="testimonials-grid" id="depoimentos-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-quote">
-          “O Higor demonstrou notável rigor técnico e maturidade analítica em sua formação no IFC. Sua pesquisa com modelagem formal de microprocessos em BPMN e adequação à LGPD comprovou sua capacidade de estruturar sistemas complexos com clareza e padrão acadêmico de excelência.”
-        </div>
-        <div class="testimonial-author">
-          <div class="author-avatar">IFC</div>
-          <div class="author-info">
-            <h4>Corpo Docente &amp; Coordenação BSI</h4>
-            <p>Instituto Federal Catarinense — Câmpus Araquari</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="testimonial-quote">
-          “Na maratona de 24 horas ininterruptas do Hackathon da Fábrica de Software, o Higor liderou com maestria a estruturação do backend Django e a integração com os modelos de IA. Agilidade técnica impressionante, foco sob extrema pressão e comunicação impecável em equipe.”
-        </div>
-        <div class="testimonial-author">
-          <div class="author-avatar">FS</div>
-          <div class="author-info">
-            <h4>Equipe Hackathon Fábrica 2k26</h4>
-            <p>Projeto de IA para Educação Especial Inclusiva (TEA/TDAH)</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="testimonial-quote">
-          “Durante sua atuação no almoxarifado, Higor se destacou pela pontualidade, disciplina e agilidade no entendimento dos fluxos operacionais de insumos industriais. Postura ética exemplar e facilidade natural para aprender novas ferramentas e metodologias.”
-        </div>
-        <div class="testimonial-author">
-          <div class="author-avatar">TAF</div>
-          <div class="author-info">
-            <h4>Supervisão de Logística &amp; Operações</h4>
-            <p>TAF Indústria de Plásticos Ltda.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Seção FAQ para Recrutadores & Gestores -->
   <section id="faq">
     <h2>
@@ -3396,7 +3279,7 @@ main.wrap, footer{
   <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
-<script src="/static/js/app.js?v=20261105-v17"></script>
+<script src="/static/js/app.js?v=20261105-v18"></script>
 <!-- Botão Voltar ao Topo Flutuante -->
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>

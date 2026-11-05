@@ -103,8 +103,6 @@
       stat_2: 'Destaque Hackathon IA',
       stat_3: 'Django, Vue 3 & React',
       stat_4: 'Sistemas de Informação',
-      depoimentos_title: 'Recomendações & Prova Social',
-      depoimentos_lead: 'Depoimentos e avaliações de professores, mentores e colegas de equipe sobre capacidade de entrega técnica, rigor conceitual e trabalho em equipe.',
       nav: {
         sobre: 'Sobre',
         foco: 'Foco',
@@ -112,7 +110,6 @@
         projetos: 'Projetos',
         conquistas: 'Conquistas',
         formacao: 'Formação',
-        depoimentos: 'Recomendações',
         faq: 'FAQ',
         recados: 'Recados',
         contato: 'Contato'
@@ -136,8 +133,6 @@
       stat_2: '24h Hackathon Award',
       stat_3: 'Django, Vue 3 & React',
       stat_4: 'Information Systems',
-      depoimentos_title: 'Recommendations & Social Proof',
-      depoimentos_lead: 'Endorsements and evaluations from professors, mentors, and teammates on technical delivery, architecture, and team collaboration.',
       nav: {
         sobre: 'About',
         foco: 'Focus',
@@ -145,7 +140,6 @@
         projetos: 'Projects',
         conquistas: 'Awards',
         formacao: 'Education',
-        depoimentos: 'Testimonials',
         faq: 'Recruiter FAQ',
         recados: 'Guestbook',
         contato: 'Contact'
@@ -211,11 +205,6 @@
     if(s3) s3.textContent = dict.stat_3;
     var s4 = document.querySelector('.stat-lbl-4');
     if(s4) s4.textContent = dict.stat_4;
-
-    var depTitle = document.getElementById('depoimentos-title');
-    if(depTitle) depTitle.textContent = dict.depoimentos_title;
-    var depLead = document.getElementById('depoimentos-lead');
-    if(depLead) depLead.textContent = dict.depoimentos_lead;
 
     // Traduz links de navegação
     document.querySelectorAll('.nav-links a[data-nav-key]').forEach(function(a){
