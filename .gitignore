@@ -5,3 +5,6 @@ __pycache__/
 db.sqlite3
 staticfiles/
 .aider*
+.neon
+node_modules/
+.env.local

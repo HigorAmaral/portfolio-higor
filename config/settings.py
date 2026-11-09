@@ -1,5 +1,6 @@
 import os
 import secrets
+import sys
 from pathlib import Path
 
 import dj_database_url
@@ -14,6 +15,8 @@ except ImportError:
     pass
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+# Carrega .env.local prioritariamente (ex: Neon CLI) e .env como fallback
+load_dotenv(BASE_DIR / ".env.local")
 load_dotenv(BASE_DIR / ".env")
 
 
@@ -89,12 +92,24 @@ TEMPLATES = [
     },
 ]
 
-if os.environ.get("DATABASE_URL"):
+# Suporte a Neon Postgres (Pooler para requisições web / Unpooled direto para migrações)
+is_migration_command = any(
+    cmd in sys.argv for cmd in ["migrate", "makemigrations", "showmigrations", "sqlmigrate"]
+)
+
+raw_db_url = (
+    (os.environ.get("DATABASE_URL_UNPOOLED") if is_migration_command else None)
+    or os.environ.get("DATABASE_URL")
+)
+
+if raw_db_url:
+    is_pooler = "-pooler" in raw_db_url
     DATABASES = {
         "default": dj_database_url.config(
-            default=os.environ.get("DATABASE_URL"),
-            conn_max_age=600,
+            default=raw_db_url,
+            conn_max_age=0 if is_pooler else 600,
             conn_health_checks=True,
+            ssl_require=True if "neon.tech" in raw_db_url else None,
         )
     }
 elif os.environ.get("DB_NAME"):
