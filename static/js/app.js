@@ -884,7 +884,7 @@ initReveal();
     if(p.swagger || p.nome.includes('Portfólio')){
       var aS = el('a', 'btn s', '');
       aS.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Ver Swagger';
-      aS.href = urlSegura(p.swagger) || '/api/docs/';
+      aS.href = urlSegura(p.swagger || '/api/docs/');
       aS.target = '_blank';
       aS.rel = 'noopener';
       modalFooter.appendChild(aS);
@@ -933,11 +933,20 @@ initReveal();
   });
 
   // Só aceita links http(s) ou caminhos internos (/...). Bloqueia javascript:, data:, //host etc.
+  // Em modo híbrido (GitHub Pages), caminhos internos são reescritos:
+  //  /api/...    -> domínio da API (meta api-base)
+  //  /static/... -> subpasta do site (meta site-base, ex.: /portfolio-higor)
+  var BASE_API = ((document.querySelector('meta[name="api-base"]') || {}).content || '').replace(/\/$/, '');
+  var BASE_SITE = ((document.querySelector('meta[name="site-base"]') || {}).content || '').replace(/\/$/, '');
   function urlSegura(u){
     if(!u) return '';
     u = String(u).trim();
     if(/^https?:\/\//i.test(u)) return u;
-    if(/^\/(?!\/)/.test(u)) return u;
+    if(/^\/(?!\/)/.test(u)){
+      if(BASE_API && /^\/api\//.test(u)) return BASE_API + u;
+      if(BASE_SITE && /^\/static\//.test(u)) return BASE_SITE + u;
+      return u;
+    }
     return '';
   }
 
@@ -1073,7 +1082,7 @@ initReveal();
     if(p.swagger || p.nome.includes('Portfólio')){
       var aSwagger = el('a', 'swagger-link', '');
       aSwagger.innerHTML = '<svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Testar API';
-      aSwagger.href = urlSegura(p.swagger) || '/api/docs/';
+      aSwagger.href = urlSegura(p.swagger || '/api/docs/');
       aSwagger.target = '_blank';
       aSwagger.rel = 'noopener';
       rodape.appendChild(aSwagger);
@@ -1404,13 +1413,17 @@ initReveal();
 
 // Métricas Anônimas de Acesso (LGPD / Privacy-first)
 (function(){
+  // Modo híbrido (GitHub Pages): a API fica em outro domínio, definido em <meta name="api-base">
+  var apiBase = ((document.querySelector('meta[name="api-base"]') || {}).content || '').replace(/\/$/, '');
+  var urlVisitas = apiBase + '/api/visitas/';
   function track(tipo){
     try {
       var payload = JSON.stringify({ tipo: tipo, caminho: window.location.pathname || '/' });
-      if(navigator.sendBeacon){
-        navigator.sendBeacon('/api/visitas/', new Blob([payload], {type: 'application/json'}));
+      // sendBeacon com JSON não funciona entre domínios (exige preflight CORS); usa fetch nesse caso
+      if(navigator.sendBeacon && !apiBase){
+        navigator.sendBeacon(urlVisitas, new Blob([payload], {type: 'application/json'}));
       } else {
-        fetch('/api/visitas/', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: payload, keepalive: true }).catch(function(){});
+        fetch(urlVisitas, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: payload, keepalive: true }).catch(function(){});
       }
     } catch(e){}
   }
@@ -1427,7 +1440,9 @@ initReveal();
 
 // PWA: registro do Service Worker e botão "Instalar app"
 (function(){
-  if('serviceWorker' in navigator){
+  // No GitHub Pages (site-base definido) o Service Worker não é usado: ele foi feito para as rotas do Django
+  var siteBase = (document.querySelector('meta[name="site-base"]') || {}).content || '';
+  if('serviceWorker' in navigator && !siteBase){
     window.addEventListener('load', function(){
       navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' }).then(function(reg){ try{ reg.update(); }catch(e){} }).catch(function(){});
     });

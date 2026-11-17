@@ -8,3 +8,4 @@ staticfiles/
 .neon
 node_modules/
 .env.local
+_site/
