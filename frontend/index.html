@@ -97,11 +97,11 @@
 :root{
   --bg:#F7F6F2;
   --surface:#FFFFFF;
-  --text:#1A1A18;
-  --text-sec:#4A4A45;
-  --muted:#7A7A72;
-  --line:#E4E2DA;
-  --line-strong:#CFCCC1;
+  --text:#09090B;
+  --text-sec:#27272A;
+  --muted:#52525B;
+  --line:#D4D4D8;
+  --line-strong:#A1A1AA;
   --accent:#2F5D50;
   --accent-soft:#E6EEEA;
   --accent-text:#FFFFFF;
@@ -118,16 +118,16 @@
   color-scheme:light;
 }
 :root[data-theme="dark"]{
-  --bg:#141413;
-  --surface:#1C1C1A;
-  --text:#ECEAE3;
-  --text-sec:#B5B3AA;
-  --muted:#85837B;
-  --line:#2A2A27;
-  --line-strong:#3A3A36;
+  --bg:#09090B;
+  --surface:#121215;
+  --text:#FAFAFA;
+  --text-sec:#D4D4D8;
+  --muted:#A1A1AA;
+  --line:#27272A;
+  --line-strong:#3F3F46;
   --accent:#8FC1AE;
-  --accent-soft:#1F2B27;
-  --accent-text:#10201B;
+  --accent-soft:#182621;
+  --accent-text:#091511;
   color-scheme:dark;
 }
 
@@ -261,10 +261,8 @@ main.wrap{padding-top:calc(var(--nav-h) + env(safe-area-inset-top,0px))}
 .hero-portrait img{
   width:clamp(140px,20vw,200px);height:auto;aspect-ratio:1;
   object-fit:cover;border-radius:50%;
-  filter:grayscale(1) contrast(1.05);
-  transition:filter .4s ease;
+  border:1px solid var(--line);
 }
-.hero-portrait:hover img{filter:none}
 
 .stats{
   display:grid;grid-template-columns:repeat(4,1fr);
@@ -463,7 +461,38 @@ textarea{resize:vertical;min-height:96px}
 .msg-reply-text{font-size:.9rem;color:var(--text-sec);margin-top:2px}
 
 /* Contato */
-#contato .btns{margin-top:24px}
+#contato .btns{
+  margin-top:24px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  max-width:560px;
+}
+#contato .btns .btn{
+  border-radius:10px;
+  padding:13px 16px;
+  justify-content:flex-start;
+  background:var(--surface);
+}
+#contato .btns .btn-whatsapp{
+  grid-column:1 / -1;
+  justify-content:center;
+  background:var(--text);
+  border-color:var(--text);
+  color:var(--bg);
+}
+#contato .btns .btn-whatsapp:hover{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-text);
+}
+#contato .btns .btn.p{
+  background:var(--surface);
+  color:var(--text);
+}
+#contato .btns .btn.p:hover{
+  border-color:var(--text);
+}
 
 /* ---------- Footer ---------- */
 footer{
@@ -617,8 +646,9 @@ footer > div{justify-content:flex-start!important}
   .filter-tabs::-webkit-scrollbar{display:none}
   .filter-btn{flex-shrink:0}
 
-  .btns .btn{flex:1 1 calc(50% - 10px)}
+  .hero .btns .btn{flex:1 1 calc(50% - 10px)}
   .hero .btns .btn.p{flex-basis:100%}
+  #contato .btns{grid-template-columns:1fr;max-width:none}
   #enviar{justify-self:stretch}
 
   .modal-backdrop{align-items:flex-end;padding:0}
@@ -709,10 +739,6 @@ footer > div{justify-content:flex-start!important}
       <a href="#faq" data-nav-key="faq">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         <span class="nav-txt">FAQ</span>
-      </a>
-      <a href="#recados" data-nav-key="recados">
-        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <span class="nav-txt">Recados</span>
       </a>
       <a href="#contato" data-nav-key="contato">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -1033,29 +1059,6 @@ footer > div{justify-content:flex-start!important}
     </div>
   </section>
 
-  <section id="recados">
-    <h2>
-      <span class="heading-icon">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      </span>
-      Mural de recados
-    </h2>
-    <p class="lead">Deixe uma mensagem para mim! Seu recado fica gravado no banco de dados e aparece aqui no mural.</p>
-    <div class="card" id="mural" style="margin-top:20px">
-      <div id="form">
-        <input id="nome" maxlength="40" placeholder="Seu nome" autocomplete="name">
-        <input id="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:0;top:0;opacity:0;pointer-events:none;width:1px;height:1px;z-index:-1">
-        <textarea id="texto" maxlength="280" rows="3" placeholder="Escreva seu recado"></textarea>
-        <button class="btn" id="enviar" type="button">
-          <svg class="icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          Enviar recado
-        </button>
-      </div>
-      <p id="status" class="muted" style="margin-top:14px">Carregando recados…</p>
-      <div id="lista"></div>
-    </div>
-  </section>
-
   <section id="contato">
     <h2>
       <span class="heading-icon">
@@ -1156,7 +1159,7 @@ footer > div{justify-content:flex-start!important}
   <p style="margin-top:6px;font-size:.82rem">Desenvolvido com Python, Django, PostgreSQL, HTML5, CSS3 & JavaScript. · <a href="/api/docs/" target="_blank" rel="noopener">Documentação da API (Swagger)</a></p>
 </footer>
 
-<script src="/static/js/app.js?v=20261117-v20"></script>
+<script src="/static/js/app.js?v=20261117-v21"></script>
 <!-- Botão Voltar ao Topo Flutuante -->
 <button id="back-to-top" class="back-to-top" type="button" aria-label="Voltar ao topo da página" title="Voltar ao topo">
   <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>

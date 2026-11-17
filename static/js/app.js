@@ -372,6 +372,7 @@ initReveal();
   var url = base.replace(/\/$/, '') + '/api/recados/';
   var status = document.getElementById('status'), lista = document.getElementById('lista');
   var btn = document.getElementById('enviar');
+  if(!btn || !lista || !status) return;
 
   function render(itens){
     lista.textContent = '';
