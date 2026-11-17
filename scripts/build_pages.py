@@ -20,7 +20,8 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 API_BASE = os.environ.get("API_BASE", "https://portfolio-higor.onrender.com").rstrip("/")
-SITE_BASE = os.environ.get("SITE_BASE", "/portfolio-higor").rstrip("/")
+# Raiz ("") por padrão para Cloudflare Pages / Netlify; no GitHub Pages o workflow passa "/portfolio-higor"
+SITE_BASE = os.environ.get("SITE_BASE", "").rstrip("/")
 SAIDA = RAIZ / os.environ.get("OUT_DIR", "_site")
 
 
