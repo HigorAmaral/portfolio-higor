@@ -516,40 +516,6 @@ initReveal();
         }
       },
       {
-        "nome": "Santory Pizzaria",
-        "badge": "Projeto Integrador · IFC",
-        "dominio": "santoryfrontend-1.vercel.app",
-        "preview_tag": "Full Stack",
-        "preview_icon": "🍕",
-        "preview_code": "POST /api/pedidos/ -> Baixa Estoque Insumos [Vue3 SPA]",
-        "descricao": "Sistema integrado de gestão, PDV e delivery para pizzaria desenvolvido no IFC: SPA reativo em Vue 3 (Vite) hospedado na Vercel e backend REST com Django no Render, com baixa automática de estoque de insumos e múltiplos níveis de acesso.",
-        "tecnologias": ["Vue 3", "Vite", "Python", "Django REST", "Vercel", "Render"],
-        "github": "https://github.com/Santory-Pizzaria",
-        "demo": "https://santoryfrontend-1.vercel.app/login",
-        "status": "concluido",
-        "status_label": "Concluído",
-        "categoria": "frontend",
-        "estudo_caso": {
-          "titulo": "Sistema Integrado de Gestão & PDV (Pizzaria Santory)",
-          "badge": "Vue 3 · Django REST · Vercel · Render · Projeto Integrador",
-          "desafio": "A Pizzaria Santory operava com fluxos semi-manuais e anotações em papel para pedidos de balcão e telefone, causando lentidão no atendimento, erros na transmissão dos pedidos à cozinha, falta de controle de estoque de ingredientes e ausência de rastreamento de entregas ou pagamentos online.",
-          "solucao": "Desenvolvimento de um ecossistema web integrado com arquitetura desacoplada: interface reativa em Vue 3 (Vite) consumindo API RESTful desenvolvida em Django com PostgreSQL. Implementou-se controle de estoque com baixa automática de insumos por pizza produzida, painel administrativo com controle de permissões por perfil (atendente, pizzaiolo, entregador e gerente) e tela de acompanhamento de pedidos em tempo real.",
-          "aprendizados": "Integração de SPA moderna em Vue 3 com backend REST desacoplado, modelagem de banco de dados relacional com integridade referencial rigorosa e esteira de deploy multi-cloud (Vercel no frontend e Render no backend).",
-          "metricas": [
-            {"label": "Arquitetura", "valor": "Desacoplada", "detalhe": "SPA Vue 3 + Django API"},
-            {"label": "Controle Estoque", "valor": "Automático", "detalhe": "Baixa por insumo"},
-            {"label": "Deploy", "valor": "Multi-Cloud", "detalhe": "Vercel + Render"},
-            {"label": "Perfis de Acesso", "valor": "4 Níveis", "detalhe": "Gerente, Cozinha, PDV"}
-          ],
-          "arquitetura": [
-            {"nome": "SPA Vue 3 (Vite)", "sub": "Interface Vercel"},
-            {"nome": "Autenticação JWT", "sub": "Axios Interceptors"},
-            {"nome": "Django REST API", "sub": "Endpoints PDV & Pedidos"},
-            {"nome": "PostgreSQL & Estoque", "sub": "Baixa Atômica de Insumos"}
-          ]
-        }
-      },
-      {
         "nome": "Projeto BSI: Microprocessos Acadêmicos",
         "badge": "Pesquisa Científica · BPMN & LGPD",
         "dominio": "portfolio-higor.onrender.com/static",
@@ -581,74 +547,6 @@ initReveal();
             {"nome": "Notação BPMN 2.0", "sub": "Modelagem de Fluxos"},
             {"nome": "Matriz 5W2H & PEMM", "sub": "Auditoria de Gargalos"},
             {"nome": "Conformidade LGPD", "sub": "Governança & Segurança"}
-          ]
-        }
-      },
-      {
-        "nome": "EcoApack — Catálogo Industrial & Orçamentos B2B",
-        "badge": "React 19 · B2B & Catálogo Interativo",
-        "dominio": "eco-park-application.vercel.app",
-        "preview_tag": "Front-end Interativo",
-        "preview_icon": "🪣",
-        "preview_code": "React19.useMemo(() => renderColorPicker(body, cap), [zoom=2.5x])",
-        "descricao": "Plataforma web corporativa B2B desenvolvida em React 19 para indústria de embalagens plásticas sustentáveis. Conta com catálogo interativo de baldes industriais, configurador dinâmico de cores (corpo e tampa), lupa de zoom em alta resolução e automação de orçamentos via EmailJS.",
-        "tecnologias": ["React 19", "JavaScript", "Bootstrap 5", "EmailJS", "PWA", "Vercel"],
-        "github": "https://github.com/HigorAmaral/eco-park-application",
-        "demo": "https://eco-park-application.vercel.app",
-        "status": "concluido",
-        "status_label": "Concluído",
-        "categoria": "frontend",
-        "estudo_caso": {
-          "titulo": "EcoApack — Catálogo Industrial & Orçamentos B2B",
-          "badge": "React 19 · Bootstrap 5 · EmailJS · Vercel",
-          "desafio": "Digitalizar a vitrine comercial de uma indústria de embalagens plásticas sustentáveis (baldes industriais de 1kg e 1,2kg), permitindo que compradores B2B inspecionem detalhes técnicos das peças, simulem combinações de cores e solicitem cotações rápidas sem depender de atendimento manual lento.",
-          "solucao": "Desenvolvimento de uma Single Page Application (SPA) em React 19 hospedada na Vercel, com seletor interativo de cores para tampa e corpo do produto, efeito de lupa dinâmica (zoom in-place por coordenadas do cursor), animações de revelação com IntersectionObserver e envio automatizado de propostas comerciais e contatos diretamente por EmailJS.",
-          "aprendizados": "Componentização avançada e hooks no React 19, manipulação de eventos de ponteiro para zoom óptico de produto, integração de mensageria serverless (EmailJS) e otimização de performance e SEO para páginas corporativas.",
-          "metricas": [
-            {"label": "Framework", "valor": "React 19", "detalhe": "Hooks de Última Geração"},
-            {"label": "Zoom Óptico", "valor": "2.5x", "detalhe": "Lupa Dinâmica de Produto"},
-            {"label": "Mensageria", "valor": "Serverless", "detalhe": "Envio Direto via EmailJS"},
-            {"label": "Configurador", "valor": "Real-time", "detalhe": "Personalização de Cores"}
-          ],
-          "arquitetura": [
-            {"nome": "React 19 SPA", "sub": "Hospedagem Vercel"},
-            {"nome": "Configurador de Cores", "sub": "Estado Reativo em Memória"},
-            {"nome": "Lupa Zoom Óptico", "sub": "Pointer Coordinates Engine"},
-            {"nome": "EmailJS Serverless", "sub": "Automação Comercial B2B"}
-          ]
-        }
-      },
-      {
-        "nome": "Primeiro Lar Imobiliária",
-        "badge": "Vue 3 & Pinia · Integração API IBGE",
-        "dominio": "front-primeirolar-25.vercel.app",
-        "preview_tag": "Front-end & PWA",
-        "preview_icon": "🏠",
-        "preview_code": "axios.get(ibge.gov.br/localidades/estados/{UF}/municipios) -> Pinia",
-        "descricao": "Aplicação imobiliária para compra, venda, anúncio e favoritismo de imóveis construída com Vue 3, Vite e Pinia. Integra a API oficial de localidades do IBGE em tempo real para filtragem dinâmica por estados (UF) e municípios brasileiros, além de consumo de API REST via Axios.",
-        "tecnologias": ["Vue 3", "Vite", "Pinia", "Vue Router", "Axios", "API IBGE", "PWA"],
-        "github": "https://github.com/HigorAmaral/front-primeiro.lar-25",
-        "demo": "https://front-primeirolar-25.vercel.app",
-        "status": "concluido",
-        "status_label": "Concluído",
-        "categoria": "frontend",
-        "estudo_caso": {
-          "titulo": "Primeiro Lar Imobiliária — Portal de Imóveis",
-          "badge": "Vue 3 · Pinia · Axios · API IBGE · PWA",
-          "desafio": "Construir uma plataforma imobiliária moderna e responsiva onde usuários possam buscar imóveis com filtros precisos de localização em todo o território nacional, cadastrar anúncios de venda e gerenciar sua lista de imóveis favoritos com estado sincronizado.",
-          "solucao": "Arquitetura front-end modular em Vue 3 (Vite) com gerenciamento de estado global via Pinia e roteamento protegido no Vue Router. Consumo em tempo real da API de Localidades do IBGE para carregamento dinâmico de UFs e cidades por estado selecionado, integração com backend RESTful via Axios e suporte a instalação como Progressive Web App (PWA).",
-          "aprendizados": "Gerenciamento de estado global escalável com Pinia, consumo combinado de APIs públicas governamentais (IBGE) e APIs próprias com Axios, navegação SPA avançada e configuração de PWA com Vite.",
-          "metricas": [
-            {"label": "Integração Pública", "valor": "API IBGE", "detalhe": "27 UFs & Cidades BR"},
-            {"label": "Gerenciamento Estado", "valor": "Pinia Store", "detalhe": "Sincronização Reativa"},
-            {"label": "Instalação Mobile", "valor": "PWA Ready", "detalhe": "Suporte Offline Básico"},
-            {"label": "Navegação", "valor": "Vue Router", "detalhe": "Rotas Protegidas"}
-          ],
-          "arquitetura": [
-            {"nome": "Vue 3 + Vite SPA", "sub": "Vercel Deployment"},
-            {"nome": "Pinia Global Store", "sub": "Favoritos & Filtros Ativos"},
-            {"nome": "API IBGE Externa", "sub": "Geolocalização em Tempo Real"},
-            {"nome": "REST API Axios", "sub": "Persistência de Imóveis"}
           ]
         }
       },
