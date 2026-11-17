@@ -719,6 +719,99 @@ initReveal();
             {"nome": "WhatsApp Checkout", "sub": "Fechamento Comercial Ágil"}
           ]
         }
+      },
+      {
+        "nome": "AURA Assistant — Assistente Pessoal de IA",
+        "badge": "IA & Automação · Em Desenvolvimento",
+        "dominio": "github.com/HigorAmaral/aura-assistant",
+        "preview_tag": "IA & Desktop",
+        "preview_code": "AURA Router -> Automação, HUD & Bridge Remoto",
+        "descricao": "Assistente pessoal de IA em Python com painel web, HUD flutuante, automação de sistema, acesso remoto e atualização automática via GitHub.",
+        "tecnologias": ["Python", "IA / LLMs", "Automação", "HTML5", "CSS3", "JavaScript"],
+        "github": "https://github.com/HigorAmaral/aura-assistant",
+        "demo": "",
+        "status": "em_andamento",
+        "status_label": "Em desenvolvimento",
+        "categoria": "ia",
+        "estudo_caso": {
+          "titulo": "AURA Assistant — Assistente Pessoal de IA",
+          "badge": "Python · Roteador IA · HUD · Em desenvolvimento",
+          "desafio": "Construir um assistente pessoal capaz de executar tarefas locais no computador, responder via interface web e celular e alternar entre modelos de IA gratuitos sem depender de uma única API.",
+          "solucao": "Arquitetura modular em Python com roteador de modelos, motor de memória e automação, interface web responsiva, HUD flutuante e ponte de acesso remoto.",
+          "aprendizados": "Orquestração de múltiplos provedores de IA, automação segura de sistema operacional e comunicação em tempo real entre desktop e dispositivos móveis.",
+          "metricas": [
+            {"label": "Status", "valor": "Ativo", "detalhe": "Em desenvolvimento contínuo"},
+            {"label": "Stack Core", "valor": "Python", "detalhe": "Automação & Roteamento IA"},
+            {"label": "Interfaces", "valor": "Web + HUD", "detalhe": "Desktop e Acesso Remoto"}
+          ],
+          "arquitetura": [
+            {"nome": "HUD / Web UI", "sub": "HTML5, CSS3 & JS"},
+            {"nome": "AI Router", "sub": "Seleção de Modelos"},
+            {"nome": "Automation Engine", "sub": "Sistema, Arquivos & Web"}
+          ]
+        }
+      },
+      {
+        "nome": "Gestão Empresa — Sistema ERP",
+        "badge": "Full Stack · ERP Empresarial",
+        "dominio": "gestao-empresa-one.vercel.app",
+        "preview_tag": "ERP & Gestão",
+        "preview_code": "Next.js + Prisma -> OS, Financeiro, Estoque & Auditoria",
+        "descricao": "Sistema completo de gerenciamento empresarial (ERP) com Next.js, Prisma e SQLite, reunindo Ordens de Serviço, módulo financeiro, controle de estoque e trilha de auditoria.",
+        "tecnologias": ["TypeScript", "Next.js", "Prisma", "SQLite", "Vercel"],
+        "github": "https://github.com/HigorAmaral/gestao-empresa",
+        "demo": "https://gestao-empresa-one.vercel.app",
+        "status": "concluido",
+        "status_label": "Concluído",
+        "categoria": "backend",
+        "estudo_caso": {
+          "titulo": "Gestão Empresa — Sistema ERP",
+          "badge": "TypeScript · Next.js · Prisma · SQLite",
+          "desafio": "Centralizar em uma única aplicação web o controle de ordens de serviço, fluxo financeiro, movimentação de estoque e rastreabilidade das ações de usuários.",
+          "solucao": "Aplicação full-stack em TypeScript com Next.js e Prisma ORM sobre SQLite, organizando cadastros, emissão de ordens de serviço, lançamentos financeiros e logs de auditoria.",
+          "aprendizados": "Modelagem relacional com Prisma, tipagem ponta a ponta com TypeScript e desenho de fluxos administrativos para pequenas empresas.",
+          "metricas": [
+            {"label": "Módulos", "valor": "4 Core", "detalhe": "OS, Financeiro, Estoque, Auditoria"},
+            {"label": "ORM", "valor": "Prisma", "detalhe": "Tipagem Segura em TypeScript"},
+            {"label": "Deploy", "valor": "Vercel", "detalhe": "Aplicação Online"}
+          ],
+          "arquitetura": [
+            {"nome": "Next.js App", "sub": "Interface & Rotas API"},
+            {"nome": "Prisma ORM", "sub": "Regras & Auditoria"},
+            {"nome": "SQLite", "sub": "Persistência Relacional"}
+          ]
+        }
+      },
+      {
+        "nome": "SWOT Kahoot — Dinâmica Interativa",
+        "badge": "Gamificação · Análise SWOT",
+        "dominio": "swot-kahoot.vercel.app",
+        "preview_tag": "Quiz em Tempo Real",
+        "preview_code": "Sala Ao Vivo -> Questões SWOT & Ranking",
+        "descricao": "Sistema estilo Kahoot desenvolvido em TypeScript para dinâmicas de sala de aula sobre Análise SWOT e Funções Administrativas em TI.",
+        "tecnologias": ["TypeScript", "React", "Next.js", "Gamificação", "Vercel"],
+        "github": "https://github.com/HigorAmaral/swot-kahoot",
+        "demo": "https://swot-kahoot.vercel.app",
+        "status": "concluido",
+        "status_label": "Concluído",
+        "categoria": "frontend",
+        "estudo_caso": {
+          "titulo": "SWOT Kahoot — Dinâmica Interativa",
+          "badge": "TypeScript · Quiz Interativo · Vercel",
+          "desafio": "Tornar o conteúdo de Análise SWOT e Funções Administrativas em TI mais participativo em sala de aula com uma dinâmica rápida no estilo quiz competitivo.",
+          "solucao": "Plataforma web interativa estilo Kahoot com rodadas de perguntas, feedback imediato e pontuação para engajar os participantes durante a apresentação.",
+          "aprendizados": "Construção de interfaces responsivas de resposta rápida, gerenciamento de estado de jogo e experiência voltada para uso simultâneo em sala.",
+          "metricas": [
+            {"label": "Formato", "valor": "Quiz Live", "detalhe": "Dinâmica Estilo Kahoot"},
+            {"label": "Tema", "valor": "SWOT & TI", "detalhe": "Funções Administrativas"},
+            {"label": "Deploy", "valor": "Vercel", "detalhe": "Acesso Instantâneo"}
+          ],
+          "arquitetura": [
+            {"nome": "Tela do Participante", "sub": "Respostas Mobile"},
+            {"nome": "Painel do Quiz", "sub": "Questões & Pontuação"},
+            {"nome": "Vercel", "sub": "Hospedagem Web"}
+          ]
+        }
       }
     ]
   };
@@ -1347,6 +1440,12 @@ initReveal();
         if(local && !merged.preview_icon) merged.preview_icon = local.preview_icon;
         if(local && !merged.preview_code) merged.preview_code = local.preview_code;
         return merged;
+      });
+      DEFAULTS.projetos.forEach(function(dp){
+        var jaExiste = allProjects.some(function(p){
+          return (dp.github && p.github === dp.github) || (p.nome || '').toLowerCase() === (dp.nome || '').toLowerCase();
+        });
+        if(!jaExiste) allProjects.push(dp);
       });
     }
     if(d.conquistas && d.conquistas.length){

@@ -176,8 +176,11 @@ STORAGES = {
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
 }
 
-# CORS: só o site estático no GitHub Pages (modo híbrido) pode chamar a API de outro domínio
-CORS_ALLOWED_ORIGINS = env_list("CORS_ORIGINS", "https://higoramaral.github.io")
+# CORS: só o site estático (Netlify / GitHub Pages) pode chamar a API de outro domínio
+CORS_ALLOWED_ORIGINS = env_list(
+    "CORS_ORIGINS",
+    "https://higor-portfolio.netlify.app,https://higoramaral.github.io",
+)
 CORS_URLS_REGEX = r"^/api/.*$"
 
 # Configurações de Segurança e Cookies

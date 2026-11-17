@@ -12,7 +12,8 @@ Aplicação web full-stack desenvolvida com **Django** no back-end e interface m
 
 ## Demonstração ao Vivo
 
-* **Portfólio (Render):** [portfolio-higor.onrender.com](https://portfolio-higor.onrender.com)
+* **Portfólio (Netlify — Front-end rápido):** [higor-portfolio.netlify.app](https://higor-portfolio.netlify.app/)
+* **Portfólio & API (Render):** [portfolio-higor.onrender.com](https://portfolio-higor.onrender.com)
 * **Documentação da API (Swagger UI):** [portfolio-higor.onrender.com/api/docs/](https://portfolio-higor.onrender.com/api/docs/)
 * **Health Check:** [portfolio-higor.onrender.com/healthz/](https://portfolio-higor.onrender.com/healthz/)
 
@@ -110,7 +111,8 @@ python manage.py test
 *Graduando em Bacharelado em Sistemas de Informação — IFC Câmpus Araquari*  
 *Técnico em Informática para Internet — IFC Câmpus Araquari*
 
-* **Portfólio:** [portfolio-higor.onrender.com](https://portfolio-higor.onrender.com)
+* **Portfólio:** [higor-portfolio.netlify.app](https://higor-portfolio.netlify.app/)
+* **API (Render):** [portfolio-higor.onrender.com](https://portfolio-higor.onrender.com)
 * **GitHub:** [@HigorAmaral](https://github.com/HigorAmaral)
 * **E-mail:** [amarahigor@gmail.com](mailto:amarahigor@gmail.com)
 * **Currículo (PT-BR):** [curriculo-higor.pdf](static/curriculo-higor.pdf)
