@@ -264,16 +264,6 @@ main.wrap{padding-top:calc(var(--nav-h) + env(safe-area-inset-top,0px))}
   border:1px solid var(--line);
 }
 
-.stats{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  margin-top:clamp(48px,7vw,72px);
-  border-top:1px solid var(--line);
-}
-.stats > div{padding:20px 20px 0 0;display:flex;flex-direction:column;gap:2px}
-.stats > div + div{padding-left:20px;border-left:1px solid var(--line)}
-.stats b{font-family:var(--serif);font-size:1.6rem;font-weight:400;line-height:1.2}
-.stats span{font-size:.82rem;color:var(--muted)}
-
 /* ---------- Botões ---------- */
 .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
 .btn{
@@ -294,7 +284,6 @@ main.wrap{padding-top:calc(var(--nav-h) + env(safe-area-inset-top,0px))}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 
 /* ---------- Seções ---------- */
-main{counter-reset:sec}
 section{
   padding:clamp(56px,9vw,104px) 0;
   border-bottom:1px solid var(--line);
@@ -309,22 +298,10 @@ section > h2{
   position:sticky;top:calc(var(--nav-h) + 28px);
   font-family:var(--serif);
   font-size:1.5rem;line-height:1.25;font-weight:400;
-  counter-increment:sec;
-}
-section > h2::before{
-  content:counter(sec,decimal-leading-zero);
-  display:block;margin-bottom:10px;
-  font-family:var(--mono);font-size:.75rem;color:var(--muted);letter-spacing:.04em;
 }
 section > .lead:first-of-type{margin-top:0}
 section h3{font-size:1.05rem;font-weight:600;letter-spacing:-.005em;line-height:1.35}
 .sobre-conteudo{color:var(--text-sec)!important;max-width:62ch}
-
-/* Foco */
-.focus-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-.focus-card{background:var(--bg);padding:24px;display:flex;flex-direction:column;gap:14px}
-.focus-icon{color:var(--accent)}
-.focus-card p{color:var(--text-sec);font-size:.93rem;margin-top:6px}
 
 /* Grids e cards */
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
@@ -632,12 +609,8 @@ footer > div{justify-content:flex-start!important}
   .hero-grid{grid-template-columns:1fr}
   .hero-avatar-wrap{grid-row:1}
   .hero-portrait img{width:88px}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .stats > div{padding:18px 16px 18px 0!important;border-left:0!important}
-  .stats > div:nth-child(even){padding-left:16px!important;border-left:1px solid var(--line)!important}
-  .stats > div:nth-child(n+3){border-top:1px solid var(--line)}
 
-  .grid,.focus-grid,.awards-grid{grid-template-columns:1fr}
+  .grid,.awards-grid{grid-template-columns:1fr}
   .timeline > div{grid-template-columns:1fr}
   .timeline small{grid-row:auto;margin-bottom:4px}
   .projects-toolbar{flex-direction:column;align-items:stretch}
@@ -715,10 +688,6 @@ footer > div{justify-content:flex-start!important}
       <a href="#sobre" data-nav-key="sobre">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span class="nav-txt">Sobre</span>
-      </a>
-      <a href="#foco" data-nav-key="foco">
-        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-        <span class="nav-txt">Foco</span>
       </a>
       <a href="#skills" data-nav-key="skills">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -805,25 +774,6 @@ footer > div{justify-content:flex-start!important}
         </div>
       </div>
     </div>
-
-    <div class="stats">
-      <div>
-        <b>8+</b>
-        <span class="stat-lbl-1">Projetos publicados</span>
-      </div>
-      <div>
-        <b>24h</b>
-        <span class="stat-lbl-2">Destaque Hackathon IA</span>
-      </div>
-      <div>
-        <b>REST &amp; IA</b>
-        <span class="stat-lbl-3">Django, Vue 3 &amp; React</span>
-      </div>
-      <div>
-        <b>IFC</b>
-        <span class="stat-lbl-4">Sistemas de Informação</span>
-      </div>
-    </div>
   </div>
 
   <section id="sobre">
@@ -838,54 +788,6 @@ footer > div{justify-content:flex-start!important}
       <p>Com experiência no ciclo completo de desenvolvimento (<strong>frontend e backend</strong>), atuo na construção de sistemas web modernos com <strong>JavaScript, React, Vue.js, Python, Django e SQL</strong>. Possuo vivência prática na criação de APIs RESTful estruturadas, modelagem de banco de dados, autenticação segura e interfaces responsivas, utilizando <strong>Git, GitHub e Figma</strong> para versionamento e prototipação.</p>
       <p>Entre os projetos desenvolvidos, destaco a criação de um <strong>sistema de gestão de acervo em Hackathon</strong> e um <strong>e-commerce para pizzaria</strong>, participando desde a concepção e arquitetura até a entrega final. Essas vivências consolidaram tanto minha capacidade técnica quanto soft skills essenciais: comunicação assertiva, resolução de problemas e trabalho em equipe.</p>
       <p>Atualmente, <strong>busco uma oportunidade como Desenvolvedor Júnior</strong>, focado em contribuir para o desenvolvimento de sistemas robustos, escaláveis e bem estruturados, aprendendo continuamente e colaborando em ambientes que valorizam inovação e boas práticas.</p>
-    </div>
-  </section>
-
-  <!-- Seção Foco Atual -->
-  <section id="foco">
-    <h2>
-      <span class="heading-icon">
-        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-      </span>
-      Em foco agora
-    </h2>
-    <div class="focus-grid">
-      <div class="focus-card">
-        <div class="focus-icon">
-          <svg class="icon icon-lg" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        </div>
-        <div>
-          <h3>Back-end & Arquitetura Web</h3>
-          <p>Construção de APIs RESTful estruturadas com Python e Django, autenticação JWT, cookies seguros e modelagem em PostgreSQL.</p>
-        </div>
-      </div>
-      <div class="focus-card">
-        <div class="focus-icon">
-          <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        </div>
-        <div>
-          <h3>Inteligência Artificial Aplicada</h3>
-          <p>Integração de LLMs em soluções de impacto social e educação inclusiva, como ferramentas para adaptação pedagógica.</p>
-        </div>
-      </div>
-      <div class="focus-card">
-        <div class="focus-icon">
-          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-        </div>
-        <div>
-          <h3>UI/UX & Design Systems</h3>
-          <p>Prototipação no Figma, componentização e interfaces com foco em usabilidade, fluidez, contraste e acessibilidade.</p>
-        </div>
-      </div>
-      <div class="focus-card">
-        <div class="focus-icon">
-          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-        </div>
-        <div>
-          <h3>Formação Superior no IFC</h3>
-          <p>Bacharelado em Sistemas de Informação, aprofundando engenharia de software, processos e governança de TI.</p>
-        </div>
-      </div>
     </div>
   </section>
 
